@@ -14,6 +14,7 @@ from app.core.exceptions import (
     validation_exception_handler,
 )
 from app.api.v1.router import router as v1_router
+from app.db.vector_store import vector_store
 
 configure_logging()
 logger = get_logger(__name__)
@@ -22,7 +23,14 @@ logger = get_logger(__name__)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     logger.info("starting_up", environment=settings.ENVIRONMENT)
+
+    # Initialize Qdrant vector store
+    await vector_store.connect()
+
     yield
+
+    # Cleanup
+    await vector_store.close()
     logger.info("shutting_down")
 
 

@@ -6,6 +6,11 @@ build-backend = "setuptools.build_meta"
 name = "ai-marketing-backend"
 version = "0.1.0"
 requires-python = ">=3.11"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["app*"]
+exclude = ["tests*"]
 dependencies = [
     "fastapi>=0.115",
     "uvicorn[standard]>=0.30",
@@ -19,6 +24,7 @@ dependencies = [
     "python-multipart",
     "python-dotenv",
     "structlog",
+    "sentence-transformers>=2.0",
 ]
 
 [project.optional-dependencies]
