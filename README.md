@@ -30,6 +30,10 @@ python -m venv .venv
 source .venv/bin/activate  # Windows: .venv\Scripts\activate
 pip install -e ".[dev]"
 
+# Run database migrations
+alembic upgrade head
+
+# Start the API server
 uvicorn app.main:app --reload
 ```
 
@@ -89,9 +93,50 @@ frontend/
 └── src/
 ```
 
+## Database Migrations
+
+The project uses Alembic for database schema migrations.
+
+### Apply migrations
+
+```bash
+cd backend
+source .venv/bin/activate
+alembic upgrade head
+```
+
+### Rollback migrations
+
+```bash
+alembic downgrade base
+```
+
+### Create new migration
+
+```bash
+alembic revision --autogenerate -m "Description of changes"
+```
+
 ## Running Tests
 
 ```bash
 cd backend
 pytest
 ```
+
+## Development Status
+
+### ✅ Completed Tasks
+
+- **TASK-001:** Project Structure & Backend Skeleton
+- **TASK-002:** Docker Compose Dev Environment
+- **TASK-003:** Database Models & Alembic Migrations
+  - 7 SQLAlchemy models created (Brand, MenuItem, Customer, Order, OrderItem, CustomerPreference, IngestionJob)
+  - Initial migration with all tables, indexes, and foreign keys
+  - All model tests passing
+
+### 🔄 Next Tasks
+
+- **TASK-004:** Qdrant Vector Store Setup
+- **TASK-005:** CSV Schema Validation
+- And more...
