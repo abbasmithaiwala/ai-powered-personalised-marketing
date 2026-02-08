@@ -47,8 +47,28 @@ Dashboard: `http://localhost:5173`
 
 ### Full Stack (Docker)
 
+Start all services (PostgreSQL, Qdrant, Redis, Backend):
+
 ```bash
-docker-compose up -d
+docker compose up -d
+```
+
+Access the services:
+- Backend API: `http://localhost:8000`
+- Health check: `http://localhost:8000/api/v1/health`
+- Qdrant dashboard: `http://localhost:6333/dashboard`
+- PostgreSQL: `localhost:5432` (user/pass/marketing_db)
+
+Stop all services:
+
+```bash
+docker compose down
+```
+
+View logs:
+
+```bash
+docker compose logs -f backend
 ```
 
 ## Project Structure
