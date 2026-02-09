@@ -19,6 +19,7 @@ from app.schemas.ingestion import (
     UploadResponse,
 )
 from app.services.csv_validator import CSVValidator
+from app.services.ingestion.order_processor import OrderProcessor
 
 router = APIRouter(prefix="/ingestion", tags=["ingestion"])
 
@@ -113,10 +114,8 @@ async def upload_csv(
             "total_errors": len(validation_result.errors),
         }
 
-    # Determine initial status
-    # For MVP: we process synchronously, so status will be updated after processing
-    # For now, create job with validation status
-    initial_status = "completed" if validation_result.valid else "failed"
+    # Create ingestion job with initial status
+    initial_status = "processing"
 
     job = await repo.create(
         filename=file.filename,
@@ -126,19 +125,90 @@ async def upload_csv(
         validation_errors=validation_errors_dict,
     )
 
-    # Update job with results
+    # Process valid rows if validation passed
+    processing_result = None
+    final_status = "failed"
+
+    if validation_result.valid and validation_result.valid_rows > 0:
+        try:
+            # Parse valid rows
+            valid_rows = validator.parse_valid_rows(content_str)
+
+            # Process orders
+            processor = OrderProcessor(db)
+            processing_result = await processor.process_rows(valid_rows)
+
+            # Commit the transaction
+            await db.commit()
+
+            # Determine final status
+            if processing_result.failed_rows == 0:
+                final_status = "completed"
+            elif processing_result.processed_rows > 0:
+                final_status = "completed"  # Partial success still counts as completed
+            else:
+                final_status = "failed"
+
+        except Exception as e:
+            # Rollback on error
+            await db.rollback()
+            final_status = "failed"
+
+            # Add processing error to validation errors
+            if validation_errors_dict is None:
+                validation_errors_dict = {"errors": [], "total_errors": 0}
+
+            validation_errors_dict["errors"].append({
+                "row": 0,
+                "field": "processing",
+                "error": f"Processing failed: {str(e)}",
+                "value": None,
+            })
+            validation_errors_dict["total_errors"] += 1
+
+    elif not validation_result.valid:
+        final_status = "failed"
+    else:
+        # No valid rows to process
+        final_status = "completed"
+
+    # Prepare result summary
     result_summary = {
         "valid_rows": validation_result.valid_rows,
         "invalid_rows": validation_result.invalid_rows,
         "validation_passed": validation_result.valid,
     }
 
+    # Add processing results if available
+    if processing_result:
+        result_summary.update({
+            "processed_orders": processing_result.processed_rows,
+            "skipped_orders": processing_result.skipped_rows,
+            "failed_orders": processing_result.failed_rows,
+            "affected_customers": processing_result.affected_customer_count,
+        })
+
+        # Merge processing errors with validation errors
+        if processing_result.errors:
+            if validation_errors_dict is None:
+                validation_errors_dict = {"errors": [], "total_errors": 0}
+
+            validation_errors_dict["errors"].extend(processing_result.errors)
+            validation_errors_dict["total_errors"] += len(processing_result.errors)
+
+    # Update job with final results
+    processed_rows = processing_result.processed_rows if processing_result else 0
+    failed_rows = (
+        validation_result.invalid_rows + (processing_result.failed_rows if processing_result else 0)
+    )
+
     await repo.update_status(
         job_id=job.id,
-        status=initial_status,
-        processed_rows=validation_result.valid_rows,
-        failed_rows=validation_result.invalid_rows,
+        status=final_status,
+        processed_rows=processed_rows,
+        failed_rows=failed_rows,
         result_summary=result_summary,
+        validation_errors=validation_errors_dict,
     )
 
     # Refresh job to get updated data
