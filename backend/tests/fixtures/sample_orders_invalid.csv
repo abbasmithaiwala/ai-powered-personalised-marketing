@@ -1,0 +1,7 @@
+Order ID,Customer Email,Brand Name,Item Name,Quantity,Price,Date
+ORD-001,john.doe@example.com,Italian Bistro,Margherita Pizza,2,12.50,2024-01-15 18:30:00
+ORD-002,invalid-email,Thai Express,Pad Thai,1,15.99,15/01/2024 19:45
+ORD-003,bob.wilson@example.com,Italian Bistro,Caesar Salad,not-a-number,8.50,2024-01-16T12:15:00
+ORD-004,alice.brown@example.com,Burger Palace,Cheeseburger,3,not-a-price,16/01/2024 13:20
+ORD-005,john.doe@example.com,Thai Express,Green Curry,2,18.50,invalid-date-format
+ORD-006,,Italian Bistro,Pasta,1,12.00,2024-01-18 12:00:00
