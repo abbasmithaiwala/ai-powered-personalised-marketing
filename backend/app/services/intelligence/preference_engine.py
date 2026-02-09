@@ -1,10 +1,13 @@
 """Main preference computation engine"""
 
+import structlog
 from datetime import datetime, timezone
 from uuid import UUID
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
+
+logger = structlog.get_logger(__name__)
 
 from app.models.customer import Customer
 from app.models.customer_preference import CustomerPreference
@@ -17,6 +20,7 @@ from .cuisine_analyzer import CuisineAnalyzer
 from .dietary_analyzer import DietaryAnalyzer
 from .price_analyzer import PriceAnalyzer
 from .timing_analyzer import TimingAnalyzer
+from .taste_profile_builder import TasteProfileBuilder
 
 
 class PreferenceEngine:
@@ -128,7 +132,7 @@ class PreferenceEngine:
         brand_affinity = await self._analyze_brand_affinity(brand_orders)
 
         # Create or update preference record
-        return await self._create_or_update_preference(
+        preference = await self._create_or_update_preference(
             customer_id=customer_id,
             favorite_cuisines=favorite_cuisines,
             favorite_categories=favorite_categories,
@@ -138,6 +142,20 @@ class PreferenceEngine:
             brand_affinity=brand_affinity,
             preferred_order_times=preferred_order_times,
         )
+
+        # Trigger taste profile computation (fire-and-forget, non-blocking)
+        try:
+            taste_builder = TasteProfileBuilder(self.db)
+            await taste_builder.build_taste_profile(customer_id)
+        except Exception as e:
+            # Log error but don't fail preference computation
+            logger.error(
+                "taste_profile_build_failed",
+                customer_id=str(customer_id),
+                error=str(e),
+            )
+
+        return preference
 
     def _analyze_categories(self, category_data: list) -> dict:
         """
