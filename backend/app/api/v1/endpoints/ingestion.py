@@ -20,6 +20,7 @@ from app.schemas.ingestion import (
 )
 from app.services.csv_validator import CSVValidator
 from app.services.ingestion.order_processor import OrderProcessor
+from app.services.intelligence import PreferenceEngine
 
 router = APIRouter(prefix="/ingestion", tags=["ingestion"])
 
@@ -140,6 +141,17 @@ async def upload_csv(
 
             # Commit the transaction
             await db.commit()
+
+            # Trigger preference computation for affected customers
+            if processing_result.affected_customer_ids:
+                preference_engine = PreferenceEngine(db)
+                for customer_id in processing_result.affected_customer_ids:
+                    try:
+                        await preference_engine.compute_preferences(customer_id)
+                    except Exception as e:
+                        # Log preference computation errors but don't fail the job
+                        # Preferences can be recomputed later via API
+                        pass
 
             # Determine final status
             if processing_result.failed_rows == 0:
