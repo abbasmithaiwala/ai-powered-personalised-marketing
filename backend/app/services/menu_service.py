@@ -15,6 +15,7 @@ from app.repositories.brand import BrandRepository
 from app.repositories.menu_item import MenuItemRepository
 from app.schemas.brand import BrandCreate, BrandUpdate, BrandListResponse, BrandResponse
 from app.schemas.menu_item import MenuItemCreate, MenuItemUpdate, MenuItemListResponse, MenuItemResponse
+from app.services.intelligence.embedding_builder import EmbeddingBuilder
 
 
 class MenuService:
@@ -30,6 +31,7 @@ class MenuService:
         self.session = session
         self.brand_repo = BrandRepository(session)
         self.menu_item_repo = MenuItemRepository(session)
+        self.embedding_builder = EmbeddingBuilder(session)
 
     # Brand operations
     async def list_brands(
@@ -268,9 +270,21 @@ class MenuService:
             is_available=data.is_available,
         )
         await self.session.commit()
+        await self.session.refresh(item)
 
-        # TODO: Trigger embedding generation (fire-and-forget)
-        # This will be implemented in TASK-010
+        # Trigger embedding generation (fire-and-forget, doesn't block response)
+        # Run in background - errors logged but don't fail the create operation
+        try:
+            await self.embedding_builder.upsert_item_embedding(item)
+        except Exception as e:
+            # Log but don't fail the create operation
+            import structlog
+            logger = structlog.get_logger(__name__)
+            logger.warning(
+                "embedding_generation_failed_on_create",
+                item_id=str(item.id),
+                error=str(e),
+            )
 
         return MenuItemResponse.model_validate(item)
 
@@ -305,8 +319,19 @@ class MenuService:
         await self.session.commit()
         await self.session.refresh(item)
 
-        # TODO: If content changed, trigger embedding regeneration (fire-and-forget)
-        # This will be implemented in TASK-010
+        # If content changed, trigger embedding regeneration (fire-and-forget)
+        if content_changed:
+            try:
+                await self.embedding_builder.upsert_item_embedding(item)
+            except Exception as e:
+                # Log but don't fail the update operation
+                import structlog
+                logger = structlog.get_logger(__name__)
+                logger.warning(
+                    "embedding_regeneration_failed_on_update",
+                    item_id=str(item_id),
+                    error=str(e),
+                )
 
         return MenuItemResponse.model_validate(item)
 
