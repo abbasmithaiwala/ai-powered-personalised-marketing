@@ -6,6 +6,8 @@ from app.models.order import Order
 from app.models.order_item import OrderItem
 from app.models.customer_preference import CustomerPreference
 from app.models.ingestion_job import IngestionJob
+from app.models.campaign import Campaign
+from app.models.campaign_recipient import CampaignRecipient
 
 __all__ = [
     "Base",
@@ -17,4 +19,6 @@ __all__ = [
     "OrderItem",
     "CustomerPreference",
     "IngestionJob",
+    "Campaign",
+    "CampaignRecipient",
 ]
