@@ -123,20 +123,3 @@ alembic revision --autogenerate -m "Description of changes"
 cd backend
 pytest
 ```
-
-## Development Status
-
-### ✅ Completed Tasks
-
-- **TASK-001:** Project Structure & Backend Skeleton
-- **TASK-002:** Docker Compose Dev Environment
-- **TASK-003:** Database Models & Alembic Migrations
-  - 7 SQLAlchemy models created (Brand, MenuItem, Customer, Order, OrderItem, CustomerPreference, IngestionJob)
-  - Initial migration with all tables, indexes, and foreign keys
-  - All model tests passing
-
-### 🔄 Next Tasks
-
-- **TASK-004:** Qdrant Vector Store Setup
-- **TASK-005:** CSV Schema Validation
-- And more...
