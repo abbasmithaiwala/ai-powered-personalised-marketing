@@ -7,9 +7,8 @@ End-to-end platform for food brands that ingests customer order data, builds dyn
 - **Backend:** Python 3.11+ / FastAPI
 - **Database:** PostgreSQL 16 + Alembic migrations
 - **Vector DB:** Qdrant
-- **AI:** OpenRouter API (default: `anthropic/claude-3.5-sonnet`)
+- **AI:** OpenRouter API
 - **Frontend:** React 19 + TypeScript + Vite
-- **Queue:** Redis
 
 ## Quick Start
 
