@@ -7,7 +7,7 @@ from decimal import Decimal
 from typing import Optional
 from uuid import UUID
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_serializer
 
 
 class MenuItemBase(BaseModel):
@@ -50,6 +50,11 @@ class MenuItemResponse(MenuItemBase):
     embedding_id: Optional[str] = Field(None, description="Vector embedding ID")
     created_at: datetime = Field(..., description="Creation timestamp")
     updated_at: datetime = Field(..., description="Last update timestamp")
+
+    @field_serializer('price')
+    def serialize_price(self, price: Optional[Decimal], _info) -> Optional[float]:
+        """Serialize Decimal price as float for JSON compatibility."""
+        return float(price) if price is not None else None
 
     class Config:
         from_attributes = True

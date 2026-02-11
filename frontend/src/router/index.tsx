@@ -11,11 +11,13 @@ import { MenuOverview } from '@/pages/menu';
 import { BrandDetail } from '@/pages/menu/brands/[id]';
 import { MenuItems } from '@/pages/menu/items';
 import { NotFound } from '@/pages/NotFound';
+import { RouteErrorBoundary } from '@/components/RouteErrorBoundary';
 
 export const router = createBrowserRouter([
   {
     path: '/',
     element: <DashboardLayout />,
+    errorElement: <RouteErrorBoundary />,
     children: [
       {
         index: true,
