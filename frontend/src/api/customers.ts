@@ -10,12 +10,9 @@ import type {
 } from '@/types/api';
 
 export const customersApi = {
-  // List customers with pagination
+  // List customers with pagination (uses search with empty filters)
   list: async (page = 1, pageSize = 25) => {
-    const response = await apiClient.get<PaginatedResponse<Customer>>(
-      `/customers?page=${page}&page_size=${pageSize}`
-    );
-    return response.data;
+    return customersApi.search({}, page, pageSize);
   },
 
   // Get customer by ID
