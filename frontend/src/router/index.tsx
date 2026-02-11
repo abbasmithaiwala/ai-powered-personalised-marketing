@@ -2,6 +2,8 @@ import { createBrowserRouter } from 'react-router-dom';
 import { DashboardLayout } from '@/layouts/DashboardLayout';
 import { Dashboard } from '@/pages/dashboard';
 import { Import } from '@/pages/import';
+import { Customers } from '@/pages/customers';
+import { CustomerDetail } from '@/pages/customers/[id]';
 import { NotFound } from '@/pages/NotFound';
 
 export const router = createBrowserRouter([
@@ -13,14 +15,13 @@ export const router = createBrowserRouter([
         index: true,
         element: <Dashboard />,
       },
-      // Placeholder routes - will be implemented in subsequent tasks
       {
         path: 'customers',
-        element: <div className="text-2xl">Customers (Coming in TASK-020)</div>,
+        element: <Customers />,
       },
       {
         path: 'customers/:id',
-        element: <div className="text-2xl">Customer Detail (Coming in TASK-020)</div>,
+        element: <CustomerDetail />,
       },
       {
         path: 'menu',
