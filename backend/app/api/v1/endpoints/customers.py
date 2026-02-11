@@ -1,7 +1,8 @@
 """Customer API endpoints"""
 
 from uuid import UUID
-from typing import List
+from typing import List, Optional
+from datetime import datetime
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from pydantic import BaseModel, Field
@@ -32,8 +33,8 @@ class CustomerResponse(BaseModel):
     city: str | None
     total_orders: int
     total_spend: float
-    first_order_at: str | None
-    last_order_at: str | None
+    first_order_at: datetime | None
+    last_order_at: datetime | None
 
     model_config = {"from_attributes": True}
 
@@ -41,8 +42,8 @@ class CustomerResponse(BaseModel):
 class CustomerSearchRequest(BaseModel):
     """Request schema for customer search"""
 
-    filters: SegmentFilters = Field(
-        default_factory=SegmentFilters,
+    filters: Optional[SegmentFilters] = Field(
+        None,
         description="Filter criteria",
     )
     page: int = Field(1, ge=1, description="Page number (1-indexed)")
@@ -62,8 +63,8 @@ class CustomerSearchResponse(BaseModel):
 class SegmentCountRequest(BaseModel):
     """Request schema for segment count"""
 
-    filters: SegmentFilters = Field(
-        default_factory=SegmentFilters,
+    filters: Optional[SegmentFilters] = Field(
+        None,
         description="Filter criteria",
     )
 
@@ -104,9 +105,23 @@ async def search_customers(
     # Calculate offset from page
     offset = (request.page - 1) * request.page_size
 
+    # Use empty filters if none provided
+    filters = request.filters or SegmentFilters(
+        last_order_after=None,
+        last_order_before=None,
+        total_spend_min=None,
+        total_spend_max=None,
+        total_orders_min=None,
+        favorite_cuisine=None,
+        dietary_flag=None,
+        city=None,
+        order_frequency=None,
+        brand_id=None,
+    )
+
     # Search customers
     customers, total = await service.find_customers(
-        filters=request.filters,
+        filters=filters,
         limit=request.page_size,
         offset=offset,
     )
@@ -137,12 +152,29 @@ async def get_segment_count(
     Target response time: <200ms for MVP scale.
     """
     service = SegmentationService(db)
-    count = await service.count_segment(request.filters)
+
+    # Use empty filters if none provided
+    filters = request.filters or SegmentFilters(
+        last_order_after=None,
+        last_order_before=None,
+        total_spend_min=None,
+        total_spend_max=None,
+        total_orders_min=None,
+        favorite_cuisine=None,
+        dietary_flag=None,
+        city=None,
+        order_frequency=None,
+        brand_id=None,
+    )
+
+    count = await service.count_segment(filters)
 
     return SegmentCountResponse(count=count)
 
 
-@router.post("/{customer_id}/recompute-preferences", response_model=CustomerPreferenceResponse)
+@router.post(
+    "/{customer_id}/recompute-preferences", response_model=CustomerPreferenceResponse
+)
 async def recompute_customer_preferences(
     customer_id: UUID,
     db: AsyncSession = Depends(get_db),
@@ -168,4 +200,6 @@ async def recompute_customer_preferences(
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to compute preferences: {str(e)}")
+        raise HTTPException(
+            status_code=500, detail=f"Failed to compute preferences: {str(e)}"
+        )
