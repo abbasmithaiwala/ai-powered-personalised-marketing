@@ -8,6 +8,7 @@ import { Campaigns } from '@/pages/campaigns';
 import { NewCampaign } from '@/pages/campaigns/new';
 import { CampaignDetail } from '@/pages/campaigns/[id]';
 import { MenuOverview } from '@/pages/menu';
+import { BrandsList } from '@/pages/menu/brands';
 import { BrandDetail } from '@/pages/menu/brands/[id]';
 import { MenuItems } from '@/pages/menu/items';
 import { NotFound } from '@/pages/NotFound';
@@ -34,6 +35,10 @@ export const router = createBrowserRouter([
       {
         path: 'menu',
         element: <MenuOverview />,
+      },
+      {
+        path: 'menu/brands',
+        element: <BrandsList />,
       },
       {
         path: 'menu/brands/:id',

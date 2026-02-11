@@ -47,7 +47,7 @@ export const NewCampaign: React.FC = () => {
       return { campaign, preview };
     },
     onSuccess: ({ preview }) => {
-      setPreviewRecipients(preview.recipients);
+      setPreviewRecipients(preview?.recipients || []);
       setShowPreview(true);
       // Update the form to use the created campaign's ID
       // (in a real app, you might want to navigate to the campaign detail page)
@@ -114,7 +114,7 @@ export const NewCampaign: React.FC = () => {
               </p>
             </CardHeader>
             <div className="grid gap-4 md:grid-cols-1">
-              {previewRecipients.map((recipient) => (
+              {previewRecipients?.map((recipient) => (
                 <MessagePreviewCard
                   key={recipient.id}
                   recipient={recipient}
