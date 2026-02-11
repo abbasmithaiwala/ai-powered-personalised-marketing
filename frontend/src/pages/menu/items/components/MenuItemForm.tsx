@@ -76,10 +76,11 @@ export const MenuItemForm: React.FC<MenuItemFormProps> = ({
   };
 
   const addDietaryTag = () => {
-    if (dietaryInput.trim() && !formData.dietary_tags.includes(dietaryInput.trim())) {
+    const tags = formData.dietary_tags || [];
+    if (dietaryInput.trim() && !tags.includes(dietaryInput.trim())) {
       setFormData({
         ...formData,
-        dietary_tags: [...formData.dietary_tags, dietaryInput.trim()],
+        dietary_tags: [...tags, dietaryInput.trim()],
       });
       setDietaryInput('');
     }
@@ -88,15 +89,16 @@ export const MenuItemForm: React.FC<MenuItemFormProps> = ({
   const removeDietaryTag = (tag: string) => {
     setFormData({
       ...formData,
-      dietary_tags: formData.dietary_tags.filter((t) => t !== tag),
+      dietary_tags: (formData.dietary_tags || []).filter((t) => t !== tag),
     });
   };
 
   const addFlavorTag = () => {
-    if (flavorInput.trim() && !formData.flavor_tags.includes(flavorInput.trim())) {
+    const tags = formData.flavor_tags || [];
+    if (flavorInput.trim() && !tags.includes(flavorInput.trim())) {
       setFormData({
         ...formData,
-        flavor_tags: [...formData.flavor_tags, flavorInput.trim()],
+        flavor_tags: [...tags, flavorInput.trim()],
       });
       setFlavorInput('');
     }
@@ -105,7 +107,7 @@ export const MenuItemForm: React.FC<MenuItemFormProps> = ({
   const removeFlavorTag = (tag: string) => {
     setFormData({
       ...formData,
-      flavor_tags: formData.flavor_tags.filter((t) => t !== tag),
+      flavor_tags: (formData.flavor_tags || []).filter((t) => t !== tag),
     });
   };
 
@@ -260,9 +262,9 @@ export const MenuItemForm: React.FC<MenuItemFormProps> = ({
               Add
             </Button>
           </div>
-          {formData.dietary_tags.length > 0 && (
+          {(formData.dietary_tags?.length ?? 0) > 0 && (
             <div className="flex flex-wrap gap-2">
-              {formData.dietary_tags.map((tag) => (
+              {formData.dietary_tags?.map((tag) => (
                 <span
                   key={tag}
                   className="inline-flex items-center gap-1 px-3 py-1 bg-green-100 text-green-800 text-sm rounded-full"
@@ -304,9 +306,9 @@ export const MenuItemForm: React.FC<MenuItemFormProps> = ({
               Add
             </Button>
           </div>
-          {formData.flavor_tags.length > 0 && (
+          {(formData.flavor_tags?.length ?? 0) > 0 && (
             <div className="flex flex-wrap gap-2">
-              {formData.flavor_tags.map((tag) => (
+              {formData.flavor_tags?.map((tag) => (
                 <span
                   key={tag}
                   className="inline-flex items-center gap-1 px-3 py-1 bg-gray-100 text-gray-800 text-sm rounded-full"

@@ -7,7 +7,7 @@ import { Card, CardHeader, CardTitle } from '@/components/ui/Card';
 import { CampaignForm } from './components/CampaignForm';
 import { SegmentPreview } from './components/SegmentPreview';
 import { MessagePreviewCard } from './components/MessagePreviewCard';
-import { SegmentFilters, CampaignRecipient } from '@/types/api';
+import type { SegmentFilters, CampaignRecipient } from '@/types/api';
 
 export const NewCampaign: React.FC = () => {
   const navigate = useNavigate();
@@ -46,7 +46,7 @@ export const NewCampaign: React.FC = () => {
       const preview = await campaignsApi.preview(campaign.id);
       return { campaign, preview };
     },
-    onSuccess: ({ campaign, preview }) => {
+    onSuccess: ({ preview }) => {
       setPreviewRecipients(preview.recipients);
       setShowPreview(true);
       // Update the form to use the created campaign's ID

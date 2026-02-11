@@ -5,7 +5,7 @@ import { CSVDropzone } from './components/CSVDropzone';
 import { ValidationResult } from './components/ValidationResult';
 import { ImportHistory } from './components/ImportHistory';
 import { ingestionApi } from '@/api/ingestion';
-import type { IngestionUploadResponse, IngestionJob } from '@/types/api';
+import type { IngestionUploadResponse } from '@/types/api';
 
 type UploadStage = 'select' | 'validate' | 'import' | 'complete';
 

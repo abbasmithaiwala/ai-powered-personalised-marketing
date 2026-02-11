@@ -1,5 +1,5 @@
 import React from 'react';
-import { CampaignRecipient } from '@/types/api';
+import type { CampaignRecipient } from '@/types/api';
 import { Badge } from '@/components/ui/Badge';
 
 interface RecipientTableProps {

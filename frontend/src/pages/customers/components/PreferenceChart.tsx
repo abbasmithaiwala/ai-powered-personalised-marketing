@@ -33,7 +33,7 @@ export const PreferenceChart = ({ preferences, title }: PreferenceChartProps) =>
           <XAxis type="number" domain={[0, 100]} tickFormatter={(value) => `${value}%`} />
           <YAxis type="category" dataKey="name" width={80} />
           <Tooltip
-            formatter={(value: number) => formatPercentage(value / 100, 1)}
+            formatter={(value: number | undefined) => formatPercentage((value ?? 0) / 100, 1)}
             labelStyle={{ color: '#374151' }}
           />
           <Bar dataKey="score" fill="#3b82f6" />

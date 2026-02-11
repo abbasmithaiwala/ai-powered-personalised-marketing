@@ -5,7 +5,7 @@ import { campaignsApi } from '@/api/campaigns';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
-import { Campaign } from '@/types/api';
+import type { Campaign } from '@/types/api';
 
 export const Campaigns: React.FC = () => {
   const [page, setPage] = React.useState(1);

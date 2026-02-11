@@ -1,5 +1,5 @@
 import React from 'react';
-import { Campaign } from '@/types/api';
+import type { Campaign } from '@/types/api';
 
 interface CampaignProgressProps {
   campaign: Campaign;

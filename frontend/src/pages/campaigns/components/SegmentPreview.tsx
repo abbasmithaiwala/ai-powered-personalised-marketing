@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { customersApi } from '@/api/customers';
-import { SegmentFilters } from '@/types/api';
+import type { SegmentFilters } from '@/types/api';
 
 interface SegmentPreviewProps {
   filters: SegmentFilters;

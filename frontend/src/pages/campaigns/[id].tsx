@@ -1,17 +1,15 @@
 import React from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { campaignsApi } from '@/api/campaigns';
 import { Button } from '@/components/ui/Button';
 import { Card, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { CampaignProgress } from './components/CampaignProgress';
 import { RecipientTable } from './components/RecipientTable';
-import { MessagePreviewCard } from './components/MessagePreviewCard';
 
 export const CampaignDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
   const [recipientPage, setRecipientPage] = React.useState(1);
   const recipientPageSize = 25;
 
@@ -25,9 +23,9 @@ export const CampaignDetail: React.FC = () => {
     queryKey: ['campaign', id],
     queryFn: () => campaignsApi.get(id!),
     enabled: !!id,
-    refetchInterval: (data) => {
+    refetchInterval: (query) => {
       // Auto-refresh every 3 seconds when executing
-      return data?.status === 'executing' ? 3000 : false;
+      return query.state.data?.status === 'executing' ? 3000 : false;
     },
   });
 
@@ -39,7 +37,7 @@ export const CampaignDetail: React.FC = () => {
     queryKey: ['campaign-recipients', id, recipientPage, recipientPageSize],
     queryFn: () => campaignsApi.listRecipients(id!, recipientPage, recipientPageSize),
     enabled: !!id && campaign?.total_recipients !== undefined && campaign.total_recipients > 0,
-    refetchInterval: (data) => {
+    refetchInterval: () => {
       // Auto-refresh recipients when campaign is executing
       return campaign?.status === 'executing' ? 3000 : false;
     },

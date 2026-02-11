@@ -1,5 +1,5 @@
 import React from 'react';
-import { SegmentFilters } from '@/types/api';
+import type { SegmentFilters } from '@/types/api';
 
 interface CampaignFormProps {
   name: string;

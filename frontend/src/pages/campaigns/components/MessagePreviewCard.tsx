@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardHeader, CardTitle } from '@/components/ui/Card';
-import { CampaignRecipient } from '@/types/api';
+import type { CampaignRecipient } from '@/types/api';
 
 interface MessagePreviewCardProps {
   recipient: CampaignRecipient;
