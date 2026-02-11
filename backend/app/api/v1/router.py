@@ -1,9 +1,10 @@
 from fastapi import APIRouter
-from app.api.v1.endpoints import health, ingestion, brands, menu_items, customers, admin, recommendations, campaigns
+from app.api.v1.endpoints import health, ingestion, brands, menu_items, customers, admin, recommendations, campaigns, dashboard
 
 router = APIRouter()
 
 router.include_router(health.router, tags=["health"])
+router.include_router(dashboard.router, prefix="/dashboard", tags=["dashboard"])
 router.include_router(ingestion.router, tags=["ingestion"])
 router.include_router(brands.router, tags=["brands"])
 router.include_router(menu_items.router, tags=["menu-items"])
