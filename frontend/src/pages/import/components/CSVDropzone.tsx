@@ -1,0 +1,79 @@
+import React, { useCallback } from 'react';
+import { useDropzone } from 'react-dropzone';
+
+interface CSVDropzoneProps {
+  onFileSelect: (file: File) => void;
+  disabled?: boolean;
+}
+
+const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
+
+export const CSVDropzone: React.FC<CSVDropzoneProps> = ({ onFileSelect, disabled = false }) => {
+  const onDrop = useCallback(
+    (acceptedFiles: File[], rejectedFiles: any[]) => {
+      if (rejectedFiles.length > 0) {
+        const rejection = rejectedFiles[0];
+        if (rejection.errors.some((e: any) => e.code === 'file-too-large')) {
+          alert('File is too large. Maximum size is 50MB.');
+        } else if (rejection.errors.some((e: any) => e.code === 'file-invalid-type')) {
+          alert('Invalid file type. Please upload a CSV file.');
+        }
+        return;
+      }
+
+      if (acceptedFiles.length > 0) {
+        onFileSelect(acceptedFiles[0]);
+      }
+    },
+    [onFileSelect]
+  );
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    accept: {
+      'text/csv': ['.csv'],
+    },
+    maxSize: MAX_FILE_SIZE,
+    multiple: false,
+    disabled,
+  });
+
+  return (
+    <div
+      {...getRootProps()}
+      className={`
+        border-2 border-dashed rounded-lg p-12 text-center cursor-pointer
+        transition-colors duration-200
+        ${isDragActive ? 'border-primary-500 bg-primary-50' : 'border-gray-300 hover:border-primary-400'}
+        ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
+      `}
+    >
+      <input {...getInputProps()} />
+      <div className="flex flex-col items-center space-y-4">
+        <svg
+          className={`w-16 h-16 ${isDragActive ? 'text-primary-500' : 'text-gray-400'}`}
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+          />
+        </svg>
+        {isDragActive ? (
+          <p className="text-lg font-medium text-primary-600">Drop the CSV file here...</p>
+        ) : (
+          <>
+            <p className="text-lg font-medium text-gray-700">
+              Drag and drop a CSV file here, or click to browse
+            </p>
+            <p className="text-sm text-gray-500">Maximum file size: 50MB</p>
+          </>
+        )}
+      </div>
+    </div>
+  );
+};

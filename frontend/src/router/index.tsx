@@ -1,6 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import { DashboardLayout } from '@/layouts/DashboardLayout';
 import { Dashboard } from '@/pages/dashboard';
+import { Import } from '@/pages/import';
 import { NotFound } from '@/pages/NotFound';
 
 export const router = createBrowserRouter([
@@ -39,7 +40,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'import',
-        element: <div className="text-2xl">Data Import (Coming in TASK-019)</div>,
+        element: <Import />,
       },
       {
         path: 'campaigns',
