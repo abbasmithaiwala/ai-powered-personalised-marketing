@@ -7,6 +7,7 @@ import { Card, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { CampaignProgress } from './components/CampaignProgress';
 import { RecipientTable } from './components/RecipientTable';
+import { ArrowPathIcon } from '@/components/icons';
 
 export const CampaignDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -63,7 +64,7 @@ export const CampaignDetail: React.FC = () => {
     return (
       <div className="flex items-center justify-center h-64">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto" />
+          <ArrowPathIcon className="w-12 h-12 text-gray-400 animate-spin mx-auto" />
           <p className="mt-4 text-gray-600">Loading campaign...</p>
         </div>
       </div>
@@ -238,7 +239,7 @@ export const CampaignDetail: React.FC = () => {
           </CardHeader>
           {recipientsLoading ? (
             <div className="text-center py-8">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600 mx-auto" />
+              <ArrowPathIcon className="w-8 h-8 text-gray-400 animate-spin mx-auto" />
               <p className="mt-2 text-gray-600">Loading recipients...</p>
             </div>
           ) : recipientsData && recipientsData.items.length > 0 ? (

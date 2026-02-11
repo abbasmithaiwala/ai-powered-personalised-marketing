@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { customersApi } from '@/api/customers';
 import { formatCurrency, formatDate, formatNumber, formatRelativeTime } from '@/utils/formatting';
 import { Badge, Card, CardHeader, CardTitle, Button } from '@/components/ui';
+import { ChevronLeftIcon } from '@/components/icons';
 import { PreferenceChart } from './components/PreferenceChart';
 import { OrderHistory } from './components/OrderHistory';
 import { RecommendationList } from './components/RecommendationList';
@@ -59,19 +60,7 @@ export const CustomerDetail = () => {
     <div className="space-y-6">
       {/* Back Button */}
       <Link to="/customers" className="inline-flex items-center text-blue-600 hover:text-blue-800">
-        <svg
-          className="w-5 h-5 mr-1"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M15 19l-7-7 7-7"
-          />
-        </svg>
+        <ChevronLeftIcon className="w-5 h-5 mr-1" />
         Back to Customers
       </Link>
 
