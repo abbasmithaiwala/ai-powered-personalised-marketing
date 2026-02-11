@@ -4,6 +4,9 @@ import { Dashboard } from '@/pages/dashboard';
 import { Import } from '@/pages/import';
 import { Customers } from '@/pages/customers';
 import { CustomerDetail } from '@/pages/customers/[id]';
+import { Campaigns } from '@/pages/campaigns';
+import { NewCampaign } from '@/pages/campaigns/new';
+import { CampaignDetail } from '@/pages/campaigns/[id]';
 import { NotFound } from '@/pages/NotFound';
 
 export const router = createBrowserRouter([
@@ -45,15 +48,15 @@ export const router = createBrowserRouter([
       },
       {
         path: 'campaigns',
-        element: <div className="text-2xl">Campaigns (Coming in TASK-021)</div>,
+        element: <Campaigns />,
       },
       {
         path: 'campaigns/new',
-        element: <div className="text-2xl">New Campaign (Coming in TASK-021)</div>,
+        element: <NewCampaign />,
       },
       {
         path: 'campaigns/:id',
-        element: <div className="text-2xl">Campaign Detail (Coming in TASK-021)</div>,
+        element: <CampaignDetail />,
       },
     ],
   },
