@@ -20,6 +20,8 @@ from app.models import (
     OrderItem,
     CustomerPreference,
     IngestionJob,
+    Campaign,
+    CampaignRecipient,
 )
 
 # this is the Alembic Config object, which provides
@@ -27,7 +29,9 @@ from app.models import (
 config = context.config
 
 # Override the sqlalchemy.url from environment
-config.set_main_option("sqlalchemy.url", settings.DATABASE_URL)
+# Convert async URL to sync for Alembic migrations
+sync_url = settings.DATABASE_URL.replace("postgresql+asyncpg://", "postgresql://")
+config.set_main_option("sqlalchemy.url", sync_url)
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
