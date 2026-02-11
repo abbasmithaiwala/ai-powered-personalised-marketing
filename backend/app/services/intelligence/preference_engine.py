@@ -143,12 +143,32 @@ class PreferenceEngine:
             preferred_order_times=preferred_order_times,
         )
 
-        # Trigger taste profile computation (fire-and-forget, non-blocking)
+        # Trigger taste profile computation
+        # This is critical for personalized recommendations to work
         try:
             taste_builder = TasteProfileBuilder(self.db)
-            await taste_builder.build_taste_profile(customer_id)
+            taste_result = await taste_builder.build_taste_profile(customer_id)
+
+            if taste_result is None:
+                logger.warning(
+                    "taste_profile_not_created",
+                    customer_id=str(customer_id),
+                    reason="vector_store_not_connected_or_customer_not_found",
+                )
+            elif taste_result.get("status") != "success":
+                logger.warning(
+                    "taste_profile_build_issue",
+                    customer_id=str(customer_id),
+                    status=taste_result.get("status"),
+                    reason=taste_result.get("reason"),
+                )
+            else:
+                logger.info(
+                    "taste_profile_built",
+                    customer_id=str(customer_id),
+                    items_processed=taste_result.get("items_processed"),
+                )
         except Exception as e:
-            # Log error but don't fail preference computation
             logger.error(
                 "taste_profile_build_failed",
                 customer_id=str(customer_id),
@@ -188,17 +208,12 @@ class PreferenceEngine:
 
         # Normalize to 0-1 range
         max_score = max(category_scores.values())
-        normalized = {
-            cat: score / max_score
-            for cat, score in category_scores.items()
-        }
+        normalized = {cat: score / max_score for cat, score in category_scores.items()}
 
         # Keep top 5 categories
-        top_categories = sorted(
-            normalized.items(),
-            key=lambda x: x[1],
-            reverse=True
-        )[:5]
+        top_categories = sorted(normalized.items(), key=lambda x: x[1], reverse=True)[
+            :5
+        ]
 
         return dict(top_categories)
 
@@ -230,15 +245,12 @@ class PreferenceEngine:
         # Normalize to 0-1 range
         max_score = max(brand_scores.values()) if brand_scores else 1.0
         normalized_scores = {
-            brand_id: score / max_score
-            for brand_id, score in brand_scores.items()
+            brand_id: score / max_score for brand_id, score in brand_scores.items()
         }
 
         # Fetch brand names
         brand_ids = list(normalized_scores.keys())
-        result = await self.db.execute(
-            select(Brand).where(Brand.id.in_(brand_ids))
-        )
+        result = await self.db.execute(select(Brand).where(Brand.id.in_(brand_ids)))
         brands = result.scalars().all()
 
         brand_name_map = {brand.id: brand.name for brand in brands}

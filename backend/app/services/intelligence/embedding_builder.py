@@ -182,6 +182,68 @@ class EmbeddingBuilder:
 
         return success
 
+    async def upsert_item_embedding_no_commit(self, item: MenuItem) -> bool:
+        """
+        Generate and upsert a menu item's embedding to Qdrant without committing.
+
+        Use this when you want to embed items within a larger transaction.
+
+        Args:
+            item: Menu item to embed and store
+
+        Returns:
+            True if successful, False otherwise
+        """
+        if not vector_store.is_connected:
+            logger.warning(
+                "vector_store_not_connected",
+                operation="upsert_item_embedding",
+                item_id=str(item.id),
+            )
+            return False
+
+        embedding = await self.generate_embedding(item)
+        if not embedding:
+            return False
+
+        payload = {
+            "menu_item_id": str(item.id),
+            "brand_id": str(item.brand_id),
+            "name": item.name,
+            "category": item.category,
+            "cuisine_type": item.cuisine_type,
+            "dietary_tags": item.dietary_tags or [],
+            "price": float(item.price) if item.price else None,
+        }
+
+        point = PointStruct(
+            id=str(item.id),
+            vector=embedding,
+            payload=payload,
+        )
+
+        success = await vector_store.upsert_points(
+            collection_name=MENU_ITEM_EMBEDDINGS_COLLECTION,
+            points=[point],
+        )
+
+        if success:
+            item.embedding_id = str(item.id)
+            logger.info(
+                "item_embedding_upserted",
+                item_id=str(item.id),
+                item_name=item.name,
+            )
+        else:
+            logger.error(
+                "item_embedding_upsert_failed",
+                item_id=str(item.id),
+                item_name=item.name,
+            )
+            item.embedding_id = None
+
+        return success
+
     async def embed_all_items(
         self,
         brand_id: Optional[UUID] = None,

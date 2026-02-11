@@ -47,19 +47,19 @@ class CustomerPreference(Base, TimestampMixin):
     price_sensitivity: Mapped[str | None] = mapped_column(
         String(20),
         nullable=True,
-        comment='low | medium | high',
+        comment="low | medium | high",
     )
 
     order_frequency: Mapped[str | None] = mapped_column(
         String(20),
         nullable=True,
-        comment='daily | weekly | monthly | occasional',
+        comment="daily | weekly | monthly | occasional",
     )
 
-    brand_affinity: Mapped[dict | None] = mapped_column(
+    brand_affinity: Mapped[list | None] = mapped_column(
         JSONB,
         nullable=True,
-        comment='e.g., [{"brand_id": "...", "score": 0.9}]',
+        comment='e.g., [{"brand_id": "...", "score": 0.9, "brand_name": "..."}]',
     )
 
     preferred_order_times: Mapped[dict | None] = mapped_column(
