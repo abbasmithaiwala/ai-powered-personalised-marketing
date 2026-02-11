@@ -48,12 +48,12 @@ export const MenuItemCard: React.FC<MenuItemCardProps> = ({ item, brandName }) =
               {item.cuisine_type}
             </Badge>
           )}
-          {item.dietary_tags.slice(0, 2).map((tag) => (
+          {item.dietary_tags?.slice(0, 2).map((tag) => (
             <Badge key={tag} variant="green" size="sm">
               {tag}
             </Badge>
           ))}
-          {item.dietary_tags.length > 2 && (
+          {item.dietary_tags && item.dietary_tags.length > 2 && (
             <Badge variant="green" size="sm">
               +{item.dietary_tags.length - 2}
             </Badge>
@@ -61,9 +61,9 @@ export const MenuItemCard: React.FC<MenuItemCardProps> = ({ item, brandName }) =
         </div>
 
         {/* Flavor Tags */}
-        {item.flavor_tags.length > 0 && (
+        {item.flavor_tags && item.flavor_tags.length > 0 && (
           <div className="flex flex-wrap gap-1 mb-3">
-            {item.flavor_tags.slice(0, 3).map((tag) => (
+            {item.flavor_tags?.slice(0, 3).map((tag) => (
               <span
                 key={tag}
                 className="text-xs text-gray-500 bg-gray-50 px-2 py-1 rounded"
@@ -71,7 +71,7 @@ export const MenuItemCard: React.FC<MenuItemCardProps> = ({ item, brandName }) =
                 {tag}
               </span>
             ))}
-            {item.flavor_tags.length > 3 && (
+            {item.flavor_tags && item.flavor_tags.length > 3 && (
               <span className="text-xs text-gray-500 bg-gray-50 px-2 py-1 rounded">
                 +{item.flavor_tags.length - 3}
               </span>

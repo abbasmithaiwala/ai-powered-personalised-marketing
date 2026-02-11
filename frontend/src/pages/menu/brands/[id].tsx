@@ -196,16 +196,16 @@ const MenuItem: React.FC<MenuItemProps> = ({ item }) => {
                 {item.cuisine_type}
               </Badge>
             )}
-            {item.dietary_tags.map((tag) => (
+            {item.dietary_tags?.map((tag) => (
               <Badge key={tag} variant="green" size="sm">
                 {tag}
               </Badge>
             ))}
           </div>
 
-          {item.flavor_tags.length > 0 && (
+          {item.flavor_tags?.length > 0 && (
             <div className="flex flex-wrap gap-1">
-              {item.flavor_tags.map((tag) => (
+              {item.flavor_tags?.map((tag) => (
                 <span
                   key={tag}
                   className="text-xs text-gray-500 bg-gray-50 px-2 py-1 rounded"
