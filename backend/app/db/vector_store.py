@@ -300,6 +300,7 @@ class VectorStore:
             result = await self.client.retrieve(
                 collection_name=collection_name,
                 ids=[point_id],
+                with_vectors=True,  # IMPORTANT: Must include vectors!
             )
             if result:
                 return result[0]

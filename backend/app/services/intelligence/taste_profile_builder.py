@@ -141,17 +141,39 @@ class TasteProfileBuilder:
         for order in customer.orders:
             for order_item in order.order_items:
                 # Skip items without linked menu items
-                if not order_item.menu_item or not order_item.menu_item.embedding_id:
+                if not order_item.menu_item:
                     items_skipped += 1
+                    logger.debug(
+                        "skipping_item_no_menu_item",
+                        order_item_id=str(order_item.id),
+                        customer_id=str(customer_id),
+                    )
+                    continue
+
+                if not order_item.menu_item.embedding_id:
+                    items_skipped += 1
+                    logger.debug(
+                        "skipping_item_no_embedding_id",
+                        menu_item_id=str(order_item.menu_item.id),
+                        menu_item_name=order_item.menu_item.name,
+                        customer_id=str(customer_id),
+                    )
                     continue
 
                 # Fetch embedding from Qdrant
+                # Use embedding_id (which should match the Qdrant point ID)
                 item_embedding = await self._get_item_embedding(
-                    order_item.menu_item.id
+                    order_item.menu_item.embedding_id
                 )
 
                 if not item_embedding:
                     items_skipped += 1
+                    logger.debug(
+                        "skipping_item_embedding_not_found_in_qdrant",
+                        menu_item_id=str(order_item.menu_item.id),
+                        embedding_id=order_item.menu_item.embedding_id,
+                        customer_id=str(customer_id),
+                    )
                     continue
 
                 # Compute recency weight
@@ -224,12 +246,12 @@ class TasteProfileBuilder:
                 "reason": "upsert_failed",
             }
 
-    async def _get_item_embedding(self, menu_item_id: UUID) -> Optional[List[float]]:
+    async def _get_item_embedding(self, embedding_id: str) -> Optional[List[float]]:
         """
         Retrieve a menu item's embedding vector from Qdrant.
 
         Args:
-            menu_item_id: Menu item UUID
+            embedding_id: The embedding ID (Qdrant point ID) stored in menu_item.embedding_id
 
         Returns:
             Embedding vector as list of floats, or None if not found
@@ -237,22 +259,22 @@ class TasteProfileBuilder:
         try:
             point = await vector_store.get_point(
                 collection_name=MENU_ITEM_EMBEDDINGS_COLLECTION,
-                point_id=str(menu_item_id),
+                point_id=embedding_id,
             )
 
-            if point and hasattr(point, 'vector'):
+            if point and hasattr(point, "vector"):
                 return point.vector
 
             logger.debug(
                 "item_embedding_not_found",
-                menu_item_id=str(menu_item_id),
+                embedding_id=embedding_id,
             )
             return None
 
         except Exception as e:
             logger.error(
                 "item_embedding_retrieval_failed",
-                menu_item_id=str(menu_item_id),
+                embedding_id=embedding_id,
                 error=str(e),
             )
             return None

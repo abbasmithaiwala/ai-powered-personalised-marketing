@@ -147,7 +147,9 @@ class TestTasteProfileBuilder:
 
         builder = TasteProfileBuilder(db_session)
 
-        with patch("app.services.intelligence.taste_profile_builder.vector_store") as mock_vs:
+        with patch(
+            "app.services.intelligence.taste_profile_builder.vector_store"
+        ) as mock_vs:
             mock_vs.is_connected = True
 
             result = await builder.build_taste_profile(customer.id)
@@ -214,7 +216,9 @@ class TestTasteProfileBuilder:
 
         builder = TasteProfileBuilder(db_session)
 
-        with patch("app.services.intelligence.taste_profile_builder.vector_store") as mock_vs:
+        with patch(
+            "app.services.intelligence.taste_profile_builder.vector_store"
+        ) as mock_vs:
             mock_vs.is_connected = True
 
             result = await builder.build_taste_profile(customer.id)
@@ -227,7 +231,9 @@ class TestTasteProfileBuilder:
     async def test_successful_profile_build(self, db_session):
         """Should successfully build taste profile from order history"""
         # Create brand
-        brand = Brand(name="Italian Restaurant", slug="italian-rest", cuisine_type="Italian")
+        brand = Brand(
+            name="Italian Restaurant", slug="italian-rest", cuisine_type="Italian"
+        )
         db_session.add(brand)
         await db_session.commit()
         await db_session.refresh(brand)
@@ -321,14 +327,17 @@ class TestTasteProfileBuilder:
         mock_point2 = MagicMock()
         mock_point2.vector = embedding2
 
-        with patch("app.services.intelligence.taste_profile_builder.vector_store") as mock_vs:
+        with patch(
+            "app.services.intelligence.taste_profile_builder.vector_store"
+        ) as mock_vs:
             mock_vs.is_connected = True
 
             # Mock get_point to return embeddings
+            # Note: Now using embedding_id instead of item.id
             async def mock_get_point(collection_name, point_id):
-                if point_id == str(item1.id):
+                if point_id == item1.embedding_id:
                     return mock_point1
-                elif point_id == str(item2.id):
+                elif point_id == item2.embedding_id:
                     return mock_point2
                 return None
 
@@ -365,7 +374,9 @@ class TestTasteProfileBuilder:
 
         builder = TasteProfileBuilder(db_session)
 
-        with patch("app.services.intelligence.taste_profile_builder.vector_store") as mock_vs:
+        with patch(
+            "app.services.intelligence.taste_profile_builder.vector_store"
+        ) as mock_vs:
             mock_vs.is_connected = False
 
             result = await builder.build_taste_profile(customer.id)
@@ -433,7 +444,9 @@ class TestTasteProfileBuilder:
         mock_point = MagicMock()
         mock_point.vector = embedding
 
-        with patch("app.services.intelligence.taste_profile_builder.vector_store") as mock_vs:
+        with patch(
+            "app.services.intelligence.taste_profile_builder.vector_store"
+        ) as mock_vs:
             mock_vs.is_connected = True
             mock_vs.get_point = AsyncMock(return_value=mock_point)
             mock_vs.upsert_points = AsyncMock(return_value=True)
@@ -461,7 +474,9 @@ class TestTasteProfileRetrieval:
         mock_point.vector = [0.5] * VECTOR_DIMENSION
         mock_point.payload = {"last_updated": "2024-02-09T12:00:00Z"}
 
-        with patch("app.services.intelligence.taste_profile_builder.vector_store") as mock_vs:
+        with patch(
+            "app.services.intelligence.taste_profile_builder.vector_store"
+        ) as mock_vs:
             mock_vs.is_connected = True
             mock_vs.get_point = AsyncMock(return_value=mock_point)
 
@@ -478,7 +493,9 @@ class TestTasteProfileRetrieval:
 
         builder = TasteProfileBuilder(db_session)
 
-        with patch("app.services.intelligence.taste_profile_builder.vector_store") as mock_vs:
+        with patch(
+            "app.services.intelligence.taste_profile_builder.vector_store"
+        ) as mock_vs:
             mock_vs.is_connected = True
             mock_vs.get_point = AsyncMock(return_value=None)
 
@@ -492,7 +509,9 @@ class TestTasteProfileRetrieval:
 
         builder = TasteProfileBuilder(db_session)
 
-        with patch("app.services.intelligence.taste_profile_builder.vector_store") as mock_vs:
+        with patch(
+            "app.services.intelligence.taste_profile_builder.vector_store"
+        ) as mock_vs:
             mock_vs.is_connected = False
 
             result = await builder.get_taste_profile(customer_id)
@@ -510,7 +529,9 @@ class TestTasteProfileDeletion:
 
         builder = TasteProfileBuilder(db_session)
 
-        with patch("app.services.intelligence.taste_profile_builder.vector_store") as mock_vs:
+        with patch(
+            "app.services.intelligence.taste_profile_builder.vector_store"
+        ) as mock_vs:
             mock_vs.is_connected = True
             mock_vs.delete_points = AsyncMock(return_value=True)
 
@@ -524,7 +545,9 @@ class TestTasteProfileDeletion:
 
         builder = TasteProfileBuilder(db_session)
 
-        with patch("app.services.intelligence.taste_profile_builder.vector_store") as mock_vs:
+        with patch(
+            "app.services.intelligence.taste_profile_builder.vector_store"
+        ) as mock_vs:
             mock_vs.is_connected = True
             mock_vs.delete_points = AsyncMock(return_value=False)
 
@@ -538,7 +561,9 @@ class TestTasteProfileDeletion:
 
         builder = TasteProfileBuilder(db_session)
 
-        with patch("app.services.intelligence.taste_profile_builder.vector_store") as mock_vs:
+        with patch(
+            "app.services.intelligence.taste_profile_builder.vector_store"
+        ) as mock_vs:
             mock_vs.is_connected = False
 
             result = await builder.delete_taste_profile(customer_id)
