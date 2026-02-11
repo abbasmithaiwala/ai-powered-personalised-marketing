@@ -12,6 +12,7 @@ from app.services.intelligence import PreferenceEngine
 from app.services.segmentation_service import SegmentationService
 from app.schemas.customer_preference import CustomerPreferenceResponse
 from app.schemas.campaign import SegmentFilters
+from app.models import Customer, CustomerPreference
 
 router = APIRouter()
 
@@ -203,3 +204,54 @@ async def recompute_customer_preferences(
         raise HTTPException(
             status_code=500, detail=f"Failed to compute preferences: {str(e)}"
         )
+
+
+@router.get("/{customer_id}", response_model=CustomerResponse)
+async def get_customer(
+    customer_id: UUID,
+    db: AsyncSession = Depends(get_db),
+):
+    """
+    Get a single customer by ID.
+
+    Returns customer details including order statistics.
+    """
+    from sqlalchemy import select
+
+    result = await db.execute(select(Customer).where(Customer.id == customer_id))
+    customer = result.scalar_one_or_none()
+
+    if not customer:
+        raise HTTPException(status_code=404, detail="Customer not found")
+
+    return CustomerResponse.model_validate(customer)
+
+
+@router.get("/{customer_id}/preferences", response_model=CustomerPreferenceResponse)
+async def get_customer_preferences(
+    customer_id: UUID,
+    db: AsyncSession = Depends(get_db),
+):
+    """
+    Get preference signals for a specific customer.
+
+    Returns computed preferences including:
+    - Favorite cuisines (with recency weighting)
+    - Favorite categories
+    - Dietary flags
+    - Price sensitivity
+    - Order frequency
+    - Brand affinity
+    - Preferred order times
+    """
+    from sqlalchemy import select
+
+    result = await db.execute(
+        select(CustomerPreference).where(CustomerPreference.customer_id == customer_id)
+    )
+    preference = result.scalar_one_or_none()
+
+    if not preference:
+        raise HTTPException(status_code=404, detail="Customer preferences not found")
+
+    return CustomerPreferenceResponse.model_validate(preference)
