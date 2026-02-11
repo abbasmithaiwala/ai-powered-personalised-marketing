@@ -5,19 +5,28 @@ import { CloudArrowUpIcon } from '@/components/icons';
 interface CSVDropzoneProps {
   onFileSelect: (file: File) => void;
   disabled?: boolean;
+  onError?: (title: string, message: string) => void;
 }
 
 const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
 
-export const CSVDropzone: React.FC<CSVDropzoneProps> = ({ onFileSelect, disabled = false }) => {
+export const CSVDropzone: React.FC<CSVDropzoneProps> = ({ onFileSelect, disabled = false, onError }) => {
   const onDrop = useCallback(
     (acceptedFiles: File[], rejectedFiles: any[]) => {
       if (rejectedFiles.length > 0) {
         const rejection = rejectedFiles[0];
         if (rejection.errors.some((e: any) => e.code === 'file-too-large')) {
-          alert('File is too large. Maximum size is 50MB.');
+          if (onError) {
+            onError('File Too Large', 'File is too large. Maximum size is 50MB.');
+          } else {
+            alert('File is too large. Maximum size is 50MB.');
+          }
         } else if (rejection.errors.some((e: any) => e.code === 'file-invalid-type')) {
-          alert('Invalid file type. Please upload a CSV file.');
+          if (onError) {
+            onError('Invalid File Type', 'Invalid file type. Please upload a CSV file.');
+          } else {
+            alert('Invalid file type. Please upload a CSV file.');
+          }
         }
         return;
       }
@@ -26,7 +35,7 @@ export const CSVDropzone: React.FC<CSVDropzoneProps> = ({ onFileSelect, disabled
         onFileSelect(acceptedFiles[0]);
       }
     },
-    [onFileSelect]
+    [onFileSelect, onError]
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({

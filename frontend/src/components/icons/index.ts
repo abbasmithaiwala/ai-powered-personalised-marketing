@@ -27,6 +27,7 @@ export {
   CheckCircleIcon,
   CheckIcon,
   ExclamationCircleIcon,
+  ExclamationTriangleIcon,
   InformationCircleIcon,
   XCircleIcon,
   ArrowPathIcon,

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Card, CardHeader, CardTitle, Badge } from '@/components/ui';
+import { Card, CardHeader, CardTitle, Badge, ErrorDialog } from '@/components/ui';
 import { CSVDropzone } from './components/CSVDropzone';
 import { ValidationResult } from './components/ValidationResult';
 import { ImportHistory } from './components/ImportHistory';
@@ -18,6 +18,16 @@ export const Import: React.FC = () => {
   const [uploadResponse, setUploadResponse] = useState<IngestionUploadResponse | null>(null);
   const [currentJobId, setCurrentJobId] = useState<string | null>(null);
   const [pollingInterval, setPollingInterval] = useState<number | null>(null);
+  const [errorDialog, setErrorDialog] = useState<{
+    isOpen: boolean;
+    title: string;
+    message: string;
+    details?: string;
+  }>({
+    isOpen: false,
+    title: 'Error',
+    message: '',
+  });
 
   // Fetch import history
   const { data: historyData, isLoading: historyLoading } = useQuery({
@@ -41,7 +51,13 @@ export const Import: React.FC = () => {
       setStage('validate');
     },
     onError: (error: any) => {
-      alert(error.response?.data?.detail || 'Upload failed. Please try again.');
+      const errorMessage = error.response?.data?.detail || 'Upload failed. Please try again.';
+      setErrorDialog({
+        isOpen: true,
+        title: 'Upload Error',
+        message: errorMessage,
+        details: error.response?.data ? JSON.stringify(error.response.data, null, 2) : undefined,
+      });
       setStage('select');
     },
   });
@@ -68,6 +84,11 @@ export const Import: React.FC = () => {
     setUploadResponse(null);
     setCurrentJobId(null);
     setPollingInterval(null);
+  };
+
+  // Close error dialog
+  const closeErrorDialog = () => {
+    setErrorDialog(prev => ({ ...prev, isOpen: false }));
   };
 
   // Monitor job completion
@@ -111,6 +132,11 @@ export const Import: React.FC = () => {
               <CSVDropzone
                 onFileSelect={handleFileSelect}
                 disabled={uploadMutation.isPending}
+                onError={(title, message) => setErrorDialog({
+                  isOpen: true,
+                  title,
+                  message,
+                })}
               />
 
               {uploadMutation.isPending && (
@@ -283,6 +309,15 @@ export const Import: React.FC = () => {
       {stage === 'select' && (
         <ImportHistory jobs={historyData?.items || []} loading={historyLoading} />
       )}
+
+      {/* Error Dialog */}
+      <ErrorDialog
+        isOpen={errorDialog.isOpen}
+        onClose={closeErrorDialog}
+        title={errorDialog.title}
+        message={errorDialog.message}
+        details={errorDialog.details}
+      />
     </div>
   );
 };

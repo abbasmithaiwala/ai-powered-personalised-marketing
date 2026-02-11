@@ -31,7 +31,9 @@ MAX_FILE_SIZE = 50 * 1024 * 1024
 @router.post("/upload", response_model=UploadResponse, status_code=200)
 async def upload_csv(
     file: UploadFile = File(..., description="CSV file to upload"),
-    csv_type: str = Form(..., description='CSV type (currently only "orders" is supported)'),
+    csv_type: str = Form(
+        ..., description='CSV type (currently only "orders" is supported)'
+    ),
     db: AsyncSession = Depends(get_db),
 ) -> UploadResponse:
     """
@@ -58,11 +60,16 @@ async def upload_csv(
     """
     # Validate file type
     if not file.filename or not file.filename.endswith(".csv"):
-        raise HTTPException(status_code=415, detail="File must be a CSV (.csv extension)")
+        raise HTTPException(
+            status_code=415, detail="File must be a CSV (.csv extension)"
+        )
 
     # Validate CSV type
     if csv_type not in ["orders"]:
-        raise HTTPException(status_code=400, detail=f'Invalid csv_type: "{csv_type}". Only "orders" is supported.')
+        raise HTTPException(
+            status_code=400,
+            detail=f'Invalid csv_type: "{csv_type}". Only "orders" is supported.',
+        )
 
     # Read file content
     content = await file.read()
@@ -170,12 +177,14 @@ async def upload_csv(
             if validation_errors_dict is None:
                 validation_errors_dict = {"errors": [], "total_errors": 0}
 
-            validation_errors_dict["errors"].append({
-                "row": 0,
-                "field": "processing",
-                "error": f"Processing failed: {str(e)}",
-                "value": None,
-            })
+            validation_errors_dict["errors"].append(
+                {
+                    "row": 0,
+                    "field": "processing",
+                    "error": f"Processing failed: {str(e)}",
+                    "value": None,
+                }
+            )
             validation_errors_dict["total_errors"] += 1
 
     elif not validation_result.valid:
@@ -193,12 +202,14 @@ async def upload_csv(
 
     # Add processing results if available
     if processing_result:
-        result_summary.update({
-            "processed_orders": processing_result.processed_rows,
-            "skipped_orders": processing_result.skipped_rows,
-            "failed_orders": processing_result.failed_rows,
-            "affected_customers": processing_result.affected_customer_count,
-        })
+        result_summary.update(
+            {
+                "processed_orders": processing_result.processed_rows,
+                "skipped_orders": processing_result.skipped_rows,
+                "failed_orders": processing_result.failed_rows,
+                "affected_customers": len(processing_result.affected_customer_ids),
+            }
+        )
 
         # Merge processing errors with validation errors
         if processing_result.errors:
@@ -210,8 +221,8 @@ async def upload_csv(
 
     # Update job with final results
     processed_rows = processing_result.processed_rows if processing_result else 0
-    failed_rows = (
-        validation_result.invalid_rows + (processing_result.failed_rows if processing_result else 0)
+    failed_rows = validation_result.invalid_rows + (
+        processing_result.failed_rows if processing_result else 0
     )
 
     await repo.update_status(
@@ -270,7 +281,9 @@ async def list_jobs(
         raise HTTPException(status_code=400, detail="Page must be >= 1")
 
     if page_size < 1 or page_size > 100:
-        raise HTTPException(status_code=400, detail="Page size must be between 1 and 100")
+        raise HTTPException(
+            status_code=400, detail="Page size must be between 1 and 100"
+        )
 
     repo = IngestionJobRepository(db)
     jobs, total = await repo.get_all(page=page, page_size=page_size)
