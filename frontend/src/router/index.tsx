@@ -7,6 +7,9 @@ import { CustomerDetail } from '@/pages/customers/[id]';
 import { Campaigns } from '@/pages/campaigns';
 import { NewCampaign } from '@/pages/campaigns/new';
 import { CampaignDetail } from '@/pages/campaigns/[id]';
+import { MenuOverview } from '@/pages/menu';
+import { BrandDetail } from '@/pages/menu/brands/[id]';
+import { MenuItems } from '@/pages/menu/items';
 import { NotFound } from '@/pages/NotFound';
 
 export const router = createBrowserRouter([
@@ -28,19 +31,15 @@ export const router = createBrowserRouter([
       },
       {
         path: 'menu',
-        element: <div className="text-2xl">Menu Catalog (Coming in TASK-022)</div>,
-      },
-      {
-        path: 'menu/brands',
-        element: <div className="text-2xl">Brands (Coming in TASK-022)</div>,
+        element: <MenuOverview />,
       },
       {
         path: 'menu/brands/:id',
-        element: <div className="text-2xl">Brand Detail (Coming in TASK-022)</div>,
+        element: <BrandDetail />,
       },
       {
         path: 'menu/items',
-        element: <div className="text-2xl">Menu Items (Coming in TASK-022)</div>,
+        element: <MenuItems />,
       },
       {
         path: 'import',
