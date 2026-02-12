@@ -59,7 +59,7 @@ class VectorStore:
             )
 
             # Create collections if they don't exist
-            await self._ensure_collections()
+            await self.ensure_collections()
 
             return True
 
@@ -73,9 +73,10 @@ class VectorStore:
             self._connected = False
             return False
 
-    async def _ensure_collections(self):
+    async def ensure_collections(self):
         """
         Create collections if they don't exist (idempotent).
+        Public method that can be called from external scripts.
         """
         if not self.client:
             return
@@ -93,9 +94,7 @@ class VectorStore:
 
         for collection_config in collections:
             try:
-                await self._create_collection_if_not_exists(
-                    collection_config["name"]
-                )
+                await self._create_collection_if_not_exists(collection_config["name"])
                 logger.info(
                     "qdrant_collection_ready",
                     collection=collection_config["name"],

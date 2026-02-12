@@ -62,6 +62,20 @@ async def clear_qdrant():
             print(f"  Error clearing {collection}: {e}")
 
     print("\n✓ Qdrant data cleared!")
+
+    # Recreate collections immediately so they're available for new data
+    print("\n" + "-" * 70)
+    print("RECREATING QDRANT COLLECTIONS")
+    print("-" * 70)
+    try:
+        await vector_store.ensure_collections()
+        print("✓ Collections recreated successfully")
+        print("\n✅ You can now upload CSV files immediately - no restart needed!")
+    except Exception as e:
+        print(f"\n⚠️  Warning: Failed to recreate collections: {e}")
+        print("   You may need to restart the backend:")
+        print("   docker compose restart backend")
+
     return True
 
 
@@ -176,7 +190,9 @@ async def main():
     print("\n" + "=" * 70)
     print("✅ ALL DATA HAS BEEN CLEARED SUCCESSFULLY!")
     print("=" * 70)
-    print("\nYou can now run your seed/data ingestion scripts to create fresh data.")
+    print("\n📝 Note: Qdrant collections have been recreated automatically.")
+    print("   You can now upload CSV files and taste profiles will be")
+    print("   built correctly without restarting the backend.")
 
 
 if __name__ == "__main__":
