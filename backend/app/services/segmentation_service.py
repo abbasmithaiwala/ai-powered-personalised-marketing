@@ -39,10 +39,7 @@ class SegmentationService:
         return count
 
     async def find_customers(
-        self,
-        filters: SegmentFilters,
-        limit: int = 100,
-        offset: int = 0
+        self, filters: SegmentFilters, limit: int = 100, offset: int = 0
     ) -> Tuple[List[Customer], int]:
         """
         Find customers matching segment filters with pagination.
@@ -108,17 +105,25 @@ class SegmentationService:
         if filters.total_orders_min is not None:
             conditions.append(Customer.total_orders >= filters.total_orders_min)
 
-        # City filter
+        # City filter - support multiple cities separated by commas
         if filters.city:
-            conditions.append(Customer.city.ilike(f"%{filters.city}%"))
+            cities = [city.strip() for city in filters.city.split(",") if city.strip()]
+            if len(cities) == 1:
+                conditions.append(Customer.city.ilike(f"%{cities[0]}%"))
+            elif len(cities) > 1:
+                # Create OR conditions for each city
+                city_conditions = [Customer.city.ilike(f"%{city}%") for city in cities]
+                conditions.append(or_(*city_conditions))
 
         # Preference-based filters (require join with customer_preferences)
         preference_conditions = []
 
         if filters.favorite_cuisine:
-            # Check if cuisine exists in favorite_cuisines JSONB
+            # Check if cuisine exists in favorite_cuisines JSONB (case-insensitive)
+            # Convert to lowercase for matching since keys are stored in lowercase
+            cuisine_key = filters.favorite_cuisine.lower()
             preference_conditions.append(
-                CustomerPreference.favorite_cuisines[filters.favorite_cuisine].astext.isnot(None)
+                CustomerPreference.favorite_cuisines.has_key(cuisine_key)
             )
 
         if filters.dietary_flag:
@@ -135,8 +140,7 @@ class SegmentationService:
         # If we have preference conditions, join with customer_preferences
         if preference_conditions:
             query = query.join(
-                CustomerPreference,
-                Customer.id == CustomerPreference.customer_id
+                CustomerPreference, Customer.id == CustomerPreference.customer_id
             )
             conditions.extend(preference_conditions)
 

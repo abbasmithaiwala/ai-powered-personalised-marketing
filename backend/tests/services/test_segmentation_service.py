@@ -53,10 +53,28 @@ class TestSegmentationService:
         filters = SegmentFilters(city="london")
         count = await service.count_segment(filters)
         expected = sum(
-            1 for c in sample_customers
-            if c.city and "london" in c.city.lower()
+            1 for c in sample_customers if c.city and "london" in c.city.lower()
         )
         assert count == expected
+
+    async def test_count_segment_by_multiple_cities(self, db_session, sample_customers):
+        """Test filtering customers by multiple cities separated by commas"""
+        service = SegmentationService(db_session)
+
+        # Multiple cities - should match London and Manchester customers
+        filters = SegmentFilters(city="London, Manchester")
+        count = await service.count_segment(filters)
+        expected = sum(
+            1
+            for c in sample_customers
+            if c.city and ("london" in c.city.lower() or "manchester" in c.city.lower())
+        )
+        assert count == expected
+
+        # Should return 0 if no cities match
+        filters = SegmentFilters(city="Paris, Berlin")
+        count = await service.count_segment(filters)
+        assert count == 0
 
     async def test_count_segment_by_last_order_date(self, db_session):
         """Test filtering customers by last order date"""
@@ -93,18 +111,14 @@ class TestSegmentationService:
 
         # First page
         customers, total = await service.find_customers(
-            SegmentFilters(),
-            limit=2,
-            offset=0
+            SegmentFilters(), limit=2, offset=0
         )
         assert len(customers) <= 2
         assert total == len(sample_customers)
 
         # Second page
         customers, total = await service.find_customers(
-            SegmentFilters(),
-            limit=2,
-            offset=2
+            SegmentFilters(), limit=2, offset=2
         )
         assert len(customers) <= 2
         assert total == len(sample_customers)
@@ -172,6 +186,42 @@ class TestSegmentationService:
         filters = SegmentFilters(favorite_cuisine="mexican")
         count = await service.count_segment(filters)
         assert count == 0
+
+    async def test_filter_by_favorite_cuisine_case_insensitive(self, db_session):
+        """Test filtering by favorite cuisine is case-insensitive"""
+        customer = Customer(
+            external_id="cust1",
+            email="cust1@test.com",
+            total_orders=5,
+            total_spend=Decimal("50.0"),
+        )
+        db_session.add(customer)
+        await db_session.commit()
+
+        preference = CustomerPreference(
+            customer_id=customer.id,
+            favorite_cuisines={"italian": 0.8, "thai": 0.6},
+            last_computed_at=datetime.now(timezone.utc),
+        )
+        db_session.add(preference)
+        await db_session.commit()
+
+        service = SegmentationService(db_session)
+
+        # Should find customer regardless of case - uppercase
+        filters = SegmentFilters(favorite_cuisine="ITALIAN")
+        count = await service.count_segment(filters)
+        assert count >= 1
+
+        # Should find customer regardless of case - mixed case
+        filters = SegmentFilters(favorite_cuisine="Italian")
+        count = await service.count_segment(filters)
+        assert count >= 1
+
+        # Should find customer regardless of case - title case
+        filters = SegmentFilters(favorite_cuisine="Thai")
+        count = await service.count_segment(filters)
+        assert count >= 1
 
     async def test_filter_by_dietary_flag(self, db_session):
         """Test filtering by dietary flags from preferences"""
