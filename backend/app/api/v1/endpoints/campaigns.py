@@ -11,6 +11,10 @@ from app.services.campaign_service import (
     CampaignNotFoundError,
     CampaignStateError,
 )
+from app.services.ai.openrouter_client import (
+    OpenRouterAPIKeyError,
+    OpenRouterError,
+)
 from app.services.segmentation_service import SegmentationService
 from app.schemas.campaign import (
     CampaignCreate,
@@ -114,7 +118,7 @@ async def preview_campaign(
     preview_request: CampaignPreviewRequest = CampaignPreviewRequest(),
     brand_group_name: str = Query(
         "Our Restaurant Group",
-        description="Brand group name for message personalization"
+        description="Brand group name for message personalization",
     ),
     db: AsyncSession = Depends(get_db),
 ):
@@ -158,10 +162,18 @@ async def preview_campaign(
 
     except CampaignNotFoundError as e:
         raise HTTPException(status_code=404, detail=str(e))
+    except OpenRouterAPIKeyError as e:
+        raise HTTPException(
+            status_code=503,
+            detail="OpenRouter API key is not configured. Please set OPENROUTER_API_KEY in your environment.",
+        )
+    except OpenRouterError as e:
+        raise HTTPException(
+            status_code=503, detail=f"AI service temporarily unavailable: {str(e)}"
+        )
     except Exception as e:
         raise HTTPException(
-            status_code=500,
-            detail=f"Failed to generate preview: {str(e)}"
+            status_code=500, detail=f"Failed to generate preview: {str(e)}"
         )
 
 
@@ -170,7 +182,7 @@ async def execute_campaign(
     campaign_id: UUID,
     brand_group_name: str = Query(
         "Our Restaurant Group",
-        description="Brand group name for message personalization"
+        description="Brand group name for message personalization",
     ),
     db: AsyncSession = Depends(get_db),
 ):
@@ -206,10 +218,18 @@ async def execute_campaign(
         raise HTTPException(status_code=404, detail=str(e))
     except CampaignStateError as e:
         raise HTTPException(status_code=400, detail=str(e))
+    except OpenRouterAPIKeyError as e:
+        raise HTTPException(
+            status_code=503,
+            detail="OpenRouter API key is not configured. Please set OPENROUTER_API_KEY in your environment.",
+        )
+    except OpenRouterError as e:
+        raise HTTPException(
+            status_code=503, detail=f"AI service temporarily unavailable: {str(e)}"
+        )
     except Exception as e:
         raise HTTPException(
-            status_code=500,
-            detail=f"Failed to execute campaign: {str(e)}"
+            status_code=500, detail=f"Failed to execute campaign: {str(e)}"
         )
 
 
@@ -288,6 +308,5 @@ async def get_segment_count(
 
     except Exception as e:
         raise HTTPException(
-            status_code=500,
-            detail=f"Failed to count segment: {str(e)}"
+            status_code=500, detail=f"Failed to count segment: {str(e)}"
         )
