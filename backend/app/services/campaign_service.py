@@ -179,7 +179,12 @@ class CampaignService:
         return campaign
 
     async def preview_campaign(
-        self, campaign_id: UUID, sample_size: int = 3, brand_group_name: str = "Our Restaurant Group"
+        self,
+        campaign_id: UUID,
+        sample_size: int = 3,
+        brand_group_name: str = "Our Restaurant Group",
+        llm_provider: str = "openrouter",
+        llm_model: Optional[str] = None,
     ) -> Tuple[Campaign, List[CampaignRecipient], int]:
         """
         Generate preview messages for a sample of customers.
@@ -188,6 +193,8 @@ class CampaignService:
             campaign_id: Campaign ID
             sample_size: Number of preview messages to generate
             brand_group_name: Brand group name for message generation
+            llm_provider: LLM provider (openrouter | groq)
+            llm_model: Specific model to use
 
         Returns:
             Tuple of (campaign, preview recipients, estimated audience size)
@@ -226,7 +233,11 @@ class CampaignService:
         import uuid
         for customer in sample_customers:
             recipient = await self._generate_message_for_customer(
-                campaign, customer, brand_group_name
+                campaign,
+                customer,
+                brand_group_name,
+                llm_provider=llm_provider,
+                llm_model=llm_model,
             )
             # Manually set fields for preview (not saved to DB)
             if recipient.id is None:
@@ -247,7 +258,11 @@ class CampaignService:
         return campaign, preview_recipients, audience_size
 
     async def execute_campaign(
-        self, campaign_id: UUID, brand_group_name: str = "Our Restaurant Group"
+        self,
+        campaign_id: UUID,
+        brand_group_name: str = "Our Restaurant Group",
+        llm_provider: str = "openrouter",
+        llm_model: Optional[str] = None,
     ) -> Campaign:
         """
         Execute campaign by generating messages for all recipients.
@@ -315,7 +330,12 @@ class CampaignService:
 
                 # Generate message
                 updated_recipient = await self._generate_message_for_customer(
-                    campaign, customer, brand_group_name, recipient
+                    campaign,
+                    customer,
+                    brand_group_name,
+                    recipient,
+                    llm_provider=llm_provider,
+                    llm_model=llm_model,
                 )
 
                 if updated_recipient.status == "generated":
@@ -394,6 +414,8 @@ class CampaignService:
         customer: Customer,
         brand_group_name: str,
         recipient: Optional[CampaignRecipient] = None,
+        llm_provider: str = "openrouter",
+        llm_model: Optional[str] = None,
     ) -> CampaignRecipient:
         """
         Generate personalized message for a customer.
@@ -415,6 +437,8 @@ class CampaignService:
                 brand_group_name=brand_group_name,
                 offer=None,  # Can be extended later
                 recommendation_limit=3,
+                llm_provider=llm_provider,
+                llm_model=llm_model,
             )
 
             # Generate message

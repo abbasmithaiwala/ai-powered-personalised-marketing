@@ -15,6 +15,11 @@ from app.services.ai.openrouter_client import (
     OpenRouterError,
     OpenRouterAPIKeyError,
 )
+from app.services.ai.groq_client import (
+    GroqClient,
+    GroqError,
+    GroqAPIKeyError,
+)
 from app.services.intelligence import RecommendationEngine
 from app.services.ai.prompts import (
     MARKETING_MESSAGE_SYSTEM_PROMPT,
@@ -110,46 +115,61 @@ class MessageGenerator:
         )
 
         # 5. Call LLM
-        async with OpenRouterClient() as client:
-            try:
-                response_text = await client.complete(
-                    messages=[
-                        {"role": "system", "content": system_prompt},
-                        {"role": "user", "content": user_prompt},
-                    ],
-                    temperature=0.7,
-                    max_tokens=512,
-                    response_format={"type": "json_object"},
-                )
+        try:
+            if request.llm_provider == "groq":
+                async with GroqClient(model=request.llm_model) as client:
+                    response_text = await client.complete(
+                        messages=[
+                            {"role": "system", "content": system_prompt},
+                            {"role": "user", "content": user_prompt},
+                        ],
+                        temperature=0.7,
+                        max_tokens=512,
+                        response_format={"type": "json_object"},
+                    )
+                    model_used = client.model
+            else:
+                # Default to OpenRouter
+                async with OpenRouterClient(model=request.llm_model) as client:
+                    response_text = await client.complete(
+                        messages=[
+                            {"role": "system", "content": system_prompt},
+                            {"role": "user", "content": user_prompt},
+                        ],
+                        temperature=0.7,
+                        max_tokens=512,
+                        response_format={"type": "json_object"},
+                    )
+                    model_used = client.model
 
-                # 6. Parse and validate response
-                message = self._parse_llm_response(response_text)
+            # 6. Parse and validate response
+            message = self._parse_llm_response(response_text)
 
-                logger.info(
-                    f"Generated message for customer {request.customer_id}: "
-                    f"subject='{message.subject[:30]}...'"
-                )
+            logger.info(
+                f"Generated message for customer {request.customer_id}: "
+                f"subject='{message.subject[:30]}...'"
+            )
 
-                return MessageGenerationResponse(
-                    customer_id=request.customer_id,
-                    message=message,
-                    recommendations_used=[rec.name for rec in recommendations],
-                    model_used=client.model,
-                )
+            return MessageGenerationResponse(
+                customer_id=request.customer_id,
+                message=message,
+                recommendations_used=[rec.name for rec in recommendations],
+                model_used=model_used,
+            )
 
-            except OpenRouterAPIKeyError:
-                logger.error("OpenRouter API key not configured")
-                raise
+        except (OpenRouterAPIKeyError, GroqAPIKeyError):
+            logger.error(f"{request.llm_provider} API key not configured")
+            raise
 
-            except OpenRouterError as e:
-                logger.error(f"LLM API error for customer {request.customer_id}: {e}")
-                raise MessageGenerationException(f"Failed to generate message: {str(e)}")
+        except (OpenRouterError, GroqError) as e:
+            logger.error(f"LLM API error for customer {request.customer_id}: {e}")
+            raise MessageGenerationException(f"Failed to generate message: {str(e)}")
 
-            except Exception as e:
-                logger.error(
-                    f"Unexpected error generating message for customer {request.customer_id}: {e}"
-                )
-                raise MessageGenerationException(f"Message generation failed: {str(e)}")
+        except Exception as e:
+            logger.error(
+                f"Unexpected error generating message for customer {request.customer_id}: {e}"
+            )
+            raise MessageGenerationException(f"Message generation failed: {str(e)}")
 
     async def _get_customer(self, customer_id: UUID) -> Customer:
         """Fetch customer by ID"""

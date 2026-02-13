@@ -15,6 +15,10 @@ from app.services.ai.openrouter_client import (
     OpenRouterAPIKeyError,
     OpenRouterError,
 )
+from app.services.ai.groq_client import (
+    GroqAPIKeyError,
+    GroqError,
+)
 from app.services.segmentation_service import SegmentationService
 from app.schemas.campaign import (
     CampaignCreate,
@@ -137,6 +141,8 @@ async def preview_campaign(
             campaign_id=campaign_id,
             sample_size=preview_request.sample_size,
             brand_group_name=brand_group_name,
+            llm_provider=preview_request.llm_provider,
+            llm_model=preview_request.llm_model,
         )
 
         # Convert recipients to response format
@@ -162,12 +168,12 @@ async def preview_campaign(
 
     except CampaignNotFoundError as e:
         raise HTTPException(status_code=404, detail=str(e))
-    except OpenRouterAPIKeyError as e:
+    except (OpenRouterAPIKeyError, GroqAPIKeyError) as e:
         raise HTTPException(
             status_code=503,
-            detail="OpenRouter API key is not configured. Please set OPENROUTER_API_KEY in your environment.",
+            detail=f"{str(e)}. Please check your environment variables.",
         )
-    except OpenRouterError as e:
+    except (OpenRouterError, GroqError) as e:
         raise HTTPException(
             status_code=503, detail=f"AI service temporarily unavailable: {str(e)}"
         )
@@ -183,6 +189,14 @@ async def execute_campaign(
     brand_group_name: str = Query(
         "Our Restaurant Group",
         description="Brand group name for message personalization",
+    ),
+    llm_provider: str = Query(
+        "openrouter",
+        description="LLM provider to use (openrouter | groq)",
+    ),
+    llm_model: str = Query(
+        None,
+        description="Specific model to use",
     ),
     db: AsyncSession = Depends(get_db),
 ):
@@ -205,6 +219,8 @@ async def execute_campaign(
         campaign = await service.execute_campaign(
             campaign_id=campaign_id,
             brand_group_name=brand_group_name,
+            llm_provider=llm_provider,
+            llm_model=llm_model,
         )
 
         return CampaignExecuteResponse(
@@ -218,12 +234,12 @@ async def execute_campaign(
         raise HTTPException(status_code=404, detail=str(e))
     except CampaignStateError as e:
         raise HTTPException(status_code=400, detail=str(e))
-    except OpenRouterAPIKeyError as e:
+    except (OpenRouterAPIKeyError, GroqAPIKeyError) as e:
         raise HTTPException(
             status_code=503,
-            detail="OpenRouter API key is not configured. Please set OPENROUTER_API_KEY in your environment.",
+            detail=f"{str(e)}. Please check your environment variables.",
         )
-    except OpenRouterError as e:
+    except (OpenRouterError, GroqError) as e:
         raise HTTPException(
             status_code=503, detail=f"AI service temporarily unavailable: {str(e)}"
         )

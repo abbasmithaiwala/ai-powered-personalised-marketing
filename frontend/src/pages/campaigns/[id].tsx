@@ -8,8 +8,10 @@ import { Badge } from '@/components/ui/Badge';
 import { CampaignProgress } from './components/CampaignProgress';
 import { RecipientTable } from './components/RecipientTable';
 import { ArrowPathIcon } from '@/components/icons';
+import { useSettingsStore } from '@/stores/settings';
 
 export const CampaignDetail: React.FC = () => {
+  const { llm } = useSettingsStore();
   const { id } = useParams<{ id: string }>();
   const [recipientPage, setRecipientPage] = React.useState(1);
   const recipientPageSize = 25;
@@ -45,7 +47,7 @@ export const CampaignDetail: React.FC = () => {
   });
 
   const previewMutation = useMutation({
-    mutationFn: () => campaignsApi.preview(id!),
+    mutationFn: () => campaignsApi.preview(id!, { provider: llm.provider, model: llm.model }),
     onSuccess: () => {
       refetch();
       refetchRecipients();
@@ -53,7 +55,7 @@ export const CampaignDetail: React.FC = () => {
   });
 
   const executeMutation = useMutation({
-    mutationFn: () => campaignsApi.execute(id!),
+    mutationFn: () => campaignsApi.execute(id!, { provider: llm.provider, model: llm.model }),
     onSuccess: () => {
       refetch();
       refetchRecipients();

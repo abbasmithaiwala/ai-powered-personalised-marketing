@@ -34,16 +34,28 @@ export const campaignsApi = {
   },
 
   // Preview campaign (generate 3 sample messages)
-  preview: async (id: string) => {
+  preview: async (id: string, llmConfig?: { provider: string; model?: string }) => {
     const response = await apiClient.post<{ recipients: CampaignRecipient[] }>(
-      `/campaigns/${id}/preview`
+      `/campaigns/${id}/preview`,
+      {
+        sample_size: 3,
+        llm_provider: llmConfig?.provider,
+        llm_model: llmConfig?.model,
+      }
     );
     return response.data;
   },
 
   // Execute campaign (generate all messages)
-  execute: async (id: string) => {
-    const response = await apiClient.post<Campaign>(`/campaigns/${id}/execute`);
+  execute: async (id: string, llmConfig?: { provider: string; model?: string }) => {
+    let url = `/campaigns/${id}/execute`;
+    if (llmConfig) {
+      const params = new URLSearchParams();
+      if (llmConfig.provider) params.append('llm_provider', llmConfig.provider);
+      if (llmConfig.model) params.append('llm_model', llmConfig.model);
+      url += `?${params.toString()}`;
+    }
+    const response = await apiClient.post<Campaign>(url);
     return response.data;
   },
 

@@ -164,6 +164,14 @@ class CampaignPreviewRequest(BaseModel):
     """Request to preview campaign messages"""
 
     sample_size: int = Field(3, ge=1, le=10, description="Number of sample messages to generate")
+    llm_provider: str = Field(
+        "openrouter",
+        description="LLM provider to use (openrouter | groq)",
+    )
+    llm_model: str | None = Field(
+        None,
+        description="Specific model to use (if None, uses provider default)",
+    )
 
 
 class CampaignPreviewResponse(BaseModel):

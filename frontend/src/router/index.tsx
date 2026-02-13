@@ -13,6 +13,7 @@ import { BrandDetail } from '@/pages/menu/brands/[id]';
 import { MenuItems } from '@/pages/menu/items';
 import { NotFound } from '@/pages/NotFound';
 import { RouteErrorBoundary } from '@/components/RouteErrorBoundary';
+import SettingsPage from '@/pages/settings';
 
 export const router = createBrowserRouter([
   {
@@ -63,6 +64,10 @@ export const router = createBrowserRouter([
       {
         path: 'campaigns/:id',
         element: <CampaignDetail />,
+      },
+      {
+        path: 'settings',
+        element: <SettingsPage />,
       },
     ],
   },

@@ -48,6 +48,14 @@ class MessageGenerationRequest(BaseModel):
         le=10,
         description="Number of dish recommendations to include",
     )
+    llm_provider: str = Field(
+        "openrouter",
+        description="LLM provider to use (openrouter | groq)",
+    )
+    llm_model: str | None = Field(
+        None,
+        description="Specific model to use (if None, uses provider default)",
+    )
 
 
 class MessageGenerationResponse(BaseModel):

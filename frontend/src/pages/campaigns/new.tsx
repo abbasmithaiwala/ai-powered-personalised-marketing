@@ -8,8 +8,10 @@ import { CampaignForm } from './components/CampaignForm';
 import { SegmentPreview } from './components/SegmentPreview';
 import { MessagePreviewCard } from './components/MessagePreviewCard';
 import type { SegmentFilters, CampaignRecipient } from '@/types/api';
+import { useSettingsStore } from '@/stores/settings';
 
 export const NewCampaign: React.FC = () => {
+  const { llm } = useSettingsStore();
   const navigate = useNavigate();
   const [name, setName] = React.useState('');
   const [description, setDescription] = React.useState('');
@@ -43,7 +45,7 @@ export const NewCampaign: React.FC = () => {
         segment_filters: filters,
       });
       // Then generate preview
-      const preview = await campaignsApi.preview(campaign.id);
+      const preview = await campaignsApi.preview(campaign.id, { provider: llm.provider, model: llm.model });
       return { campaign, preview };
     },
     onSuccess: ({ preview }) => {

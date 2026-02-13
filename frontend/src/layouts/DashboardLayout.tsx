@@ -8,6 +8,7 @@ import {
   CloudArrowUpIcon,
   MegaphoneIcon,
   Bars3Icon,
+  SettingsIcon,
 } from '@/components/icons';
 
 interface NavItem {
@@ -47,6 +48,11 @@ const navItems: NavItem[] = [
     path: '/campaigns',
     icon: <MegaphoneIcon className="w-5 h-5" />,
   },
+  {
+    name: 'Settings',
+    path: '/settings',
+    icon: <SettingsIcon className="w-5 h-5" />,
+  },
 ];
 
 const Sidebar: React.FC<{ open: boolean }> = ({ open }) => {
@@ -61,9 +67,8 @@ const Sidebar: React.FC<{ open: boolean }> = ({ open }) => {
 
   return (
     <aside
-      className={`fixed left-0 top-0 h-full bg-gray-900 text-white transition-all duration-300 ${
-        open ? 'w-64' : 'w-0'
-      } overflow-hidden`}
+      className={`fixed left-0 top-0 h-full bg-gray-900 text-white transition-all duration-300 ${open ? 'w-64' : 'w-0'
+        } overflow-hidden`}
     >
       <div className="p-6">
         <h1 className="text-xl font-bold">AI Marketing</h1>
@@ -73,9 +78,8 @@ const Sidebar: React.FC<{ open: boolean }> = ({ open }) => {
           <div key={item.path}>
             <Link
               to={item.path}
-              className={`flex items-center px-6 py-3 hover:bg-gray-800 transition-colors ${
-                isActive(item.path) ? 'bg-gray-800 border-l-4 border-primary-500' : ''
-              }`}
+              className={`flex items-center px-6 py-3 hover:bg-gray-800 transition-colors ${isActive(item.path) ? 'bg-gray-800 border-l-4 border-primary-500' : ''
+                }`}
             >
               {item.icon}
               <span className="ml-3">{item.name}</span>
@@ -86,9 +90,8 @@ const Sidebar: React.FC<{ open: boolean }> = ({ open }) => {
                   <Link
                     key={child.path}
                     to={child.path}
-                    className={`flex items-center px-6 py-2 text-sm hover:bg-gray-800 transition-colors ${
-                      location.pathname === child.path ? 'text-primary-400' : 'text-gray-400'
-                    }`}
+                    className={`flex items-center px-6 py-2 text-sm hover:bg-gray-800 transition-colors ${location.pathname === child.path ? 'text-primary-400' : 'text-gray-400'
+                      }`}
                   >
                     {child.name}
                   </Link>

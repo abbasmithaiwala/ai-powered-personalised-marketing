@@ -6,11 +6,7 @@ interface CardProps {
   padding?: 'none' | 'sm' | 'md' | 'lg';
 }
 
-export const Card: React.FC<CardProps> = ({
-  children,
-  className = '',
-  padding = 'md',
-}) => {
+export function Card({ children, className = '', padding = 'md' }: CardProps) {
   const paddingStyles = {
     none: '',
     sm: 'p-3',
@@ -19,42 +15,48 @@ export const Card: React.FC<CardProps> = ({
   };
 
   return (
-    <div
-      className={`bg-white rounded-lg border border-gray-200 shadow-sm ${paddingStyles[padding]} ${className}`}
-    >
+    <div className={`bg-white rounded-lg border border-gray-200 shadow-sm ${paddingStyles[padding]} ${className}`}>
       {children}
     </div>
   );
-};
-
-interface CardHeaderProps {
-  children: React.ReactNode;
-  className?: string;
 }
 
-export const CardHeader: React.FC<CardHeaderProps> = ({
-  children,
-  className = '',
-}) => {
+export function CardHeader({ children, className = '' }: CardProps) {
   return (
-    <div className={`border-b border-gray-200 pb-4 mb-4 ${className}`}>
+    <div className={`flex flex-col space-y-1.5 p-6 ${className}`}>
       {children}
     </div>
   );
-};
-
-interface CardTitleProps {
-  children: React.ReactNode;
-  className?: string;
 }
 
-export const CardTitle: React.FC<CardTitleProps> = ({
-  children,
-  className = '',
-}) => {
+export function CardTitle({ children, className = '' }: CardProps) {
   return (
-    <h3 className={`text-lg font-semibold text-gray-900 ${className}`}>
+    <h3 className={`text-2xl font-semibold leading-none tracking-tight ${className}`}>
       {children}
     </h3>
   );
-};
+}
+
+export function CardDescription({ children, className = '' }: CardProps) {
+  return (
+    <p className={`text-sm text-gray-500 ${className}`}>
+      {children}
+    </p>
+  );
+}
+
+export function CardContent({ children, className = '' }: CardProps) {
+  return (
+    <div className={`p-6 pt-0 ${className}`}>
+      {children}
+    </div>
+  );
+}
+
+export function CardFooter({ children, className = '' }: CardProps) {
+  return (
+    <div className={`flex items-center p-6 pt-0 ${className}`}>
+      {children}
+    </div>
+  );
+}

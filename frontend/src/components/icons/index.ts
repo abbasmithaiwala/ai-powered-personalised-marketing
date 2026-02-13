@@ -20,6 +20,7 @@ export {
   PlusIcon,
   MagnifyingGlassIcon,
   XMarkIcon,
+  Cog6ToothIcon as SettingsIcon,
 } from '@heroicons/react/24/outline';
 
 // Actions & Status
