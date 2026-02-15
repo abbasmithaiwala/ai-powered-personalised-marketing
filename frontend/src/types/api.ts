@@ -179,6 +179,8 @@ export interface CampaignRecipient {
   id: string;
   campaign_id: string;
   customer_id: string;
+  customer_email?: string;
+  customer_name?: string;
   generated_message: GeneratedMessage | null;
   status: 'pending' | 'generated' | 'failed';
   error_message: string | null;

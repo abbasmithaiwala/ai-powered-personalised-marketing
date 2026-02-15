@@ -15,6 +15,7 @@ export const CampaignDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [recipientPage, setRecipientPage] = React.useState(1);
   const recipientPageSize = 25;
+  const [showPreviewSuccess, setShowPreviewSuccess] = React.useState(false);
 
   // Auto-refresh when campaign is executing
   const {
@@ -39,18 +40,25 @@ export const CampaignDetail: React.FC = () => {
   } = useQuery({
     queryKey: ['campaign-recipients', id, recipientPage, recipientPageSize],
     queryFn: () => campaignsApi.listRecipients(id!, recipientPage, recipientPageSize),
-    enabled: !!id && campaign?.total_recipients !== undefined && campaign.total_recipients > 0,
+    enabled: !!id,
     refetchInterval: () => {
-      // Auto-refresh recipients when campaign is executing
-      return campaign?.status === 'executing' ? 3000 : false;
+      // Auto-refresh recipients when campaign is executing or previewing
+      return campaign?.status === 'executing' || campaign?.status === 'previewing' ? 3000 : false;
     },
   });
 
   const previewMutation = useMutation({
     mutationFn: () => campaignsApi.preview(id!, { provider: llm.provider, model: llm.model }),
-    onSuccess: () => {
-      refetch();
-      refetchRecipients();
+    onSuccess: async () => {
+      setShowPreviewSuccess(true);
+      // Refetch campaign and recipients data
+      await refetch();
+      // Small delay to ensure backend has updated
+      setTimeout(async () => {
+        await refetchRecipients();
+      }, 500);
+      // Auto-hide success message after 5 seconds
+      setTimeout(() => setShowPreviewSuccess(false), 5000);
     },
   });
 
@@ -186,15 +194,22 @@ export const CampaignDetail: React.FC = () => {
       {/* Actions */}
       {(canPreview || canExecute) && (
         <Card padding="lg">
-          <div className="flex items-center gap-4">
+          <CardHeader>
+            <CardTitle>Campaign Actions</CardTitle>
+            <p className="text-sm text-gray-600 mt-1">
+              Preview sample messages or execute the full campaign
+            </p>
+          </CardHeader>
+          <div className="flex items-center gap-4 flex-wrap">
             {canPreview && (
               <Button
                 variant="secondary"
                 onClick={() => previewMutation.mutate()}
                 loading={previewMutation.isPending}
                 disabled={executeMutation.isPending}
+                className="flex-1 sm:flex-none min-w-[200px]"
               >
-                Preview Messages (3 samples)
+                {previewMutation.isPending ? 'Generating Preview...' : 'Preview Messages (3 samples)'}
               </Button>
             )}
             {canExecute && (
@@ -210,11 +225,20 @@ export const CampaignDetail: React.FC = () => {
                 }}
                 loading={executeMutation.isPending}
                 disabled={previewMutation.isPending}
+                className="flex-1 sm:flex-none min-w-[200px]"
               >
-                Execute Campaign
+                {executeMutation.isPending ? 'Executing...' : 'Execute Campaign'}
               </Button>
             )}
           </div>
+          {showPreviewSuccess && (
+            <div className="mt-4 bg-green-50 border border-green-200 rounded-lg p-4">
+              <p className="text-green-800 font-medium">✓ Preview messages generated successfully!</p>
+              <p className="text-sm text-green-700 mt-1">
+                Check the Recipients & Messages section below to see the previews.
+              </p>
+            </div>
+          )}
           {previewMutation.isError && (
             <div className="mt-4 bg-red-50 border border-red-200 rounded-lg p-4">
               <p className="text-red-800">Error generating preview. Please try again.</p>
@@ -229,63 +253,95 @@ export const CampaignDetail: React.FC = () => {
       )}
 
       {/* Recipients */}
-      {campaign.total_recipients > 0 && (
-        <Card padding="lg">
-          <CardHeader>
-            <div className="flex items-center justify-between">
+      <Card padding="lg">
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <div className="flex-1">
               <CardTitle>Recipients & Messages</CardTitle>
-              <Badge variant="default">
-                {campaign.total_recipients.toLocaleString()} total
-              </Badge>
+              <p className="text-sm text-gray-600 mt-1">
+                {campaign.status === 'draft' && 'Preview or execute the campaign to generate messages'}
+                {campaign.status === 'ready' && 'Preview generated! Execute to generate all messages'}
+                {campaign.status === 'previewing' && 'Generating preview messages...'}
+                {campaign.status === 'executing' && 'Generating messages for all recipients...'}
+                {campaign.status === 'completed' && 'All messages have been generated'}
+              </p>
             </div>
-          </CardHeader>
-          {recipientsLoading ? (
-            <div className="text-center py-8">
-              <ArrowPathIcon className="w-8 h-8 text-gray-400 animate-spin mx-auto" />
-              <p className="mt-2 text-gray-600">Loading recipients...</p>
-            </div>
-          ) : recipientsData && recipientsData.items.length > 0 ? (
-            <>
-              <RecipientTable recipients={recipientsData.items} />
-              {/* Pagination */}
-              {recipientsData.pages > 1 && (
-                <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-200">
-                  <div>
-                    <p className="text-sm text-gray-700">
-                      Showing page <span className="font-medium">{recipientPage}</span> of{' '}
-                      <span className="font-medium">{recipientsData.pages}</span>
-                    </p>
-                  </div>
-                  <div className="flex gap-2">
-                    <Button
-                      variant="secondary"
-                      size="sm"
-                      onClick={() => setRecipientPage((p) => Math.max(1, p - 1))}
-                      disabled={recipientPage === 1}
-                    >
-                      Previous
-                    </Button>
-                    <Button
-                      variant="secondary"
-                      size="sm"
-                      onClick={() =>
-                        setRecipientPage((p) => Math.min(recipientsData.pages, p + 1))
-                      }
-                      disabled={recipientPage === recipientsData.pages}
-                    >
-                      Next
-                    </Button>
-                  </div>
-                </div>
+            <div className="flex items-center gap-2">
+              {campaign.total_recipients > 0 && (
+                <Badge variant="default">
+                  {campaign.total_recipients.toLocaleString()} total
+                </Badge>
               )}
-            </>
-          ) : (
-            <div className="text-center py-8 text-gray-500">
-              No recipients yet. Execute the campaign to generate messages.
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  refetch();
+                  refetchRecipients();
+                }}
+                disabled={recipientsLoading}
+              >
+                <ArrowPathIcon className={`w-4 h-4 ${recipientsLoading ? 'animate-spin' : ''}`} />
+              </Button>
             </div>
-          )}
-        </Card>
-      )}
+          </div>
+        </CardHeader>
+        {recipientsLoading ? (
+          <div className="text-center py-8">
+            <ArrowPathIcon className="w-8 h-8 text-gray-400 animate-spin mx-auto" />
+            <p className="mt-2 text-gray-600">Loading recipients...</p>
+          </div>
+        ) : recipientsData && recipientsData.items.length > 0 ? (
+          <>
+            <RecipientTable recipients={recipientsData.items} />
+            {/* Pagination */}
+            {recipientsData.pages > 1 && (
+              <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-200">
+                <div>
+                  <p className="text-sm text-gray-700">
+                    Showing page <span className="font-medium">{recipientPage}</span> of{' '}
+                    <span className="font-medium">{recipientsData.pages}</span>
+                  </p>
+                </div>
+                <div className="flex gap-2">
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={() => setRecipientPage((p) => Math.max(1, p - 1))}
+                    disabled={recipientPage === 1}
+                  >
+                    Previous
+                  </Button>
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={() =>
+                      setRecipientPage((p) => Math.min(recipientsData.pages, p + 1))
+                    }
+                    disabled={recipientPage === recipientsData.pages}
+                  >
+                    Next
+                  </Button>
+                </div>
+              </div>
+            )}
+          </>
+        ) : campaign.total_recipients > 0 ? (
+          <div className="text-center py-8 bg-gray-50 rounded-lg border border-gray-200">
+            <p className="text-gray-600 font-medium">No messages generated yet</p>
+            <p className="text-sm text-gray-500 mt-1">
+              Click "Preview Messages" above to see 3 sample messages
+            </p>
+          </div>
+        ) : (
+          <div className="text-center py-8 bg-gray-50 rounded-lg border border-gray-200">
+            <p className="text-gray-600 font-medium">No recipients found</p>
+            <p className="text-sm text-gray-500 mt-1">
+              Adjust your segment filters to include more customers
+            </p>
+          </div>
+        )}
+      </Card>
     </div>
   );
 };

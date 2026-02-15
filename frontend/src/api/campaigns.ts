@@ -35,7 +35,11 @@ export const campaignsApi = {
 
   // Preview campaign (generate 3 sample messages)
   preview: async (id: string, llmConfig?: { provider: string; model?: string }) => {
-    const response = await apiClient.post<{ recipients: CampaignRecipient[] }>(
+    const response = await apiClient.post<{
+      campaign_id: string;
+      sample_messages: CampaignRecipient[];
+      estimated_audience_size: number;
+    }>(
       `/campaigns/${id}/preview`,
       {
         sample_size: 3,
@@ -43,7 +47,12 @@ export const campaignsApi = {
         llm_model: llmConfig?.model,
       }
     );
-    return response.data;
+    // Transform the response to match expected format
+    return {
+      recipients: response.data.sample_messages || [],
+      campaign_id: response.data.campaign_id,
+      estimated_audience_size: response.data.estimated_audience_size,
+    };
   },
 
   // Execute campaign (generate all messages)

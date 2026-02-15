@@ -12,6 +12,8 @@ export const MessagePreviewCard: React.FC<MessagePreviewCardProps> = ({
   customerEmail,
 }) => {
   const message = recipient.generated_message;
+  const displayEmail = customerEmail || recipient.customer_email;
+  const displayName = recipient.customer_name;
 
   if (!message) {
     return (
@@ -27,17 +29,20 @@ export const MessagePreviewCard: React.FC<MessagePreviewCardProps> = ({
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <div className="flex items-start justify-between">
+    <Card padding="lg">
+      <div className="space-y-4">
+        {/* Header */}
+        <div className="flex items-start justify-between pb-3 border-b border-gray-200">
           <div className="flex-1">
-            <CardTitle className="text-base">Sample Message</CardTitle>
-            {customerEmail && (
-              <p className="text-sm text-gray-500 mt-1">To: {customerEmail}</p>
+            <h4 className="text-base font-semibold text-gray-900">
+              {displayName ? `Message for ${displayName}` : 'Sample Message'}
+            </h4>
+            {displayEmail && (
+              <p className="text-sm text-gray-500 mt-1">To: {displayEmail}</p>
             )}
           </div>
           <span
-            className={`px-2 py-1 text-xs font-medium rounded-full ${
+            className={`px-3 py-1 text-xs font-medium rounded-full ${
               recipient.status === 'generated'
                 ? 'bg-green-100 text-green-800'
                 : recipient.status === 'failed'
@@ -48,25 +53,23 @@ export const MessagePreviewCard: React.FC<MessagePreviewCardProps> = ({
             {recipient.status}
           </span>
         </div>
-      </CardHeader>
 
-      <div className="space-y-4">
         {/* Subject Line */}
         <div>
-          <label className="block text-xs font-medium text-gray-500 uppercase mb-1">
-            Subject
+          <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">
+            Subject Line
           </label>
-          <div className="bg-gray-50 border border-gray-200 rounded px-3 py-2">
+          <div className="bg-gray-50 border border-gray-200 rounded-lg px-4 py-3">
             <p className="text-sm font-medium text-gray-900">{message.subject}</p>
           </div>
         </div>
 
         {/* Email Body */}
         <div>
-          <label className="block text-xs font-medium text-gray-500 uppercase mb-1">
-            Body
+          <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">
+            Message Body
           </label>
-          <div className="bg-gray-50 border border-gray-200 rounded px-3 py-2">
+          <div className="bg-gray-50 border border-gray-200 rounded-lg px-4 py-3">
             <p className="text-sm text-gray-700 whitespace-pre-wrap leading-relaxed">
               {message.body}
             </p>
@@ -74,9 +77,15 @@ export const MessagePreviewCard: React.FC<MessagePreviewCardProps> = ({
         </div>
 
         {/* Character/Word Counts */}
-        <div className="flex items-center justify-between text-xs text-gray-500 pt-2 border-t border-gray-200">
-          <span>Subject: {message.subject.length} chars</span>
-          <span>Body: {message.body.split(/\s+/).length} words</span>
+        <div className="flex items-center justify-between text-xs text-gray-500 pt-3 border-t border-gray-200">
+          <span className="flex items-center gap-1">
+            <span className="font-medium">Subject:</span>
+            <span>{message.subject.length} characters</span>
+          </span>
+          <span className="flex items-center gap-1">
+            <span className="font-medium">Body:</span>
+            <span>{message.body.split(/\s+/).length} words</span>
+          </span>
         </div>
       </div>
     </Card>

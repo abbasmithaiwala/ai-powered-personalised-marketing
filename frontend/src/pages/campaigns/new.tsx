@@ -48,11 +48,24 @@ export const NewCampaign: React.FC = () => {
       const preview = await campaignsApi.preview(campaign.id, { provider: llm.provider, model: llm.model });
       return { campaign, preview };
     },
-    onSuccess: ({ preview }) => {
-      setPreviewRecipients(preview?.recipients || []);
-      setShowPreview(true);
-      // Update the form to use the created campaign's ID
-      // (in a real app, you might want to navigate to the campaign detail page)
+    onSuccess: ({ campaign, preview }) => {
+      console.log('✓ Preview generated successfully');
+      console.log('Campaign:', campaign);
+      console.log('Preview data:', preview);
+
+      // The API returns { recipients: [...] }
+      const recipients = preview.recipients || [];
+      console.log(`Found ${recipients.length} preview recipients`);
+
+      if (recipients.length > 0) {
+        setPreviewRecipients(recipients);
+        setShowPreview(true);
+      } else {
+        console.warn('No recipients in preview response');
+      }
+    },
+    onError: (error) => {
+      console.error('Preview generation failed:', error);
     },
   });
 
@@ -106,17 +119,49 @@ export const NewCampaign: React.FC = () => {
         {/* Segment Preview */}
         <SegmentPreview filters={filters} />
 
+        {/* Preview Loading State */}
+        {previewMutation.isPending && (
+          <Card padding="lg">
+            <div className="text-center py-8">
+              <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
+              <p className="mt-4 text-gray-600 font-medium">Generating preview messages...</p>
+              <p className="text-sm text-gray-500 mt-1">This may take a few moments</p>
+            </div>
+          </Card>
+        )}
+
+        {/* Preview Success Message */}
+        {previewMutation.isSuccess && !previewMutation.isPending && previewRecipients.length === 0 && (
+          <Card padding="lg">
+            <div className="text-center py-8">
+              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 inline-block">
+                <p className="text-yellow-800 font-medium">⚠️ No preview messages generated</p>
+                <p className="text-sm text-yellow-700 mt-1">
+                  Check the console for details or try again
+                </p>
+              </div>
+            </div>
+          </Card>
+        )}
+
         {/* Preview Messages Section */}
         {showPreview && previewRecipients.length > 0 && (
           <Card padding="lg">
             <CardHeader>
-              <CardTitle>Message Previews</CardTitle>
-              <p className="text-sm text-gray-600 mt-1">
-                Here are 3 sample messages generated for your campaign
-              </p>
+              <div className="flex items-center justify-between">
+                <div>
+                  <CardTitle>Message Previews</CardTitle>
+                  <p className="text-sm text-gray-600 mt-1">
+                    Here are {previewRecipients.length} sample message{previewRecipients.length > 1 ? 's' : ''} generated for your campaign
+                  </p>
+                </div>
+                <div className="bg-green-50 border border-green-200 rounded-full px-3 py-1">
+                  <span className="text-sm font-medium text-green-800">✓ Generated</span>
+                </div>
+              </div>
             </CardHeader>
-            <div className="grid gap-4 md:grid-cols-1">
-              {previewRecipients?.map((recipient) => (
+            <div className="space-y-4 mt-4">
+              {previewRecipients.map((recipient) => (
                 <MessagePreviewCard
                   key={recipient.id}
                   recipient={recipient}
@@ -127,22 +172,24 @@ export const NewCampaign: React.FC = () => {
         )}
 
         {/* Action Buttons */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center justify-between gap-4 pt-6 border-t border-gray-200">
           <Button
             type="button"
             variant="secondary"
             onClick={handlePreview}
             loading={previewMutation.isPending}
             disabled={!name || !purpose || createMutation.isPending}
+            className="flex-1 sm:flex-none"
           >
-            Preview Messages
+            {previewMutation.isPending ? 'Generating...' : 'Preview Messages'}
           </Button>
           <Button
             type="submit"
             loading={createMutation.isPending}
             disabled={!name || !purpose || previewMutation.isPending}
+            className="flex-1 sm:flex-none"
           >
-            Create Campaign
+            {createMutation.isPending ? 'Creating...' : 'Create Campaign'}
           </Button>
         </div>
 
@@ -154,10 +201,21 @@ export const NewCampaign: React.FC = () => {
           </div>
         )}
 
+        {previewMutation.isSuccess && previewRecipients.length > 0 && (
+          <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+            <p className="text-green-800 font-medium">
+              ✓ Preview messages generated successfully! Scroll down to see them.
+            </p>
+          </div>
+        )}
+
         {previewMutation.isError && (
           <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-            <p className="text-red-800">
+            <p className="text-red-800 font-medium">
               Error generating preview. Please try again.
+            </p>
+            <p className="text-sm text-red-600 mt-1">
+              Check the browser console for more details.
             </p>
           </div>
         )}
