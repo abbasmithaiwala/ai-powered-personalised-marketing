@@ -60,6 +60,34 @@ export interface MenuItemCreate {
   is_available?: boolean;
 }
 
+// PDF Import types
+export interface ParsedMenuItem {
+  name: string;
+  description?: string | null;
+  category?: string | null;
+  cuisine_type?: string | null;
+  price?: number | null;
+  dietary_tags: string[];
+  flavor_tags: string[];
+}
+
+export interface PDFParseResponse {
+  items: ParsedMenuItem[];
+  count: number;
+  filename: string;
+}
+
+export interface BulkCreateRequest {
+  brand_id: string;
+  items: ParsedMenuItem[];
+}
+
+export interface BulkCreateResponse {
+  created: number;
+  failed: number;
+  items: MenuItem[];
+}
+
 // Customer types
 export interface Customer {
   id: string;

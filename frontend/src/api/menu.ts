@@ -1,5 +1,12 @@
 import { apiClient } from './client';
-import type { MenuItem, MenuItemCreate, PaginatedResponse } from '@/types/api';
+import type {
+  MenuItem,
+  MenuItemCreate,
+  PaginatedResponse,
+  PDFParseResponse,
+  BulkCreateRequest,
+  BulkCreateResponse,
+} from '@/types/api';
 
 export const menuApi = {
   // List menu items with filters
@@ -46,5 +53,28 @@ export const menuApi = {
   // Delete menu item (soft delete)
   delete: async (id: string) => {
     await apiClient.delete(`/menu-items/${id}`);
+  },
+
+  // Parse a PDF menu via OCR (multipart/form-data — no DB write)
+  parsePdf: async (file: File, brandId: string): Promise<PDFParseResponse> => {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('brand_id', brandId);
+    const response = await apiClient.post<PDFParseResponse>(
+      '/menu-items/parse-pdf',
+      formData,
+      { headers: { 'Content-Type': 'multipart/form-data' }, timeout: 120000 }
+    );
+    return response.data;
+  },
+
+  // Bulk create items from the reviewed OCR-parsed list
+  bulkCreate: async (data: BulkCreateRequest): Promise<BulkCreateResponse> => {
+    const response = await apiClient.post<BulkCreateResponse>(
+      '/menu-items/bulk-create',
+      data,
+      { timeout: 60000 }
+    );
+    return response.data;
   },
 };

@@ -11,6 +11,7 @@ import { MenuOverview } from '@/pages/menu';
 import { BrandsList } from '@/pages/menu/brands';
 import { BrandDetail } from '@/pages/menu/brands/[id]';
 import { MenuItems } from '@/pages/menu/items';
+import { PdfImportPage } from '@/pages/menu/pdf-import';
 import { NotFound } from '@/pages/NotFound';
 import { RouteErrorBoundary } from '@/components/RouteErrorBoundary';
 import SettingsPage from '@/pages/settings';
@@ -48,6 +49,10 @@ export const router = createBrowserRouter([
       {
         path: 'menu/items',
         element: <MenuItems />,
+      },
+      {
+        path: 'menu/pdf-import',
+        element: <PdfImportPage />,
       },
       {
         path: 'import',

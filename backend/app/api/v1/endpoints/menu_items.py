@@ -2,15 +2,23 @@
 API endpoints for menu item management.
 """
 
+import logging
 from typing import Optional
 from uuid import UUID
 
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, BackgroundTasks, Depends, File, Form, HTTPException, Query, UploadFile
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db.session import get_db
 from app.schemas.menu_item import MenuItemCreate, MenuItemUpdate, MenuItemResponse, MenuItemListResponse
+from app.schemas.pdf_import import BulkCreateRequest, BulkCreateResponse, PDFParseResponse
+from app.services.ai.pdf_parser import PDFParseError, PDFParserService
 from app.services.menu_service import MenuService
+
+logger = logging.getLogger(__name__)
+
+# 20 MB limit for PDF uploads
+MAX_PDF_SIZE_BYTES = 20 * 1024 * 1024
 
 router = APIRouter(prefix="/menu-items")
 
@@ -155,3 +163,91 @@ async def delete_menu_item(
     success = await service.delete_menu_item(item_id)
     if not success:
         raise HTTPException(status_code=404, detail="Menu item not found")
+
+
+@router.post("/parse-pdf", response_model=PDFParseResponse)
+async def parse_menu_pdf(
+    file: UploadFile = File(..., description="PDF menu file to parse (max 20MB)"),
+    brand_id: UUID = Form(..., description="Brand ID these items belong to"),
+):
+    """
+    Parse a PDF menu using Mistral OCR via OpenRouter.
+
+    Accepts a PDF file and returns extracted menu items for user review.
+    Items are NOT saved to the database at this stage — call /bulk-create after review.
+
+    Args:
+        file: PDF upload (multipart/form-data, max 20MB)
+        brand_id: The brand these items will belong to (used for context only here)
+
+    Returns:
+        PDFParseResponse with list of extracted ParsedMenuItem objects
+
+    Raises:
+        HTTPException 415: File is not a PDF
+        HTTPException 413: File exceeds 20MB size limit
+        HTTPException 422: OCR or JSON parsing failed
+        HTTPException 500: Unexpected server error
+    """
+    if not file.filename or not file.filename.lower().endswith(".pdf"):
+        raise HTTPException(
+            status_code=415,
+            detail="Unsupported file type. Please upload a PDF file (.pdf extension).",
+        )
+
+    content = await file.read()
+
+    if len(content) > MAX_PDF_SIZE_BYTES:
+        raise HTTPException(
+            status_code=413,
+            detail=f"PDF too large. Maximum allowed size is {MAX_PDF_SIZE_BYTES // (1024 * 1024)}MB.",
+        )
+
+    parser = PDFParserService()
+    try:
+        items = await parser.parse_menu_pdf(content)
+    except PDFParseError as e:
+        raise HTTPException(status_code=422, detail=str(e))
+    except Exception as e:
+        logger.error("pdf_parse_unexpected_error: %s", str(e))
+        raise HTTPException(status_code=500, detail="An unexpected error occurred while parsing the PDF.")
+
+    return PDFParseResponse(
+        items=items,
+        count=len(items),
+        filename=file.filename or "menu.pdf",
+    )
+
+
+@router.post("/bulk-create", response_model=BulkCreateResponse, status_code=201)
+async def bulk_create_menu_items(
+    data: BulkCreateRequest,
+    background_tasks: BackgroundTasks,
+    db: AsyncSession = Depends(get_db),
+):
+    """
+    Bulk create menu items after user review of OCR-parsed data.
+
+    Saves all reviewed/edited items to PostgreSQL and triggers vector
+    embedding generation for each created item (fire-and-forget via BackgroundTasks).
+
+    Args:
+        data: BulkCreateRequest with brand_id and list of ParsedMenuItem
+        background_tasks: FastAPI background task runner
+        db: Database session
+
+    Returns:
+        BulkCreateResponse with created/failed counts and full item details
+
+    Raises:
+        HTTPException 404: Brand not found
+    """
+    service = MenuService(db)
+    try:
+        return await service.bulk_create_menu_items(
+            brand_id=data.brand_id,
+            items=data.items,
+            background_tasks=background_tasks,
+        )
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))

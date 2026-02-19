@@ -36,6 +36,7 @@ const navItems: NavItem[] = [
     children: [
       { name: 'Brands', path: '/menu/brands', icon: null },
       { name: 'Items', path: '/menu/items', icon: null },
+      { name: 'PDF Import', path: '/menu/pdf-import', icon: null },
     ],
   },
   {

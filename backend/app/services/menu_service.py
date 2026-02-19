@@ -3,9 +3,11 @@ Menu service for business logic related to brands and menu items.
 """
 
 import math
+import structlog
 from typing import Optional
 from uuid import UUID
 
+from fastapi import BackgroundTasks
 from sqlalchemy import func, select, and_, or_
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -15,7 +17,10 @@ from app.repositories.brand import BrandRepository
 from app.repositories.menu_item import MenuItemRepository
 from app.schemas.brand import BrandCreate, BrandUpdate, BrandListResponse, BrandResponse
 from app.schemas.menu_item import MenuItemCreate, MenuItemUpdate, MenuItemListResponse, MenuItemResponse
+from app.schemas.pdf_import import ParsedMenuItem, BulkCreateResponse
 from app.services.intelligence.embedding_builder import EmbeddingBuilder
+
+logger = structlog.get_logger(__name__)
 
 
 class MenuService:
@@ -352,3 +357,105 @@ class MenuService:
         item.is_available = False
         await self.session.commit()
         return True
+
+    async def bulk_create_menu_items(
+        self,
+        brand_id: UUID,
+        items: list[ParsedMenuItem],
+        background_tasks: Optional[BackgroundTasks] = None,
+    ) -> BulkCreateResponse:
+        """
+        Bulk create menu items from parsed PDF data.
+
+        Strategy:
+        - Verify brand exists once upfront
+        - Loop and create each item, collecting successes and failures separately
+        - Single db.commit() after all inserts (more efficient than per-item)
+        - Fire-and-forget embedding generation per item after commit
+
+        Args:
+            brand_id: Brand to associate all items with
+            items: List of ParsedMenuItem from the OCR/review stage
+
+        Returns:
+            BulkCreateResponse with created/failed counts and full item details
+
+        Raises:
+            ValueError: If brand does not exist
+        """
+        brand = await self.brand_repo.get_by_id(brand_id)
+        if not brand:
+            raise ValueError(f"Brand with id {brand_id} not found")
+
+        created_items: list[MenuItem] = []
+        failed_count = 0
+
+        for parsed in items:
+            try:
+                item = await self.menu_item_repo.create(
+                    name=parsed.name,
+                    brand_id=brand_id,
+                    description=parsed.description,
+                    category=parsed.category,
+                    cuisine_type=parsed.cuisine_type,
+                    price=parsed.price,
+                    dietary_tags=parsed.dietary_tags or [],
+                    flavor_tags=parsed.flavor_tags or [],
+                    is_available=True,
+                )
+                created_items.append(item)
+            except Exception as e:
+                logger.warning(
+                    "bulk_create_item_failed",
+                    name=parsed.name,
+                    brand_id=str(brand_id),
+                    error=str(e),
+                )
+                failed_count += 1
+
+        # Single commit for all inserts
+        await self.session.commit()
+
+        # Refresh all items and build response immediately
+        response_items: list[MenuItemResponse] = []
+        for item in created_items:
+            await self.session.refresh(item)
+            response_items.append(MenuItemResponse.model_validate(item))
+
+        # Schedule embeddings as a true background task so they don't block the response
+        item_ids = [item.id for item in created_items]
+        if background_tasks is not None:
+            background_tasks.add_task(self._embed_items_background, item_ids)
+        else:
+            # Fallback: embed inline (e.g. called outside request context)
+            for item in created_items:
+                try:
+                    await self.embedding_builder.upsert_item_embedding(item)
+                except Exception as e:
+                    logger.warning("bulk_embed_failed", item_id=str(item.id), error=str(e))
+
+        return BulkCreateResponse(
+            created=len(created_items),
+            failed=failed_count,
+            items=response_items,
+        )
+
+    @staticmethod
+    async def _embed_items_background(item_ids: list) -> None:
+        """Embed a list of menu items by ID. Runs after the HTTP response is sent.
+
+        Opens its own DB session since the request-scoped session is closed by this point.
+        """
+        from app.db.session import AsyncSessionLocal
+        from app.repositories.menu_item import MenuItemRepository
+
+        async with AsyncSessionLocal() as session:
+            repo = MenuItemRepository(session)
+            builder = EmbeddingBuilder(session)
+            for item_id in item_ids:
+                try:
+                    item = await repo.get_by_id(item_id)
+                    if item:
+                        await builder.upsert_item_embedding(item)
+                except Exception as e:
+                    logger.warning("bulk_embed_background_failed", item_id=str(item_id), error=str(e))

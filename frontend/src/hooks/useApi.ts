@@ -4,6 +4,7 @@ import { brandsApi } from '@/api/brands';
 import { menuApi } from '@/api/menu';
 import { ingestionApi } from '@/api/ingestion';
 import { campaignsApi } from '@/api/campaigns';
+import type { BulkCreateRequest } from '@/types/api';
 
 // Query keys
 export const queryKeys = {
@@ -193,6 +194,24 @@ export const useExecuteCampaign = () => {
     mutationFn: (id: string) => campaignsApi.execute(id),
     onSuccess: (_data, id) => {
       queryClient.invalidateQueries({ queryKey: queryKeys.campaigns.detail(id) });
+    },
+  });
+};
+
+// PDF import hooks
+export const useParsePDF = () => {
+  return useMutation({
+    mutationFn: ({ file, brandId }: { file: File; brandId: string }) =>
+      menuApi.parsePdf(file, brandId),
+  });
+};
+
+export const useBulkCreateMenuItems = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data: BulkCreateRequest) => menuApi.bulkCreate(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.menu.all });
     },
   });
 };
