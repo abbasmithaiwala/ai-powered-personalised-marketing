@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardHeader, CardTitle } from '@/components/ui/Card';
+import { Card } from '@/components/ui/Card';
 import type { CampaignRecipient } from '@/types/api';
 
 interface MessagePreviewCardProps {

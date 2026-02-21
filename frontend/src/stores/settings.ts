@@ -10,8 +10,12 @@ export interface LLMSettings {
 
 interface SettingsState {
     llm: LLMSettings;
+    hasCompletedOnboarding: boolean;
+    isFirstVisit: boolean;
     setLLMProvider: (provider: LLMProvider) => void;
     setLLMModel: (model: string) => void;
+    completeOnboarding: () => void;
+    dismissWelcomeBanner: () => void;
 }
 
 export const useSettingsStore = create<SettingsState>()(
@@ -21,6 +25,8 @@ export const useSettingsStore = create<SettingsState>()(
                 provider: 'openrouter',
                 model: 'anthropic/claude-3.5-sonnet',
             },
+            hasCompletedOnboarding: false,
+            isFirstVisit: true,
             setLLMProvider: (provider) =>
                 set((state) => ({
                     llm: {
@@ -34,6 +40,10 @@ export const useSettingsStore = create<SettingsState>()(
                 set((state) => ({
                     llm: { ...state.llm, model },
                 })),
+            completeOnboarding: () =>
+                set({ hasCompletedOnboarding: true }),
+            dismissWelcomeBanner: () =>
+                set({ isFirstVisit: false }),
         }),
         {
             name: 'app-settings',

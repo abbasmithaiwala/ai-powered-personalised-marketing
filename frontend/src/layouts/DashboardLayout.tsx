@@ -1,15 +1,31 @@
 import React from 'react';
 import { Link, useLocation, Outlet } from 'react-router-dom';
-import { useUIStore } from '@/stores/ui';
 import {
   HomeIcon,
   UserGroupIcon,
   BookOpenIcon,
   CloudArrowUpIcon,
   MegaphoneIcon,
-  Bars3Icon,
   SettingsIcon,
 } from '@/components/icons';
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarHeader,
+  SidebarInset,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
+  SidebarProvider,
+  SidebarRail,
+  SidebarTrigger,
+} from '@/components/ui/sidebar';
 
 interface NavItem {
   name: string;
@@ -56,7 +72,7 @@ const navItems: NavItem[] = [
   },
 ];
 
-const Sidebar: React.FC<{ open: boolean }> = ({ open }) => {
+const AppSidebar: React.FC = () => {
   const location = useLocation();
 
   const isActive = (path: string) => {
@@ -67,56 +83,62 @@ const Sidebar: React.FC<{ open: boolean }> = ({ open }) => {
   };
 
   return (
-    <aside
-      className={`fixed left-0 top-0 h-full bg-gray-900 text-white transition-all duration-300 ${open ? 'w-64' : 'w-0'
-        } overflow-hidden`}
-    >
-      <div className="p-6">
-        <h1 className="text-xl font-bold">AI Marketing</h1>
-      </div>
-      <nav className="mt-6">
-        {navItems.map((item) => (
-          <div key={item.path}>
-            <Link
-              to={item.path}
-              className={`flex items-center px-6 py-3 hover:bg-gray-800 transition-colors ${isActive(item.path) ? 'bg-gray-800 border-l-4 border-primary-500' : ''
-                }`}
-            >
-              {item.icon}
-              <span className="ml-3">{item.name}</span>
-            </Link>
-            {item.children && isActive(item.path) && (
-              <div className="ml-8">
-                {item.children.map((child) => (
-                  <Link
-                    key={child.path}
-                    to={child.path}
-                    className={`flex items-center px-6 py-2 text-sm hover:bg-gray-800 transition-colors ${location.pathname === child.path ? 'text-primary-400' : 'text-gray-400'
-                      }`}
-                  >
-                    {child.name}
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
-        ))}
-      </nav>
-    </aside>
+    <Sidebar collapsible="icon">
+      <SidebarHeader>
+        <div className="px-2 py-1">
+          <h1 className="text-lg font-bold group-data-[collapsible=icon]:hidden">
+            AI Marketing
+          </h1>
+          <h1 className="text-lg font-bold hidden group-data-[collapsible=icon]:block">
+            AI
+          </h1>
+        </div>
+      </SidebarHeader>
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {navItems.map((item) => (
+                <SidebarMenuItem key={item.path}>
+                  <SidebarMenuButton asChild isActive={isActive(item.path)}>
+                    <Link to={item.path}>
+                      {item.icon}
+                      <span>{item.name}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                  {item.children && (
+                    <SidebarMenuSub>
+                      {item.children.map((child) => (
+                        <SidebarMenuSubItem key={child.path}>
+                          <SidebarMenuSubButton asChild isActive={location.pathname === child.path}>
+                            <Link to={child.path}>
+                              <span>{child.name}</span>
+                            </Link>
+                          </SidebarMenuSubButton>
+                        </SidebarMenuSubItem>
+                      ))}
+                    </SidebarMenuSub>
+                  )}
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
+      <SidebarFooter>
+        <div className="px-2 py-1 text-xs text-muted-foreground group-data-[collapsible=icon]:hidden">
+          © {new Date().getFullYear()} AI Marketing
+        </div>
+      </SidebarFooter>
+      <SidebarRail />
+    </Sidebar>
   );
 };
 
 const Header: React.FC = () => {
-  const { toggleSidebar } = useUIStore();
-
   return (
-    <header className="bg-white border-b border-gray-200 h-16 flex items-center px-6">
-      <button
-        onClick={toggleSidebar}
-        className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
-      >
-        <Bars3Icon className="w-6 h-6" />
-      </button>
+    <header className="sticky top-0 z-10 bg-white border-b border-gray-200 h-16 flex items-center px-6 gap-2">
+      <SidebarTrigger />
       <div className="ml-auto flex items-center gap-4">
         <div className="text-sm text-gray-600">Welcome back!</div>
       </div>
@@ -125,19 +147,15 @@ const Header: React.FC = () => {
 };
 
 export const DashboardLayout: React.FC = () => {
-  const { sidebarOpen } = useUIStore();
-
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Sidebar open={sidebarOpen} />
-      <div
-        className={`transition-all duration-300 ${sidebarOpen ? 'ml-64' : 'ml-0'}`}
-      >
+    <SidebarProvider>
+      <AppSidebar />
+      <SidebarInset>
         <Header />
-        <main className="p-6">
+        <main className="p-4 sm:p-6">
           <Outlet />
         </main>
-      </div>
-    </div>
+      </SidebarInset>
+    </SidebarProvider>
   );
 };

@@ -3,7 +3,7 @@ import { ArrowPathIcon } from '@/components/icons';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'danger' | 'ghost';
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'sm' | 'md' | 'lg' | 'icon';
   fullWidth?: boolean;
   loading?: boolean;
 }
@@ -23,17 +23,18 @@ export const Button: React.FC<ButtonProps> = ({
 
   const variantStyles = {
     primary:
-      'bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500',
+      'bg-orange-500 text-white hover:bg-orange-600 focus:ring-orange-500 shadow-sm',
     secondary:
-      'bg-gray-200 text-gray-900 hover:bg-gray-300 focus:ring-gray-500',
-    danger: 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500',
-    ghost: 'text-gray-700 hover:bg-gray-100 focus:ring-gray-500',
+      'bg-secondary text-secondary-foreground hover:bg-secondary/80 focus:ring-ring',
+    danger: 'bg-destructive text-white hover:bg-destructive/90 focus:ring-destructive shadow-sm',
+    ghost: 'text-foreground hover:bg-accent hover:text-accent-foreground focus:ring-ring',
   };
 
   const sizeStyles = {
     sm: 'px-3 py-1.5 text-sm',
     md: 'px-4 py-2 text-base',
     lg: 'px-6 py-3 text-lg',
+    icon: 'text-sm',
   };
 
   const widthStyle = fullWidth ? 'w-full' : '';

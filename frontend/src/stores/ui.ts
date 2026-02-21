@@ -8,11 +8,6 @@ interface Notification {
 }
 
 interface UIState {
-  // Sidebar state
-  sidebarOpen: boolean;
-  setSidebarOpen: (open: boolean) => void;
-  toggleSidebar: () => void;
-
   // Notifications
   notifications: Notification[];
   addNotification: (notification: Omit<Notification, 'id'>) => void;
@@ -24,11 +19,6 @@ interface UIState {
 }
 
 export const useUIStore = create<UIState>((set) => ({
-  // Sidebar
-  sidebarOpen: true,
-  setSidebarOpen: (open) => set({ sidebarOpen: open }),
-  toggleSidebar: () => set((state) => ({ sidebarOpen: !state.sidebarOpen })),
-
   // Notifications
   notifications: [],
   addNotification: (notification) =>

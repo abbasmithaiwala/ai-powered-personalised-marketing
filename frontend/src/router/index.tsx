@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { DashboardLayout } from '@/layouts/DashboardLayout';
 import { Dashboard } from '@/pages/dashboard';
 import { Import } from '@/pages/import';
@@ -15,8 +15,50 @@ import { PdfImportPage } from '@/pages/menu/pdf-import';
 import { NotFound } from '@/pages/NotFound';
 import { RouteErrorBoundary } from '@/components/RouteErrorBoundary';
 import SettingsPage from '@/pages/settings';
+import WelcomePage from '@/pages/welcome/WelcomePage';
+import OnboardingLayout from '@/pages/onboarding/OnboardingLayout';
+import BrandDetailsStep from '@/pages/onboarding/steps/BrandDetailsStep';
+import MenuDataStep from '@/pages/onboarding/steps/MenuDataStep';
+import OrderDataStep from '@/pages/onboarding/steps/OrderDataStep';
+import ConfirmationStep from '@/pages/onboarding/steps/ConfirmationStep';
+import { useSettingsStore } from '@/stores/settings';
+
+// Root redirect component
+function RootRedirect() {
+  const hasCompletedOnboarding = useSettingsStore(
+    (state) => state.hasCompletedOnboarding
+  );
+
+  return hasCompletedOnboarding ? <Dashboard /> : <Navigate to="/welcome" replace />;
+}
 
 export const router = createBrowserRouter([
+  {
+    path: '/welcome',
+    element: <WelcomePage />,
+  },
+  {
+    path: '/onboarding',
+    element: <OnboardingLayout />,
+    children: [
+      {
+        path: 'brand',
+        element: <BrandDetailsStep />,
+      },
+      {
+        path: 'menu',
+        element: <MenuDataStep />,
+      },
+      {
+        path: 'orders',
+        element: <OrderDataStep />,
+      },
+      {
+        path: 'confirm',
+        element: <ConfirmationStep />,
+      },
+    ],
+  },
   {
     path: '/',
     element: <DashboardLayout />,
@@ -24,7 +66,7 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Dashboard />,
+        element: <RootRedirect />,
       },
       {
         path: 'customers',

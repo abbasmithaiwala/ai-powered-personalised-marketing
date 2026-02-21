@@ -3,6 +3,8 @@ import { useQuery } from '@tanstack/react-query';
 import { dashboardApi } from '@/api/dashboard';
 import { MetricCard } from './components/MetricCard';
 import { RecentImports } from './components/RecentImports';
+import { WelcomeBanner } from '@/components/dashboard/WelcomeBanner';
+import { useSettingsStore } from '@/stores/settings';
 import {
   UserGroupIcon,
   ShoppingBagIcon,
@@ -15,6 +17,8 @@ import {
 } from '@/components/icons';
 
 export const Dashboard: React.FC = () => {
+  const isFirstVisit = useSettingsStore((state) => state.isFirstVisit);
+
   const { data: metrics, isLoading } = useQuery({
     queryKey: ['dashboard-metrics'],
     queryFn: dashboardApi.getMetrics,
@@ -22,11 +26,14 @@ export const Dashboard: React.FC = () => {
   });
 
   return (
-    <div>
+    <div className="space-y-6">
       <div className="mb-6">
         <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
         <p className="text-gray-600 mt-1">Welcome to your AI-powered marketing platform</p>
       </div>
+
+      {/* Welcome Banner (for first-time visitors) */}
+      {isFirstVisit && <WelcomeBanner />}
 
       {/* Metrics Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
