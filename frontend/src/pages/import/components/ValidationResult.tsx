@@ -1,6 +1,14 @@
 import React from 'react';
+import type { ColumnDef } from '@tanstack/react-table';
 import { Card, CardHeader, CardTitle, Badge } from '@/components/ui';
 import { ArrowPathIcon } from '@/components/icons';
+import { DataTable } from '@/components/ui/data-table';
+
+interface ValidationError {
+  row: number;
+  field: string;
+  error: string;
+}
 
 interface ValidationResultProps {
   filename: string;
@@ -20,6 +28,30 @@ export const ValidationResult: React.FC<ValidationResultProps> = ({
   loading = false,
 }) => {
   const hasErrors = validationSummary?.errors && validationSummary.errors.length > 0;
+
+  const errorColumns: ColumnDef<ValidationError>[] = [
+    {
+      accessorKey: 'row',
+      header: 'Row',
+      cell: ({ row }) => (
+        <div className="text-xs text-red-900">{row.original.row}</div>
+      ),
+    },
+    {
+      accessorKey: 'field',
+      header: 'Field',
+      cell: ({ row }) => (
+        <div className="text-xs font-medium text-red-900">{row.original.field}</div>
+      ),
+    },
+    {
+      accessorKey: 'error',
+      header: 'Error',
+      cell: ({ row }) => (
+        <div className="text-xs text-red-900">{row.original.error}</div>
+      ),
+    },
+  ];
 
   return (
     <Card>
@@ -70,25 +102,13 @@ export const ValidationResult: React.FC<ValidationResultProps> = ({
             <h4 className="text-sm font-medium text-red-700 mb-2">
               Validation Errors ({validationSummary.errors.length}):
             </h4>
-            <div className="bg-red-50 rounded-lg p-3 max-h-48 overflow-y-auto">
-              <table className="min-w-full text-xs">
-                <thead>
-                  <tr className="text-left text-red-800">
-                    <th className="px-2 py-1">Row</th>
-                    <th className="px-2 py-1">Field</th>
-                    <th className="px-2 py-1">Error</th>
-                  </tr>
-                </thead>
-                <tbody className="text-red-900">
-                  {validationSummary.errors.slice(0, 20).map((error: any, idx: number) => (
-                    <tr key={idx} className="border-t border-red-100">
-                      <td className="px-2 py-1">{error.row}</td>
-                      <td className="px-2 py-1 font-medium">{error.field}</td>
-                      <td className="px-2 py-1">{error.error}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            <div className="bg-red-50 rounded-lg p-3">
+              <DataTable
+                columns={errorColumns}
+                data={validationSummary.errors.slice(0, 20)}
+                showPagination={false}
+                emptyMessage="No errors"
+              />
               {validationSummary.errors.length > 20 && (
                 <p className="text-xs text-red-600 mt-2 text-center">
                   ... and {validationSummary.errors.length - 20} more errors

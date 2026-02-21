@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { customersApi } from '@/api/customers';
 import { CustomerTable } from './components/CustomerTable';
 import { CustomerFilters } from './components/CustomerFilters';
-import { Button } from '@/components/ui';
+import { Button } from '@/components/ui/Button';
 import type { SegmentFilters } from '@/types/api';
 
 export const Customers = () => {

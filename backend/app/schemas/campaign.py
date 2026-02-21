@@ -18,6 +18,9 @@ class SegmentFilters(BaseModel):
     These filters are used to select campaign recipients.
     """
 
+    search: Optional[str] = Field(
+        None, description="Search by customer name, email, or external ID"
+    )
     last_order_after: Optional[datetime] = Field(
         None, description="Include customers who ordered after this date"
     )

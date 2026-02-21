@@ -88,6 +88,17 @@ class SegmentationService:
 
         conditions = []
 
+        # Search filter (name, email, external_id)
+        if filters.search:
+            search_term = f"%{filters.search}%"
+            search_conditions = [
+                Customer.first_name.ilike(search_term),
+                Customer.last_name.ilike(search_term),
+                Customer.email.ilike(search_term),
+                Customer.external_id.ilike(search_term),
+            ]
+            conditions.append(or_(*search_conditions))
+
         # Date filters (require subquery on orders)
         if filters.last_order_after or filters.last_order_before:
             if filters.last_order_after:

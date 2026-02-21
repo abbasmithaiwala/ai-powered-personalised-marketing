@@ -222,6 +222,7 @@ export interface GeneratedMessage {
 
 // Segmentation types
 export interface SegmentFilters {
+  search?: string;
   last_order_after?: string;
   last_order_before?: string;
   total_spend_min?: number;

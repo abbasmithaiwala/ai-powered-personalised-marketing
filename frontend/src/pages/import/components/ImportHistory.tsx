@@ -1,7 +1,9 @@
 import React from 'react';
+import type { ColumnDef } from '@tanstack/react-table';
 import { Card, CardHeader, CardTitle, Badge } from '@/components/ui';
 import type { IngestionJob } from '@/types/api';
 import { formatDate, formatNumber } from '@/utils/formatting';
+import { DataTable } from '@/components/ui/data-table';
 
 interface ImportHistoryProps {
   jobs: IngestionJob[];
@@ -24,24 +26,83 @@ export const ImportHistory: React.FC<ImportHistoryProps> = ({ jobs, loading = fa
     return Math.round(((job.processed_rows || 0) / job.total_rows) * 100);
   };
 
-  if (loading) {
-    return (
-      <Card>
-        <CardHeader>
-          <CardTitle>Import History</CardTitle>
-        </CardHeader>
-        <div className="p-6">
-          <div className="animate-pulse space-y-3">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="h-16 bg-gray-200 rounded"></div>
-            ))}
+  const columns: ColumnDef<IngestionJob>[] = [
+    {
+      accessorKey: 'filename',
+      header: 'Filename',
+      cell: ({ row }) => {
+        const job = row.original;
+        return (
+          <div>
+            <div className="text-sm font-medium text-gray-900">{job.filename}</div>
+            <div className="text-xs text-gray-500">{job.csv_type}</div>
           </div>
-        </div>
-      </Card>
-    );
-  }
+        );
+      },
+    },
+    {
+      accessorKey: 'status',
+      header: 'Status',
+      cell: ({ row }) => getStatusBadge(row.original.status),
+    },
+    {
+      accessorKey: 'progress',
+      header: 'Progress',
+      cell: ({ row }) => {
+        const job = row.original;
+        if (job.status === 'processing' || job.status === 'completed') {
+          const progress = calculateProgress(job);
+          return (
+            <div className="flex items-center space-x-2">
+              <div className="flex-1 bg-gray-200 rounded-full h-2 max-w-[100px]">
+                <div
+                  className={`h-2 rounded-full ${
+                    job.status === 'completed' ? 'bg-green-500' : 'bg-blue-500'
+                  }`}
+                  style={{ width: `${progress}%` }}
+                ></div>
+              </div>
+              <span className="text-xs text-gray-600">{progress}%</span>
+            </div>
+          );
+        }
+        return <span className="text-xs text-gray-500">-</span>;
+      },
+    },
+    {
+      accessorKey: 'rows',
+      header: 'Rows',
+      cell: ({ row }) => {
+        const job = row.original;
+        if (job.total_rows !== null) {
+          return (
+            <div className="text-sm text-gray-900">
+              <div>
+                {formatNumber(job.processed_rows || 0)} / {formatNumber(job.total_rows)}
+              </div>
+              {job.failed_rows && job.failed_rows > 0 && (
+                <div className="text-xs text-red-600">
+                  {formatNumber(job.failed_rows)} failed
+                </div>
+              )}
+            </div>
+          );
+        }
+        return <span className="text-sm text-gray-500">-</span>;
+      },
+    },
+    {
+      accessorKey: 'created_at',
+      header: 'Date',
+      cell: ({ row }) => {
+        return (
+          <div className="text-sm text-gray-500">{formatDate(row.original.created_at)}</div>
+        );
+      },
+    },
+  ];
 
-  if (jobs.length === 0) {
+  if (jobs.length === 0 && !loading) {
     return (
       <Card>
         <CardHeader>
@@ -57,76 +118,15 @@ export const ImportHistory: React.FC<ImportHistoryProps> = ({ jobs, loading = fa
       <CardHeader>
         <CardTitle>Import History</CardTitle>
       </CardHeader>
-      <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Filename
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Status
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Progress
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Rows
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Date
-              </th>
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {jobs.map((job) => (
-              <tr key={job.id} className="hover:bg-gray-50">
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm font-medium text-gray-900">{job.filename}</div>
-                  <div className="text-xs text-gray-500">{job.csv_type}</div>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">{getStatusBadge(job.status)}</td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  {job.status === 'processing' || job.status === 'completed' ? (
-                    <div className="flex items-center space-x-2">
-                      <div className="flex-1 bg-gray-200 rounded-full h-2 max-w-[100px]">
-                        <div
-                          className={`h-2 rounded-full ${
-                            job.status === 'completed' ? 'bg-green-500' : 'bg-blue-500'
-                          }`}
-                          style={{ width: `${calculateProgress(job)}%` }}
-                        ></div>
-                      </div>
-                      <span className="text-xs text-gray-600">{calculateProgress(job)}%</span>
-                    </div>
-                  ) : (
-                    <span className="text-xs text-gray-500">-</span>
-                  )}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {job.total_rows !== null ? (
-                    <div>
-                      <div>
-                        {formatNumber(job.processed_rows || 0)} /{' '}
-                        {formatNumber(job.total_rows)}
-                      </div>
-                      {job.failed_rows && job.failed_rows > 0 && (
-                        <div className="text-xs text-red-600">
-                          {formatNumber(job.failed_rows)} failed
-                        </div>
-                      )}
-                    </div>
-                  ) : (
-                    '-'
-                  )}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {formatDate(job.created_at)}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className="p-6">
+        <DataTable
+          columns={columns}
+          data={jobs}
+          isLoading={loading}
+          emptyMessage="No import history yet"
+          showPagination={true}
+          pageSize={10}
+        />
       </div>
     </Card>
   );
