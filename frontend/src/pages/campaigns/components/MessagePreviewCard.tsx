@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card } from '@/components/ui/Card';
+import { Card, CardContent } from '@/components/ui/Card';
 import type { CampaignRecipient } from '@/types/api';
 
 interface MessagePreviewCardProps {
@@ -18,19 +18,19 @@ export const MessagePreviewCard: React.FC<MessagePreviewCardProps> = ({
   if (!message) {
     return (
       <Card className="bg-gray-50">
-        <div className="text-center py-8">
+        <CardContent className="p-6 text-center py-8">
           <p className="text-gray-500">No message generated</p>
           {recipient.error_message && (
             <p className="text-sm text-red-600 mt-2">{recipient.error_message}</p>
           )}
-        </div>
+        </CardContent>
       </Card>
     );
   }
 
   return (
-    <Card padding="lg">
-      <div className="space-y-4">
+    <Card>
+      <CardContent className="p-6 space-y-4">
         {/* Header */}
         <div className="flex items-start justify-between pb-3 border-b border-gray-200">
           <div className="flex-1">
@@ -42,13 +42,12 @@ export const MessagePreviewCard: React.FC<MessagePreviewCardProps> = ({
             )}
           </div>
           <span
-            className={`px-3 py-1 text-xs font-medium rounded-full ${
-              recipient.status === 'generated'
-                ? 'bg-green-100 text-green-800'
-                : recipient.status === 'failed'
+            className={`px-3 py-1 text-xs font-medium rounded-full ${recipient.status === 'generated'
+              ? 'bg-green-100 text-green-800'
+              : recipient.status === 'failed'
                 ? 'bg-red-100 text-red-800'
                 : 'bg-yellow-100 text-yellow-800'
-            }`}
+              }`}
           >
             {recipient.status}
           </span>
@@ -87,7 +86,7 @@ export const MessagePreviewCard: React.FC<MessagePreviewCardProps> = ({
             <span>{message.body.split(/\s+/).length} words</span>
           </span>
         </div>
-      </div>
+      </CardContent>
     </Card>
   );
 };

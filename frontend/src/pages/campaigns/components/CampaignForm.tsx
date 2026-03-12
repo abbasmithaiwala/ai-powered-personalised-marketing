@@ -1,5 +1,15 @@
 import React from 'react';
 import type { SegmentFilters } from '@/types/api';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 interface CampaignFormProps {
   name: string;
@@ -33,62 +43,44 @@ export const CampaignForm: React.FC<CampaignFormProps> = ({
     <div className="space-y-6">
       {/* Campaign Details */}
       <div>
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">
+        <h3 className="text-lg font-semibold text-gray-900 mb-6">
           Campaign Details
         </h3>
-        <div className="space-y-4">
-          <div>
-            <label
-              htmlFor="name"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Campaign Name *
-            </label>
-            <input
+        <div className="space-y-6">
+          <div className="space-y-2">
+            <Label htmlFor="name">Campaign Name *</Label>
+            <Input
               type="text"
               id="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
               placeholder="e.g., Weekend Special Promotion"
               required
             />
           </div>
 
-          <div>
-            <label
-              htmlFor="description"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Description
-            </label>
-            <textarea
+          <div className="space-y-2">
+            <Label htmlFor="description">Description</Label>
+            <Textarea
               id="description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
               rows={3}
               placeholder="Internal notes about this campaign"
             />
           </div>
 
-          <div>
-            <label
-              htmlFor="purpose"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Campaign Purpose *
-            </label>
-            <textarea
+          <div className="space-y-2">
+            <Label htmlFor="purpose">Campaign Purpose *</Label>
+            <Textarea
               id="purpose"
               value={purpose}
               onChange={(e) => setPurpose(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
               rows={2}
               placeholder="e.g., Promote new menu items to vegetarian customers"
               required
             />
-            <p className="mt-1 text-sm text-gray-500">
+            <p className="text-sm text-gray-500">
               This will be used to generate personalized messages
             </p>
           </div>
@@ -96,106 +88,73 @@ export const CampaignForm: React.FC<CampaignFormProps> = ({
       </div>
 
       {/* Segment Filters */}
-      <div>
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">
+      <div className="pt-6 border-t border-gray-100">
+        <h3 className="text-lg font-semibold text-gray-900 mb-6">
           Target Audience
         </h3>
-        <div className="space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Last Order Date Range */}
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label
-                htmlFor="last_order_after"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                Last Order After
-              </label>
-              <input
-                type="date"
-                id="last_order_after"
-                value={filters.last_order_after || ''}
-                onChange={(e) =>
-                  updateFilter('last_order_after', e.target.value || undefined)
-                }
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="last_order_before"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                Last Order Before
-              </label>
-              <input
-                type="date"
-                id="last_order_before"
-                value={filters.last_order_before || ''}
-                onChange={(e) =>
-                  updateFilter('last_order_before', e.target.value || undefined)
-                }
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
-              />
-            </div>
+          <div className="space-y-2">
+            <Label htmlFor="last_order_after">Last Order After</Label>
+            <Input
+              type="date"
+              id="last_order_after"
+              value={filters.last_order_after || ''}
+              onChange={(e) =>
+                updateFilter('last_order_after', e.target.value || undefined)
+              }
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="last_order_before">Last Order Before</Label>
+            <Input
+              type="date"
+              id="last_order_before"
+              value={filters.last_order_before || ''}
+              onChange={(e) =>
+                updateFilter('last_order_before', e.target.value || undefined)
+              }
+            />
           </div>
 
           {/* Spend Range */}
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label
-                htmlFor="total_spend_min"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                Min Total Spend (£)
-              </label>
-              <input
-                type="number"
-                id="total_spend_min"
-                value={filters.total_spend_min || ''}
-                onChange={(e) =>
-                  updateFilter(
-                    'total_spend_min',
-                    e.target.value ? parseFloat(e.target.value) : undefined
-                  )
-                }
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
-                min="0"
-                step="0.01"
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="total_spend_max"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                Max Total Spend (£)
-              </label>
-              <input
-                type="number"
-                id="total_spend_max"
-                value={filters.total_spend_max || ''}
-                onChange={(e) =>
-                  updateFilter(
-                    'total_spend_max',
-                    e.target.value ? parseFloat(e.target.value) : undefined
-                  )
-                }
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
-                min="0"
-                step="0.01"
-              />
-            </div>
+          <div className="space-y-2">
+            <Label htmlFor="total_spend_min">Min Total Spend (£)</Label>
+            <Input
+              type="number"
+              id="total_spend_min"
+              value={filters.total_spend_min || ''}
+              onChange={(e) =>
+                updateFilter(
+                  'total_spend_min',
+                  e.target.value ? parseFloat(e.target.value) : undefined
+                )
+              }
+              min="0"
+              step="0.01"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="total_spend_max">Max Total Spend (£)</Label>
+            <Input
+              type="number"
+              id="total_spend_max"
+              value={filters.total_spend_max || ''}
+              onChange={(e) =>
+                updateFilter(
+                  'total_spend_max',
+                  e.target.value ? parseFloat(e.target.value) : undefined
+                )
+              }
+              min="0"
+              step="0.01"
+            />
           </div>
 
           {/* Min Orders */}
-          <div>
-            <label
-              htmlFor="total_orders_min"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Minimum Orders
-            </label>
-            <input
+          <div className="space-y-2">
+            <Label htmlFor="total_orders_min">Minimum Orders</Label>
+            <Input
               type="number"
               id="total_orders_min"
               value={filters.total_orders_min || ''}
@@ -205,98 +164,74 @@ export const CampaignForm: React.FC<CampaignFormProps> = ({
                   e.target.value ? parseInt(e.target.value) : undefined
                 )
               }
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
               min="0"
             />
           </div>
 
           {/* Cuisine Preference */}
-          <div>
-            <label
-              htmlFor="favorite_cuisine"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Favorite Cuisine
-            </label>
-            <input
+          <div className="space-y-2">
+            <Label htmlFor="favorite_cuisine">Favorite Cuisine</Label>
+            <Input
               type="text"
               id="favorite_cuisine"
               value={filters.favorite_cuisine || ''}
               onChange={(e) =>
                 updateFilter('favorite_cuisine', e.target.value || undefined)
               }
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
               placeholder="e.g., italian, thai, mexican"
             />
           </div>
 
           {/* Dietary Flag */}
-          <div>
-            <label
-              htmlFor="dietary_flag"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Dietary Restriction
-            </label>
-            <select
-              id="dietary_flag"
+          <div className="space-y-2">
+            <Label htmlFor="dietary_flag">Dietary Restriction</Label>
+            <Select
               value={filters.dietary_flag || ''}
-              onChange={(e) =>
-                updateFilter('dietary_flag', e.target.value || undefined)
-              }
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+              onValueChange={(val) => updateFilter('dietary_flag', val === 'none' ? undefined : val)}
             >
-              <option value="">Any</option>
-              <option value="vegetarian">Vegetarian</option>
-              <option value="vegan">Vegan</option>
-              <option value="halal">Halal</option>
-              <option value="gluten_free">Gluten Free</option>
-            </select>
+              <SelectTrigger id="dietary_flag" className="w-full">
+                <SelectValue placeholder="Any" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="none">Any</SelectItem>
+                <SelectItem value="vegetarian">Vegetarian</SelectItem>
+                <SelectItem value="vegan">Vegan</SelectItem>
+                <SelectItem value="halal">Halal</SelectItem>
+                <SelectItem value="gluten_free">Gluten Free</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
           {/* Order Frequency */}
-          <div>
-            <label
-              htmlFor="order_frequency"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Order Frequency
-            </label>
-            <select
-              id="order_frequency"
+          <div className="space-y-2">
+            <Label htmlFor="order_frequency">Order Frequency</Label>
+            <Select
               value={filters.order_frequency || ''}
-              onChange={(e) =>
-                updateFilter(
-                  'order_frequency',
-                  e.target.value
-                    ? (e.target.value as SegmentFilters['order_frequency'])
-                    : undefined
-                )
+              onValueChange={(val) =>
+                updateFilter('order_frequency', val === 'none' ? undefined : val as SegmentFilters['order_frequency'])
               }
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
             >
-              <option value="">Any</option>
-              <option value="daily">Daily</option>
-              <option value="weekly">Weekly</option>
-              <option value="monthly">Monthly</option>
-              <option value="occasional">Occasional</option>
-            </select>
+              <SelectTrigger id="order_frequency" className="w-full">
+                <SelectValue placeholder="Any" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="none">Any</SelectItem>
+                <SelectItem value="daily">Daily</SelectItem>
+                <SelectItem value="weekly">Weekly</SelectItem>
+                <SelectItem value="monthly">Monthly</SelectItem>
+                <SelectItem value="occasional">Occasional</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
           {/* City */}
-          <div>
-            <label
-              htmlFor="city"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              City
-            </label>
-            <input
+          <div className="md:col-span-2 space-y-2">
+            <Label htmlFor="city">City</Label>
+            <Input
               type="text"
               id="city"
               value={filters.city || ''}
               onChange={(e) => updateFilter('city', e.target.value || undefined)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
               placeholder="e.g., London, Manchester"
             />
           </div>

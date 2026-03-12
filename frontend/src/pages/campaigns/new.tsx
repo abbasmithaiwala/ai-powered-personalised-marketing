@@ -3,7 +3,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { campaignsApi } from '@/api/campaigns';
 import { Button } from '@/components/ui/Button';
-import { Card, CardHeader, CardTitle } from '@/components/ui/Card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { CampaignForm } from './components/CampaignForm';
 import { SegmentPreview } from './components/SegmentPreview';
 import { MessagePreviewCard } from './components/MessagePreviewCard';
@@ -87,7 +87,7 @@ export const NewCampaign: React.FC = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
+    <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -103,17 +103,19 @@ export const NewCampaign: React.FC = () => {
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Campaign Form */}
-        <Card padding="lg">
-          <CampaignForm
-            name={name}
-            setName={setName}
-            description={description}
-            setDescription={setDescription}
-            purpose={purpose}
-            setPurpose={setPurpose}
-            filters={filters}
-            setFilters={setFilters}
-          />
+        <Card>
+          <CardContent className="pt-6">
+            <CampaignForm
+              name={name}
+              setName={setName}
+              description={description}
+              setDescription={setDescription}
+              purpose={purpose}
+              setPurpose={setPurpose}
+              filters={filters}
+              setFilters={setFilters}
+            />
+          </CardContent>
         </Card>
 
         {/* Segment Preview */}
@@ -121,32 +123,36 @@ export const NewCampaign: React.FC = () => {
 
         {/* Preview Loading State */}
         {previewMutation.isPending && (
-          <Card padding="lg">
-            <div className="text-center py-8">
-              <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
-              <p className="mt-4 text-gray-600 font-medium">Generating preview messages...</p>
-              <p className="text-sm text-gray-500 mt-1">This may take a few moments</p>
-            </div>
+          <Card>
+            <CardContent className="pt-6">
+              <div className="text-center py-8">
+                <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
+                <p className="mt-4 text-gray-600 font-medium">Generating preview messages...</p>
+                <p className="text-sm text-gray-500 mt-1">This may take a few moments</p>
+              </div>
+            </CardContent>
           </Card>
         )}
 
         {/* Preview Success Message */}
         {previewMutation.isSuccess && !previewMutation.isPending && previewRecipients.length === 0 && (
-          <Card padding="lg">
-            <div className="text-center py-8">
-              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 inline-block">
-                <p className="text-yellow-800 font-medium">⚠️ No preview messages generated</p>
-                <p className="text-sm text-yellow-700 mt-1">
-                  Check the console for details or try again
-                </p>
+          <Card>
+            <CardContent className="pt-6">
+              <div className="text-center py-8">
+                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 inline-block">
+                  <p className="text-yellow-800 font-medium">⚠️ No preview messages generated</p>
+                  <p className="text-sm text-yellow-700 mt-1">
+                    Check the console for details or try again
+                  </p>
+                </div>
               </div>
-            </div>
+            </CardContent>
           </Card>
         )}
 
         {/* Preview Messages Section */}
         {showPreview && previewRecipients.length > 0 && (
-          <Card padding="lg">
+          <Card>
             <CardHeader>
               <div className="flex items-center justify-between">
                 <div>
@@ -160,14 +166,16 @@ export const NewCampaign: React.FC = () => {
                 </div>
               </div>
             </CardHeader>
-            <div className="space-y-4 mt-4">
-              {previewRecipients.map((recipient) => (
-                <MessagePreviewCard
-                  key={recipient.id}
-                  recipient={recipient}
-                />
-              ))}
-            </div>
+            <CardContent>
+              <div className="space-y-4">
+                {previewRecipients.map((recipient) => (
+                  <MessagePreviewCard
+                    key={recipient.id}
+                    recipient={recipient}
+                  />
+                ))}
+              </div>
+            </CardContent>
           </Card>
         )}
 
