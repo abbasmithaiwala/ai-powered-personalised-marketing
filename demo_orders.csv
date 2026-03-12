@@ -1,0 +1,51 @@
+order_id,customer_email,customer_name,customer_first_name,customer_last_name,customer_phone,customer_city,brand_name,item_name,category,quantity,unit_price,order_date,order_total,order_channel
+ORD001,john.smith@email.com,John Smith,John,Smith,+1-555-0101,New York,Bella Italia,Spaghetti Carbonara,Pasta,2,18.50,2024-02-08 19:30:00,37.00,delivery
+ORD002,maria.garcia@email.com,Maria Garcia,Maria,Garcia,+1-555-0102,Los Angeles,Bella Italia,Margherita Pizza,Pizza,1,16.00,2024-02-08 20:15:00,16.00,pickup
+ORD003,chen.wei@email.com,Chen Wei,Chen,Wei,+1-555-0103,San Francisco,Sushi Heaven,California Roll,Sushi,3,12.00,2024-02-08 18:45:00,36.00,delivery
+ORD004,sarah.johnson@email.com,Sarah Johnson,Sarah,Johnson,+1-555-0104,Chicago,Bella Italia,Tiramisu,Dessert,1,8.50,2024-02-09 12:30:00,8.50,pickup
+ORD005,ahmed.khan@email.com,Ahmed Khan,Ahmed,Khan,+1-555-0105,Houston,Sushi Heaven,Salmon Nigiri,Sushi,4,5.50,2024-02-09 19:00:00,22.00,delivery
+ORD006,emily.davis@email.com,Emily Davis,Emily,Davis,+1-555-0106,Phoenix,Burger Palace,Veggie Burger,Burgers,2,12.00,2024-02-09 13:15:00,24.00,pickup
+ORD007,michael.brown@email.com,Michael Brown,Michael,Brown,+1-555-0107,Philadelphia,Sushi Heaven,Miso Soup,Appetizer,2,4.00,2024-02-10 19:45:00,8.00,delivery
+ORD008,lisa.wang@email.com,Lisa Wang,Lisa,Wang,+1-555-0108,Seattle,Bella Italia,Bruschetta,Appetizer,1,9.00,2024-02-10 20:30:00,9.00,pickup
+ORD009,david.lee@email.com,David Lee,David,Lee,+1-555-0109,Boston,Burger Palace,Cheeseburger,Burgers,1,14.50,2024-02-10 18:20:00,14.50,delivery
+ORD010,anna.petrova@email.com,Anna Petrova,Anna,Petrova,+1-555-0110,Miami,Sushi Heaven,Edamame,Appetizer,1,5.00,2024-02-11 12:00:00,5.00,pickup
+ORD011,john.smith@email.com,John Smith,John,Smith,+1-555-0101,New York,Bella Italia,Fettuccine Alfredo,Pasta,1,17.00,2024-02-11 19:00:00,17.00,delivery
+ORD012,maria.garcia@email.com,Maria Garcia,Maria,Garcia,+1-555-0102,Los Angeles,Burger Palace,Classic Burger,Burgers,2,13.50,2024-02-11 20:45:00,27.00,pickup
+ORD013,chen.wei@email.com,Chen Wei,Chen,Wei,+1-555-0103,San Francisco,Sushi Heaven,Tuna Roll,Sushi,2,14.00,2024-02-11 18:00:00,28.00,delivery
+ORD014,sarah.johnson@email.com,Sarah Johnson,Sarah,Johnson,+1-555-0104,Chicago,Bella Italia,Caesar Salad,Salad,1,11.00,2024-02-12 12:45:00,11.00,pickup
+ORD015,ahmed.khan@email.com,Ahmed Khan,Ahmed,Khan,+1-555-0105,Houston,Burger Palace,Chicken Burger,Burgers,1,13.00,2024-02-12 19:30:00,13.00,delivery
+ORD016,emily.davis@email.com,Emily Davis,Emily,Davis,+1-555-0106,Phoenix,Bella Italia,Veggie Pizza,Pizza,1,15.00,2024-02-12 13:30:00,15.00,pickup
+ORD017,michael.brown@email.com,Michael Brown,Michael,Brown,+1-555-0107,Philadelphia,Sushi Heaven,Tempura Roll,Sushi,3,11.00,2024-02-12 20:15:00,33.00,delivery
+ORD018,lisa.wang@email.com,Lisa Wang,Lisa,Wang,+1-555-0108,Seattle,Burger Palace,French Fries,Side,2,4.50,2024-02-13 19:00:00,9.00,pickup
+ORD019,david.lee@email.com,David Lee,David,Lee,+1-555-0109,Boston,Bella Italia,Minestrone Soup,Soup,1,7.50,2024-02-13 18:45:00,7.50,delivery
+ORD020,anna.petrova@email.com,Anna Petrova,Anna,Petrova,+1-555-0110,Miami,Burger Palace,Onion Rings,Side,1,6.00,2024-02-13 12:15:00,6.00,pickup
+ORD021,john.smith@email.com,John Smith,John,Smith,+1-555-0101,New York,Sushi Heaven,Rainbow Roll,Sushi,2,16.00,2024-02-13 20:00:00,32.00,delivery
+ORD022,maria.garcia@email.com,Maria Garcia,Maria,Garcia,+1-555-0102,Los Angeles,Bella Italia,Quattro Stagioni,Pizza,1,18.00,2024-02-14 19:30:00,18.00,pickup
+ORD023,chen.wei@email.com,Chen Wei,Chen,Wei,+1-555-0103,San Francisco,Burger Palace,Bacon Cheeseburger,Burgers,1,15.50,2024-02-14 18:15:00,15.50,delivery
+ORD024,sarah.johnson@email.com,Sarah Johnson,Sarah,Johnson,+1-555-0104,Chicago,Bella Italia,Gelato,Dessert,2,6.00,2024-02-14 13:00:00,12.00,pickup
+ORD025,ahmed.khan@email.com,Ahmed Khan,Ahmed,Khan,+1-555-0105,Houston,Sushi Heaven,Dragon Roll,Sushi,1,18.00,2024-02-14 20:30:00,18.00,delivery
+ORD026,emily.davis@email.com,Emily Davis,Emily,Davis,+1-555-0106,Phoenix,Burger Palace,Garden Salad,Salad,1,8.00,2024-02-15 12:30:00,8.00,pickup
+ORD027,michael.brown@email.com,Michael Brown,Michael,Brown,+1-555-0107,Philadelphia,Bella Italia,Penne Arrabbiata,Pasta,1,16.50,2024-02-15 19:45:00,16.50,delivery
+ORD028,lisa.wang@email.com,Lisa Wang,Lisa,Wang,+1-555-0108,Seattle,Sushi Heaven,Gyoza,Appetizer,4,3.50,2024-02-15 18:00:00,14.00,pickup
+ORD029,david.lee@email.com,David Lee,David,Lee,+1-555-0109,Boston,Burger Palace,Milkshake,Beverage,1,7.00,2024-02-15 19:15:00,7.00,delivery
+ORD030,anna.petrova@email.com,Anna Petrova,Anna,Petrova,+1-555-0110,Miami,Bella Italia,Cannoli,Dessert,1,7.50,2024-02-15 13:45:00,7.50,pickup
+ORD031,john.smith@email.com,John Smith,John,Smith,+1-555-0101,New York,Burger Palace,Double Cheeseburger,Burgers,1,16.00,2024-02-15 20:45:00,16.00,delivery
+ORD032,maria.garcia@email.com,Maria Garcia,Maria,Garcia,+1-555-0102,Los Angeles,Sushi Heaven,Spicy Tuna Roll,Sushi,2,15.00,2024-02-16 19:00:00,30.00,pickup
+ORD033,chen.wei@email.com,Chen Wei,Chen,Wei,+1-555-0103,San Francisco,Bella Italia,Prosciutto Pizza,Pizza,1,19.00,2024-02-16 18:30:00,19.00,delivery
+ORD034,sarah.johnson@email.com,Sarah Johnson,Sarah,Johnson,+1-555-0104,Chicago,Burger Palace,Veggie Wrap,Wraps,1,11.00,2024-02-16 12:15:00,11.00,pickup
+ORD035,robert.taylor@email.com,Robert Taylor,Robert,Taylor,+1-555-0111,Denver,Bella Italia,Lasagna,Pasta,2,17.50,2024-02-16 19:30:00,35.00,delivery
+ORD036,jennifer.white@email.com,Jennifer White,Jennifer,White,+1-555-0112,Portland,Sushi Heaven,Philadelphia Roll,Sushi,3,12.50,2024-02-16 20:00:00,37.50,pickup
+ORD037,william.martin@email.com,William Martin,William,Martin,+1-555-0113,Las Vegas,Burger Palace,BBQ Bacon Burger,Burgers,1,17.00,2024-02-17 18:45:00,17.00,delivery
+ORD038,jessica.thompson@email.com,Jessica Thompson,Jessica,Thompson,+1-555-0114,Austin,Bella Italia,Mushroom Risotto,Risotto,1,18.50,2024-02-17 19:15:00,18.50,pickup
+ORD039,christopher.garcia@email.com,Christopher Garcia,Christopher,Garcia,+1-555-0115,San Diego,Sushi Heaven,Caterpillar Roll,Sushi,2,16.50,2024-02-17 20:30:00,33.00,delivery
+ORD040,ashley.martinez@email.com,Ashley Martinez,Ashley,Martinez,+1-555-0116,Nashville,Bella Italia,Panna Cotta,Dessert,1,8.00,2024-02-17 12:00:00,8.00,pickup
+ORD041,daniel.rodriguez@email.com,Daniel Rodriguez,Daniel,Rodriguez,+1-555-0117,Oklahoma City,Burger Palace,Turkey Burger,Burgers,2,12.50,2024-02-18 19:00:00,25.00,delivery
+ORD042,sophia.hernandez@email.com,Sophia Hernandez,Sophia,Hernandez,+1-555-0118,Charlotte,Sushi Heaven,Vegetable Roll,Sushi,4,10.00,2024-02-18 18:20:00,40.00,pickup
+ORD043,matthew.lopez@email.com,Matthew Lopez,Matthew,Lopez,+1-555-0119,Indianapolis,Bella Italia,Seafood Pasta,Pasta,1,21.00,2024-02-18 20:15:00,21.00,delivery
+ORD044,olivia.gonzalez@email.com,Olivia Gonzalez,Olivia,Gonzalez,+1-555-0120,Columbus,Burger Palace,Chicken Sandwich,Sandwiches,1,11.50,2024-02-18 12:30:00,11.50,pickup
+ORD045,james.wilson@email.com,James Wilson,James,Wilson,+1-555-0121,Fort Worth,Sushi Heaven,Shrimp Tempura,Appetizer,1,12.00,2024-02-19 19:45:00,12.00,delivery
+ORD046,isabella.anderson@email.com,Isabella Anderson,Isabella,Anderson,+1-555-0122,Detroit,Bella Italia,Caprese Salad,Salad,1,10.50,2024-02-19 13:15:00,10.50,pickup
+ORD047,ethan.thomas@email.com,Ethan Thomas,Ethan,Thomas,+1-555-0123,El Paso,Burger Palace,Fish Burger,Burgers,1,14.00,2024-02-19 18:00:00,14.00,delivery
+ORD048,ava.taylor@email.com,Ava Taylor,Ava,Taylor,+1-555-0124,Memphis,Sushi Heaven,Spicy Salmon Roll,Sushi,3,13.50,2024-02-19 20:00:00,40.50,pickup
+ORD049,alexander.moore@email.com,Alexander Moore,Alexander,Moore,+1-555-0125,Boston,Bella Italia,Tomato Bruschetta,Appetizer,2,8.50,2024-02-20 19:30:00,17.00,delivery
+ORD050,mia.jackson@email.com,Mia Jackson,Mia,Jackson,+1-555-0126,Seattle,Burger Palace,Loaded Fries,Side,1,7.50,2024-02-20 12:45:00,7.50,pickup

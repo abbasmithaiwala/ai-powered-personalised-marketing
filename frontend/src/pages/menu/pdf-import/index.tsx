@@ -92,8 +92,8 @@ export const PdfImportPage: React.FC = () => {
                     isCompleted
                       ? 'bg-green-500 text-white'
                       : isActive
-                      ? 'bg-primary-600 text-white'
-                      : 'bg-gray-200 text-gray-500',
+                        ? 'bg-orange-500 text-white'
+                        : 'bg-gray-200 text-gray-500',
                   ].join(' ')}
                 >
                   {isCompleted ? '✓' : i + 1}

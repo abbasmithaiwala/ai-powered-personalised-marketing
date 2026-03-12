@@ -99,7 +99,7 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
         </div>
 
         <Button
-          variant="ghost"
+          variant="primary"
           onClick={() => setConfirmOpen(true)}
           disabled={validItems.length === 0 || isSubmitting}
           loading={isSubmitting}
@@ -128,7 +128,7 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
               Cancel
             </Button>
             <Button
-              variant="secondary"
+              variant="primary"
               onClick={() => {
                 setConfirmOpen(false);
                 onConfirm();

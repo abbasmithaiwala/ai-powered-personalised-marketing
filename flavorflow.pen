@@ -1,0 +1,1091 @@
+{
+  "version": "2.8",
+  "children": [
+    {
+      "type": "frame",
+      "id": "0JaeS",
+      "x": 0,
+      "y": 0,
+      "name": "Landing Page",
+      "width": 1440,
+      "fill": "#FFF7EE",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "PdtHq",
+          "name": "Header",
+          "width": "fill_container",
+          "height": 100,
+          "fill": "#D33129",
+          "padding": [
+            0,
+            80
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "wsYpR",
+              "name": "logo_box",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "0pYWa",
+                  "name": "logo",
+                  "fill": "#FFF7EE",
+                  "content": "FLAVOR FLOW",
+                  "fontFamily": "Outfit",
+                  "fontSize": 28,
+                  "fontWeight": "900"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "CI3JF",
+              "name": "nav",
+              "gap": 40,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "mXw08",
+                  "name": "homeLink",
+                  "fill": "#FFF7EE",
+                  "content": "AI ENGINE",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "text",
+                  "id": "nRPID",
+                  "name": "featuresLink",
+                  "fill": "#FFF7EE",
+                  "content": "FEATURES",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "text",
+                  "id": "LEQ5d",
+                  "name": "casestudiesLink",
+                  "fill": "#FFF7EE",
+                  "content": "CASE STUDIES",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "text",
+                  "id": "XgGFv",
+                  "name": "pricingLink",
+                  "fill": "#FFF7EE",
+                  "content": "PRICING",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "800"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "luONy",
+              "name": "actions",
+              "gap": 24,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "n0k8m",
+                  "name": "login",
+                  "fill": "#FFF7EE",
+                  "content": "LOGIN",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "frame",
+                  "id": "yHVBO",
+                  "name": "ctaHeader",
+                  "fill": "#FFF7EE",
+                  "cornerRadius": 40,
+                  "padding": [
+                    12,
+                    24
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "cyIz1",
+                      "name": "ctaHeaderText",
+                      "fill": "#D33129",
+                      "content": "GET STARTED",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "800"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "xvTqw",
+          "name": "Hero",
+          "width": "fill_container",
+          "height": 700,
+          "fill": "#D33129",
+          "gap": 40,
+          "padding": 80,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "4Lw6I",
+              "name": "heroLeft",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 24,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "gb5FE",
+                  "name": "heroHeadline",
+                  "fill": "#FFF7EE",
+                  "textGrowth": "fixed-width-height",
+                  "width": 627,
+                  "height": 173,
+                  "content": "AI MARKETING MADE WITH LOVE FOR FOOD BRANDS",
+                  "lineHeight": 1,
+                  "fontFamily": "Outfit",
+                  "fontSize": 80,
+                  "fontWeight": "900"
+                },
+                {
+                  "type": "text",
+                  "id": "fqwF1",
+                  "name": "heroSub",
+                  "fill": "#FFF7EE",
+                  "content": "SINCE 2026... SOMETHING.",
+                  "fontFamily": "Inter",
+                  "fontSize": 24,
+                  "fontWeight": "800"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "E0mAd",
+              "name": "heroImageContainer",
+              "rotation": 4,
+              "width": "fill_container",
+              "height": 500,
+              "fill": {
+                "type": "image",
+                "enabled": true,
+                "url": "./images/generated-1771849891719.png",
+                "mode": "fill"
+              },
+              "cornerRadius": 16
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Xw1sE",
+          "name": "Marquee",
+          "width": "fill_container",
+          "fill": "#FFF7EE",
+          "gap": 32,
+          "padding": [
+            16,
+            24
+          ],
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "mPYLS",
+              "name": "mx1",
+              "fill": "#D33129",
+              "content": "AI POWERED FOOD MARKETING",
+              "fontFamily": "Outfit",
+              "fontSize": 18,
+              "fontWeight": "900"
+            },
+            {
+              "type": "text",
+              "id": "hBK4F",
+              "name": "mx2",
+              "fill": "#D33129",
+              "content": "🔥",
+              "fontFamily": "Inter",
+              "fontSize": 18,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "FCXK3",
+              "name": "mx3",
+              "fill": "#D33129",
+              "content": "BRING THE HEAT TO YOUR BRAND",
+              "fontFamily": "Outfit",
+              "fontSize": 18,
+              "fontWeight": "900"
+            },
+            {
+              "type": "text",
+              "id": "2W7Ft",
+              "name": "mx4",
+              "fill": "#D33129",
+              "content": "🔥",
+              "fontFamily": "Inter",
+              "fontSize": 18,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "80EGH",
+              "name": "mx5",
+              "fill": "#D33129",
+              "content": "MADE FROM SCRATCH PIXELS",
+              "fontFamily": "Outfit",
+              "fontSize": 18,
+              "fontWeight": "900"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "kfYlh",
+          "name": "Magic Section",
+          "width": "fill_container",
+          "height": 750,
+          "fill": "#FFF7EE",
+          "children": [
+            {
+              "type": "frame",
+              "id": "1D6ci",
+              "name": "Magic Left",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "#7C1B14",
+              "gap": -20,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "yMPWm",
+                  "name": "verticalWord2",
+                  "rotation": -90,
+                  "fill": "#D33129",
+                  "content": "TANGY",
+                  "fontFamily": "Outfit",
+                  "fontSize": 140,
+                  "fontWeight": "900"
+                },
+                {
+                  "type": "frame",
+                  "id": "EqT5m",
+                  "name": "bottleImgContainer",
+                  "width": 220,
+                  "height": 500,
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "./images/generated-1771849926298.png",
+                    "mode": "fill"
+                  }
+                },
+                {
+                  "type": "text",
+                  "id": "iy1O7",
+                  "name": "verticalWord1",
+                  "rotation": -90,
+                  "fill": "#D33129",
+                  "content": "SWEET",
+                  "fontFamily": "Outfit",
+                  "fontSize": 140,
+                  "fontWeight": "900"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "hUtLg",
+              "name": "Magic Right",
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "vertical",
+              "gap": 32,
+              "padding": 80,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "ywRMx",
+                  "name": "magicHeadline",
+                  "fill": "#D33129",
+                  "content": "THE MAGIC OF FLAVOR FLOW IN YOUR STACK",
+                  "lineHeight": 1,
+                  "fontFamily": "Outfit",
+                  "fontSize": 48,
+                  "fontWeight": "900"
+                },
+                {
+                  "type": "text",
+                  "id": "wxoB8",
+                  "name": "magicDesc",
+                  "fill": "#7C1B14",
+                  "content": "Your family recipe has made food magical for decades. For the first time ever, you can bring that same magic to your digital marketing with an AI that knows exactly how to sell your flavor.",
+                  "lineHeight": 1.4,
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "H3tdk",
+                  "name": "Shop CTA",
+                  "fill": "#D33129",
+                  "cornerRadius": 40,
+                  "padding": [
+                    16,
+                    32
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "IlPf6",
+                      "name": "magicCtaText",
+                      "fill": "#FFF7EE",
+                      "content": "Book a Demo",
+                      "fontFamily": "Inter",
+                      "fontSize": 16,
+                      "fontWeight": "800"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "BCW78",
+          "name": "Stats Section",
+          "width": "fill_container",
+          "height": 700,
+          "fill": "#FF5722",
+          "layout": "vertical",
+          "gap": 40,
+          "padding": 80,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "RAgb2",
+              "name": "statsTitle",
+              "fill": "#FFF7EE",
+              "content": "HOW FLAVOR FLOW STACKS UP",
+              "fontFamily": "Outfit",
+              "fontSize": 48,
+              "fontWeight": "900"
+            },
+            {
+              "type": "text",
+              "id": "RoK1R",
+              "name": "statsSub",
+              "fill": "#FFF7EE",
+              "content": "YOUR MARKETING VS AVERAGE MARKETING",
+              "fontFamily": "Inter",
+              "fontSize": 24,
+              "fontWeight": "800"
+            },
+            {
+              "type": "frame",
+              "id": "vKlCU",
+              "name": "statsRow",
+              "height": 260,
+              "gap": 64,
+              "justifyContent": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "rmHwn",
+                  "name": "stat1",
+                  "width": 220,
+                  "height": 220,
+                  "fill": "transparent",
+                  "cornerRadius": 110,
+                  "layout": "vertical",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "mHLGj",
+                      "name": "stat1Title",
+                      "fill": "#FFF7EE",
+                      "content": "1.5X",
+                      "fontFamily": "Outfit",
+                      "fontSize": 64,
+                      "fontWeight": "900"
+                    },
+                    {
+                      "type": "text",
+                      "id": "7bwQv",
+                      "name": "stat1Desc",
+                      "fill": "#FFF7EE",
+                      "content": "ROAS",
+                      "fontFamily": "Inter",
+                      "fontSize": 18,
+                      "fontWeight": "800"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "ZxUq4",
+                  "name": "stat2",
+                  "width": 220,
+                  "height": 220,
+                  "fill": "transparent",
+                  "cornerRadius": 110,
+                  "layout": "vertical",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "IJ33Y",
+                      "name": "stat2Title",
+                      "fill": "#FFF7EE",
+                      "content": "3X",
+                      "fontFamily": "Outfit",
+                      "fontSize": 64,
+                      "fontWeight": "900"
+                    },
+                    {
+                      "type": "text",
+                      "id": "H0wvK",
+                      "name": "stat2Desc",
+                      "fill": "#FFF7EE",
+                      "content": "ENGAGEMENT",
+                      "fontFamily": "Inter",
+                      "fontSize": 18,
+                      "fontWeight": "800"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "2nOXb",
+                  "name": "stat3",
+                  "width": 220,
+                  "height": 220,
+                  "fill": "transparent",
+                  "cornerRadius": 110,
+                  "layout": "vertical",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "B2o8n",
+                      "name": "stat3Title",
+                      "fill": "#FFF7EE",
+                      "content": "50%",
+                      "fontFamily": "Outfit",
+                      "fontSize": 64,
+                      "fontWeight": "900"
+                    },
+                    {
+                      "type": "text",
+                      "id": "ohFW5",
+                      "name": "stat3Desc",
+                      "fill": "#FFF7EE",
+                      "content": "LESS EFFORT",
+                      "fontFamily": "Inter",
+                      "fontSize": 18,
+                      "fontWeight": "800"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "bvFpR",
+          "name": "Wavy Divider Container",
+          "clip": true,
+          "width": "fill_container",
+          "height": 80,
+          "fill": "#FFF7EE",
+          "children": [
+            {
+              "type": "frame",
+              "id": "rA3RC",
+              "name": "wavyRed",
+              "width": "fill_container",
+              "height": 160,
+              "fill": "#FF5722",
+              "cornerRadius": 80
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "BsYUY",
+          "name": "Grid Section",
+          "width": "fill_container",
+          "fill": "#FFF7EE",
+          "layout": "vertical",
+          "gap": 64,
+          "padding": 80,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "AdMX1",
+              "name": "gridTitle",
+              "fill": "#D33129",
+              "content": "THE ENGINE THAT DRIVES SALES",
+              "fontFamily": "Outfit",
+              "fontSize": 64,
+              "fontWeight": "900"
+            },
+            {
+              "type": "frame",
+              "id": "6ipvf",
+              "name": "gridContainer",
+              "width": "fill_container",
+              "gap": 32,
+              "justifyContent": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "sLj97",
+                  "name": "col1",
+                  "width": 280,
+                  "layout": "vertical",
+                  "gap": 16,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "lqreo",
+                      "name": "c1Img",
+                      "width": "fill_container",
+                      "height": 280,
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "./images/generated-1771849986394.png",
+                        "mode": "fill"
+                      },
+                      "cornerRadius": 16
+                    },
+                    {
+                      "type": "text",
+                      "id": "oFQlr",
+                      "name": "c1Title",
+                      "fill": "#D33129",
+                      "content": "SMART ADS",
+                      "fontFamily": "Outfit",
+                      "fontSize": 24,
+                      "fontWeight": "900"
+                    },
+                    {
+                      "type": "text",
+                      "id": "u1d3h",
+                      "name": "c1Desc",
+                      "fill": "#7C1B14",
+                      "content": "Auto-generated copy and visuals that convert hungers into buyers.",
+                      "lineHeight": 1.4,
+                      "textAlign": "center",
+                      "fontFamily": "Inter",
+                      "fontSize": 16,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "WFNDn",
+                  "name": "col2",
+                  "width": 280,
+                  "layout": "vertical",
+                  "gap": 16,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "91aL9",
+                      "name": "c2Img",
+                      "width": "fill_container",
+                      "height": 280,
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "./images/generated-1771849994856.png",
+                        "mode": "fill"
+                      },
+                      "cornerRadius": 16
+                    },
+                    {
+                      "type": "text",
+                      "id": "9C1vS",
+                      "name": "c2Title",
+                      "fill": "#D33129",
+                      "content": "PERSONALIZED EMAIL",
+                      "fontFamily": "Outfit",
+                      "fontSize": 24,
+                      "fontWeight": "900"
+                    },
+                    {
+                      "type": "text",
+                      "id": "IhZUc",
+                      "name": "c2Desc",
+                      "fill": "#7C1B14",
+                      "content": "Send the right offer at the right time based on customer habits.",
+                      "lineHeight": 1.4,
+                      "textAlign": "center",
+                      "fontFamily": "Inter",
+                      "fontSize": 16,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "EhSmJ",
+                  "name": "col3",
+                  "width": 280,
+                  "layout": "vertical",
+                  "gap": 16,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "LxsE0",
+                      "name": "c3Img",
+                      "width": "fill_container",
+                      "height": 280,
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "./images/generated-1771850004306.png",
+                        "mode": "fill"
+                      },
+                      "cornerRadius": 16
+                    },
+                    {
+                      "type": "text",
+                      "id": "rgwmi",
+                      "name": "c3Title",
+                      "fill": "#D33129",
+                      "content": "PREDICTIVE INSIGHTS",
+                      "fontFamily": "Outfit",
+                      "fontSize": 24,
+                      "fontWeight": "900"
+                    },
+                    {
+                      "type": "text",
+                      "id": "0iLyv",
+                      "name": "c3Desc",
+                      "fill": "#7C1B14",
+                      "content": "Know what your audience cravings are before they do.",
+                      "lineHeight": 1.4,
+                      "textAlign": "center",
+                      "fontFamily": "Inter",
+                      "fontSize": 16,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "PelpB",
+          "name": "Steps",
+          "width": "fill_container",
+          "fill": "#F1B012",
+          "layout": "vertical",
+          "gap": 64,
+          "padding": 80,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "ESifz",
+              "name": "stepsTitle",
+              "fill": "#7C1B14",
+              "content": "3 STEPS TO MARKETING PLEASURE",
+              "fontFamily": "Outfit",
+              "fontSize": 48,
+              "fontWeight": "900"
+            },
+            {
+              "type": "frame",
+              "id": "7MoGb",
+              "name": "stepsContainer",
+              "gap": 32,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "7SkdD",
+                  "name": "s1",
+                  "width": 300,
+                  "fill": "#FFF7EE",
+                  "cornerRadius": 24,
+                  "layout": "vertical",
+                  "gap": 16,
+                  "padding": 32,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "VBfiz",
+                      "name": "s1Num",
+                      "fill": "#D33129",
+                      "content": "1",
+                      "fontFamily": "Outfit",
+                      "fontSize": 48,
+                      "fontWeight": "900"
+                    },
+                    {
+                      "type": "text",
+                      "id": "JD2od",
+                      "name": "s1Title",
+                      "fill": "#D33129",
+                      "content": "CONNECT DATA",
+                      "fontFamily": "Outfit",
+                      "fontSize": 24,
+                      "fontWeight": "900"
+                    },
+                    {
+                      "type": "text",
+                      "id": "Rg0Mq",
+                      "name": "s1Desc",
+                      "fill": "#7C1B14",
+                      "content": "Link your POS, delivery platforms, and website to feed our hungry AI.",
+                      "lineHeight": 1.4,
+                      "fontFamily": "Inter",
+                      "fontSize": 16,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "u3X86",
+                  "name": "arrow1",
+                  "fill": "#D33129",
+                  "content": "→",
+                  "fontFamily": "Inter",
+                  "fontSize": 48,
+                  "fontWeight": "900"
+                },
+                {
+                  "type": "frame",
+                  "id": "5doig",
+                  "name": "s2",
+                  "width": 300,
+                  "fill": "#FFF7EE",
+                  "cornerRadius": 24,
+                  "layout": "vertical",
+                  "gap": 16,
+                  "padding": 32,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "7hP1b",
+                      "name": "s2Num",
+                      "fill": "#D33129",
+                      "content": "2",
+                      "fontFamily": "Outfit",
+                      "fontSize": 48,
+                      "fontWeight": "900"
+                    },
+                    {
+                      "type": "text",
+                      "id": "tcNGa",
+                      "name": "s2Title",
+                      "fill": "#D33129",
+                      "content": "GENERATE",
+                      "fontFamily": "Outfit",
+                      "fontSize": 24,
+                      "fontWeight": "900"
+                    },
+                    {
+                      "type": "text",
+                      "id": "T3IW5",
+                      "name": "s2Desc",
+                      "fill": "#7C1B14",
+                      "content": "AI creates appetizing campaigns personalized to specific customer niches.",
+                      "lineHeight": 1.4,
+                      "fontFamily": "Inter",
+                      "fontSize": 16,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "VyvQx",
+                  "name": "arrow2",
+                  "fill": "#D33129",
+                  "content": "→",
+                  "fontFamily": "Inter",
+                  "fontSize": 48,
+                  "fontWeight": "900"
+                },
+                {
+                  "type": "frame",
+                  "id": "W4i1N",
+                  "name": "s3",
+                  "width": 300,
+                  "fill": "#FFF7EE",
+                  "cornerRadius": 24,
+                  "layout": "vertical",
+                  "gap": 16,
+                  "padding": 32,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "KwclQ",
+                      "name": "s3Num",
+                      "fill": "#D33129",
+                      "content": "3",
+                      "fontFamily": "Outfit",
+                      "fontSize": 48,
+                      "fontWeight": "900"
+                    },
+                    {
+                      "type": "text",
+                      "id": "kInsm",
+                      "name": "s3Title",
+                      "fill": "#D33129",
+                      "content": "DRIVE CRAVINGS",
+                      "fontFamily": "Outfit",
+                      "fontSize": 24,
+                      "fontWeight": "900"
+                    },
+                    {
+                      "type": "text",
+                      "id": "P1Jor",
+                      "name": "s3Desc",
+                      "fill": "#7C1B14",
+                      "content": "Deploy campaigns and watch the orders flow in, fully automated.",
+                      "lineHeight": 1.4,
+                      "fontFamily": "Inter",
+                      "fontSize": 16,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "xRAfB",
+          "name": "Footer Top CTA",
+          "width": "fill_container",
+          "height": 600,
+          "fill": "#FF5722",
+          "children": [
+            {
+              "type": "frame",
+              "id": "dDg0y",
+              "name": "ftLeft",
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "vertical",
+              "gap": 24,
+              "padding": 80,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "NMrY0",
+                  "name": "ftImg",
+                  "rotation": -5,
+                  "width": 400,
+                  "height": 400,
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "./images/generated-1771850046190.png",
+                    "mode": "fill"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "pW3re",
+              "name": "ftRight",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "#D33129",
+              "layout": "vertical",
+              "gap": 32,
+              "padding": 80,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "aacMI",
+                  "name": "ftPreTitle",
+                  "fill": "#FFF7EE",
+                  "content": "Are you ready to",
+                  "fontFamily": "Inter",
+                  "fontSize": 32,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "uA3j6",
+                  "name": "ftTitle",
+                  "fill": "#FFF7EE",
+                  "content": "BUILD A BRAND THAT TURNS HEADS AND DRIVES SALES?",
+                  "lineHeight": 1,
+                  "fontFamily": "Outfit",
+                  "fontSize": 48,
+                  "fontWeight": "900"
+                },
+                {
+                  "type": "text",
+                  "id": "bh7Mk",
+                  "name": "ftDesc",
+                  "fill": "#FFF7EE",
+                  "content": "At Flavor Flow, we specialize in empowering food entrepreneurs to craft standout campaigns that captivate audiences and succeed in competitive markets.",
+                  "lineHeight": 1.4,
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "to9tz",
+                  "name": "ftBtn",
+                  "fill": "#FFF7EE",
+                  "cornerRadius": 40,
+                  "padding": [
+                    16,
+                    32
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "xGgMC",
+                      "name": "ftBtnText",
+                      "fill": "#D33129",
+                      "content": "LET'S BUILD YOUR BRAND",
+                      "fontFamily": "Outfit",
+                      "fontSize": 16,
+                      "fontWeight": "900"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "eGixG",
+          "name": "Footer Bottom",
+          "width": "fill_container",
+          "height": 100,
+          "fill": "#FFF7EE",
+          "padding": [
+            0,
+            80
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "G3PFg",
+              "name": "fbLogo",
+              "fill": "#D33129",
+              "content": "FLAVOR FLOW",
+              "fontFamily": "Outfit",
+              "fontSize": 32,
+              "fontWeight": "900"
+            },
+            {
+              "type": "frame",
+              "id": "YfyOg",
+              "name": "fbLinks",
+              "gap": 32,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "zlzXg",
+                  "name": "fbL1",
+                  "fill": "#D33129",
+                  "content": "SERVICES",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "text",
+                  "id": "WrLVn",
+                  "name": "fbL2",
+                  "fill": "#D33129",
+                  "content": "PORTFOLIO",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "text",
+                  "id": "zxPB4",
+                  "name": "fbL3",
+                  "fill": "#D33129",
+                  "content": "ABOUT US",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "800"
+                },
+                {
+                  "type": "text",
+                  "id": "46iKN",
+                  "name": "fbL4",
+                  "fill": "#D33129",
+                  "content": "BLOG",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "800"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
