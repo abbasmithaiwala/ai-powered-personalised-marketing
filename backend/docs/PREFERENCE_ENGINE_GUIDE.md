@@ -82,9 +82,9 @@ Example:
 ```
 
 ### Price Sensitivity
-- **low:** Average order <£10
-- **medium:** Average order £10-25
-- **high:** Average order >£25
+- **low:** Average order <₹500
+- **medium:** Average order ₹500-2000
+- **high:** Average order >₹2000
 
 ### Order Frequency
 - **daily:** >20 orders/month

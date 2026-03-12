@@ -90,7 +90,7 @@ class OrderCSVRow(BaseModel):
             cleaned = v.strip()
 
             # Remove common currency symbols
-            for symbol in ["£", "$", "€", "AED", "₹", "¥"]:
+            for symbol in ["₹", "$", "€", "£", "AED", "¥"]:
                 cleaned = cleaned.replace(symbol, "")
 
             # Remove thousands separators

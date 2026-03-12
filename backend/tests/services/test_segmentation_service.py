@@ -24,16 +24,16 @@ class TestSegmentationService:
         """Test filtering customers by spend range"""
         service = SegmentationService(db_session)
 
-        # High spenders (>£25)
-        filters = SegmentFilters(total_spend_min=25.0)
+        # High spenders (>₹2000)
+        filters = SegmentFilters(total_spend_min=2000.0)
         count = await service.count_segment(filters)
-        expected = sum(1 for c in sample_customers if c.total_spend >= 25)
+        expected = sum(1 for c in sample_customers if c.total_spend >= 2000)
         assert count == expected
 
-        # Medium spenders (£10-25)
-        filters = SegmentFilters(total_spend_min=10.0, total_spend_max=25.0)
+        # Medium spenders (₹500-2000)
+        filters = SegmentFilters(total_spend_min=500.0, total_spend_max=2000.0)
         count = await service.count_segment(filters)
-        expected = sum(1 for c in sample_customers if 10 <= c.total_spend <= 25)
+        expected = sum(1 for c in sample_customers if 500 <= c.total_spend <= 2000)
         assert count == expected
 
     async def test_count_segment_by_orders(self, db_session, sample_customers):
@@ -162,7 +162,7 @@ class TestSegmentationService:
             external_id="cust1",
             email="cust1@test.com",
             total_orders=5,
-            total_spend=Decimal("50.0"),
+            total_spend=Decimal("2500.0"),
         )
         db_session.add(customer)
         await db_session.commit()
@@ -295,13 +295,13 @@ class TestSegmentationService:
             external_id="c1",
             email="c1@test.com",
             total_orders=1,
-            total_spend=Decimal("10.0"),
+            total_spend=Decimal("1200.0"),
         )
         customer2 = Customer(
             external_id="c2",
             email="c2@test.com",
             total_orders=1,
-            total_spend=Decimal("10.0"),
+            total_spend=Decimal("1200.0"),
         )
         db_session.add_all([customer1, customer2])
         await db_session.commit()
@@ -332,7 +332,7 @@ class TestSegmentationService:
             email="perfect@test.com",
             city="London",
             total_orders=10,
-            total_spend=Decimal("100.0"),
+            total_spend=Decimal("5500.0"),
             last_order_at=datetime.now(timezone.utc) - timedelta(days=5),
         )
         db_session.add(customer)
@@ -354,7 +354,7 @@ class TestSegmentationService:
         filters = SegmentFilters(
             city="London",
             total_orders_min=5,
-            total_spend_min=50.0,
+            total_spend_min=5000.0,
             favorite_cuisine="italian",
             dietary_flag="vegetarian",
             order_frequency="weekly",
@@ -372,7 +372,7 @@ async def sample_customers(db_session):
             email="c1@test.com",
             city="London",
             total_orders=5,
-            total_spend=Decimal("50.0"),
+            total_spend=Decimal("5000.0"),
             last_order_at=datetime.now(timezone.utc) - timedelta(days=10),
         ),
         Customer(
@@ -380,7 +380,7 @@ async def sample_customers(db_session):
             email="c2@test.com",
             city="Manchester",
             total_orders=2,
-            total_spend=Decimal("15.0"),
+            total_spend=Decimal("1500.0"),
             last_order_at=datetime.now(timezone.utc) - timedelta(days=20),
         ),
         Customer(
@@ -388,7 +388,7 @@ async def sample_customers(db_session):
             email="c3@test.com",
             city="London",
             total_orders=10,
-            total_spend=Decimal("100.0"),
+            total_spend=Decimal("10000.0"),
             last_order_at=datetime.now(timezone.utc) - timedelta(days=5),
         ),
     ]

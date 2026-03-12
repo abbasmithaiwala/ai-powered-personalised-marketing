@@ -34,7 +34,7 @@ async def test_preference_computation(customer_email: str):
 
         print(f"✓ Found customer: {customer.email}")
         print(f"  - Total orders: {customer.total_orders}")
-        print(f"  - Total spend: £{customer.total_spend}")
+        print(f"  - Total spend: ₹{customer.total_spend}")
         print()
 
         # Compute preferences

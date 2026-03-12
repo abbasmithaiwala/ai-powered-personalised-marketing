@@ -9,9 +9,9 @@ PriceSensitivity = Literal["low", "medium", "high"]
 class PriceAnalyzer:
     """Analyze customer price sensitivity from spending patterns"""
 
-    # Thresholds in GBP (configurable)
-    LOW_THRESHOLD = 10.0
-    HIGH_THRESHOLD = 25.0
+    # Thresholds in INR (configurable)
+    LOW_THRESHOLD = 500.0
+    HIGH_THRESHOLD = 2000.0
 
     @staticmethod
     def analyze(order_totals: List[float]) -> PriceSensitivity:
@@ -22,7 +22,7 @@ class PriceAnalyzer:
             order_totals: List of order total amounts
 
         Returns:
-            "low" (<£10), "medium" (£10-25), or "high" (>£25)
+            "low" (<₹500), "medium" (₹500-2000), or "high" (>₹2000)
         """
         if not order_totals:
             return "medium"  # Default
@@ -43,8 +43,8 @@ class PriceAnalyzer:
         Update price thresholds (useful for different markets/currencies).
 
         Args:
-            low: Lower threshold (e.g., 10.0 for £10)
-            high: Upper threshold (e.g., 25.0 for £25)
+            low: Lower threshold (e.g., 500.0 for ₹500)
+            high: Upper threshold (e.g., 2000.0 for ₹2000)
         """
         PriceAnalyzer.LOW_THRESHOLD = low
         PriceAnalyzer.HIGH_THRESHOLD = high

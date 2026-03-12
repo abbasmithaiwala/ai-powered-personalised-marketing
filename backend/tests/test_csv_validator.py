@@ -229,11 +229,11 @@ ORD-001,test@example.com,Test Brand,Test Item,1,$12.50,2024-01-15"""
     def test_price_with_pound_sign(self, validator):
         """Test price parsing with pound sign."""
         csv = """Order ID,Email,Brand,Item,Qty,Price,Date
-ORD-001,test@example.com,Test Brand,Test Item,1,£15.99,2024-01-15"""
+ORD-001,test@example.com,Test Brand,Test Item,1,₹2500.99,2024-01-15"""
 
         rows = validator.parse_valid_rows(csv)
         assert len(rows) == 1
-        assert float(rows[0].unit_price) == 15.99
+        assert float(rows[0].unit_price) == 2500.99
 
     def test_price_with_thousands_separator(self, validator):
         """Test price parsing with thousands separator."""

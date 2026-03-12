@@ -316,8 +316,8 @@ All filters combine with AND logic.
 |--------|------|-------------|
 | `last_order_after` | datetime | Customers who ordered after this date |
 | `last_order_before` | datetime | Customers who ordered before this date |
-| `total_spend_min` | float | Minimum total spend (£) |
-| `total_spend_max` | float | Maximum total spend (£) |
+| `total_spend_min` | float | Minimum total spend (₹) |
+| `total_spend_max` | float | Maximum total spend (₹) |
 | `total_orders_min` | int | Minimum number of orders |
 | `favorite_cuisine` | string | Favorite cuisine from preferences |
 | `dietary_flag` | string | Dietary flag: vegetarian, vegan, halal, gluten_free |

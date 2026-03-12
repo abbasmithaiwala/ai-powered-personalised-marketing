@@ -195,36 +195,36 @@ class TestPriceAnalyzer:
         assert result == "medium"
 
     def test_low_sensitivity(self):
-        """Should detect low price sensitivity (<£10)"""
-        order_totals = [5.0, 7.0, 8.0, 6.0, 9.0]
+        """Should detect low price sensitivity (<₹500)"""
+        order_totals = [350.0, 420.0, 480.0, 390.0, 450.0]
         result = PriceAnalyzer.analyze(order_totals)
         assert result == "low"
 
     def test_medium_sensitivity(self):
-        """Should detect medium price sensitivity (£10-25)"""
-        order_totals = [12.0, 15.0, 18.0, 20.0, 22.0]
+        """Should detect medium price sensitivity (₹500-2000)"""
+        order_totals = [600.0, 850.0, 1200.0, 1500.0, 1800.0]
         result = PriceAnalyzer.analyze(order_totals)
         assert result == "medium"
 
     def test_high_sensitivity(self):
-        """Should detect high price sensitivity (>£25)"""
-        order_totals = [30.0, 35.0, 40.0, 45.0, 50.0]
+        """Should detect high price sensitivity (>₹2000)"""
+        order_totals = [2100.0, 2500.0, 3000.0, 4500.0, 5000.0]
         result = PriceAnalyzer.analyze(order_totals)
         assert result == "high"
 
     def test_boundary_values(self):
         """Should handle boundary values correctly"""
-        # Exactly £10 average should be medium
-        assert PriceAnalyzer.analyze([10.0]) == "medium"
+        # Exactly ₹500 average should be medium
+        assert PriceAnalyzer.analyze([500.0]) == "medium"
 
-        # Exactly £25 average should be medium
-        assert PriceAnalyzer.analyze([25.0]) == "medium"
+        # Exactly ₹2000 average should be medium
+        assert PriceAnalyzer.analyze([2000.0]) == "medium"
 
-        # Just under £10 should be low
-        assert PriceAnalyzer.analyze([9.99]) == "low"
+        # Just under ₹500 should be low
+        assert PriceAnalyzer.analyze([499.99]) == "low"
 
-        # Just over £25 should be high
-        assert PriceAnalyzer.analyze([25.01]) == "high"
+        # Just over ₹2000 should be high
+        assert PriceAnalyzer.analyze([2000.01]) == "high"
 
 
 class TestTimingAnalyzer:

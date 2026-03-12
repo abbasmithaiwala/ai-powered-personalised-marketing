@@ -85,7 +85,7 @@ export const MenuItemCard: React.FC<MenuItemCardProps> = ({ item, brandName }) =
             <div className="flex items-center justify-between">
               <span className="text-sm text-gray-600">Price</span>
               <span className="text-lg font-bold text-gray-900">
-                £{(typeof item.price === 'number' ? item.price : parseFloat(item.price)).toFixed(2)}
+                ₹{(typeof item.price === 'number' ? item.price : parseFloat(item.price)).toFixed(2)}
               </span>
             </div>
           ) : (

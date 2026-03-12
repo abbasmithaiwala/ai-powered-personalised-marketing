@@ -119,7 +119,7 @@ export const CampaignForm: React.FC<CampaignFormProps> = ({
 
           {/* Spend Range */}
           <div className="space-y-2">
-            <Label htmlFor="total_spend_min">Min Total Spend (£)</Label>
+            <Label htmlFor="total_spend_min">Min Total Spend (₹)</Label>
             <Input
               type="number"
               id="total_spend_min"
@@ -135,7 +135,7 @@ export const CampaignForm: React.FC<CampaignFormProps> = ({
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="total_spend_max">Max Total Spend (£)</Label>
+            <Label htmlFor="total_spend_max">Max Total Spend (₹)</Label>
             <Input
               type="number"
               id="total_spend_max"

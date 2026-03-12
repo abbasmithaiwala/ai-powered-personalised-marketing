@@ -155,7 +155,7 @@ export const CustomerFilters = ({ onFilterChange }: CustomerFiltersProps) => {
         {/* Min Spend */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Min Total Spend (£)
+            Min Total Spend (₹)
           </label>
           <Input
             type="number"

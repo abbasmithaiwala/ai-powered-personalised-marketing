@@ -220,7 +220,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ item }) => {
         {item.price !== null && (
           <div className="ml-4 text-right">
             <span className="text-lg font-bold text-gray-900">
-              £{item.price.toFixed(2)}
+              ₹{item.price.toFixed(2)}
             </span>
           </div>
         )}

@@ -142,7 +142,7 @@ response = httpx.post(
 data = response.json()
 print(f"Found {data['total']} customers")
 for customer in data['items']:
-    print(f"- {customer['email']}: £{customer['total_spend']}")
+    print(f"- {customer['email']}: ₹{customer['total_spend']}")
 ```
 
 ### Example 2: Vegetarian Customers Who Haven't Ordered Recently
@@ -247,7 +247,7 @@ All filters combine with AND logic:
 
 This finds customers who are:
 - In London **AND**
-- Spent at least £100 **AND**
+- Spent at least ₹100 **AND**
 - Have Italian as a favorite cuisine
 
 ### Empty Filters

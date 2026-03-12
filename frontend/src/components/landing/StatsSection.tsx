@@ -43,7 +43,7 @@ export const StatsSection: React.FC = () => {
     },
     {
       company: "ARTISAN EATS",
-      value: "£45k",
+      value: "₹45k",
       icon: <CalendarIcon className="h-4 w-4" />,
       description: "Additional monthly revenue",
     },
