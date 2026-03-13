@@ -135,7 +135,7 @@ class TestCampaignAPI:
                 email=f"c{i}@test.com",
                 first_name=f"Customer{i}",
                 total_orders=5,
-                total_spend=Decimal("50.0"),
+                total_spend=Decimal("5000.0"),
             )
             for i in range(3)
         ]
@@ -202,7 +202,7 @@ class TestCampaignAPI:
                 email=f"c{i}@test.com",
                 first_name=f"Customer{i}",
                 total_orders=5,
-                total_spend=Decimal("50.0"),
+                total_spend=Decimal("5000.0"),
             )
             for i in range(2)
         ]
@@ -282,14 +282,14 @@ class TestCampaignAPI:
             email="c1@test.com",
             first_name="John",
             total_orders=5,
-            total_spend=Decimal("50.0"),
+            total_spend=Decimal("5000.0"),
         )
         customer2 = Customer(
             external_id="c2",
             email="c2@test.com",
             first_name="Jane",
             total_orders=3,
-            total_spend=Decimal("30.0"),
+            total_spend=Decimal("3000.0"),
         )
         db_session.add_all([customer1, customer2])
         await db_session.commit()
@@ -334,7 +334,7 @@ class TestCampaignAPI:
                 external_id=f"c{i}",
                 email=f"c{i}@test.com",
                 total_orders=i * 2,
-                total_spend=Decimal(str(i * 10)),
+                total_spend=Decimal(str(i * 1000)),
             )
             for i in range(1, 6)
         ]

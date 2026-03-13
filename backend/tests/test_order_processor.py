@@ -41,7 +41,7 @@ class TestBrandResolver:
             brand_name="Pizza Palace",
             item_name="Margherita Pizza",
             quantity=1,
-            unit_price=Decimal("12.99"),
+            unit_price=Decimal("750.00"),
             order_date=datetime(2024, 1, 15, 12, 0, 0),
             row_number=1,
         )
@@ -69,7 +69,7 @@ class TestBrandResolver:
             brand_name="pizza palace",
             item_name="Margherita Pizza",
             quantity=1,
-            unit_price=Decimal("12.99"),
+            unit_price=Decimal("750.00"),
             order_date=datetime(2024, 1, 15, 12, 0, 0),
             row_number=1,
         )
@@ -95,11 +95,11 @@ class TestCustomerResolver:
             customer_first_name="John",
             customer_last_name="Doe",
             customer_phone="+1234567890",
-            customer_city="London",
+            customer_city="Ahmedabad",
             brand_name="Pizza Palace",
             item_name="Margherita Pizza",
             quantity=1,
-            unit_price=Decimal("12.99"),
+            unit_price=Decimal("750.00"),
             order_date=datetime(2024, 1, 15, 12, 0, 0),
             row_number=1,
         )
@@ -113,7 +113,7 @@ class TestCustomerResolver:
         assert customer.first_name == "John"
         assert customer.last_name == "Doe"
         assert customer.phone == "+1234567890"
-        assert customer.city == "London"
+        assert customer.city == "Ahmedabad"
 
     async def test_find_existing_customer_by_external_id(self, db_session):
         """Test finding existing customer by external ID."""
@@ -136,7 +136,7 @@ class TestCustomerResolver:
             brand_name="Pizza Palace",
             item_name="Margherita Pizza",
             quantity=1,
-            unit_price=Decimal("12.99"),
+            unit_price=Decimal("750.00"),
             order_date=datetime(2024, 1, 15, 12, 0, 0),
             row_number=1,
         )
@@ -165,7 +165,7 @@ class TestCustomerResolver:
             brand_name="Pizza Palace",
             item_name="Margherita Pizza",
             quantity=1,
-            unit_price=Decimal("12.99"),
+            unit_price=Decimal("750.00"),
             order_date=datetime(2024, 1, 15, 12, 0, 0),
             row_number=1,
         )
@@ -195,7 +195,7 @@ class TestMenuItemResolver:
             item_name="Margherita Pizza",
             category="Main",
             quantity=1,
-            unit_price=Decimal("12.99"),
+            unit_price=Decimal("750.00"),
             order_date=datetime(2024, 1, 15, 12, 0, 0),
             row_number=1,
         )
@@ -207,7 +207,7 @@ class TestMenuItemResolver:
         assert menu_item.name == "Margherita Pizza"
         assert menu_item.brand_id == brand.id
         assert menu_item.category == "Main"
-        assert float(menu_item.price) == 12.99
+        assert float(menu_item.price) == 750.00
         assert menu_item.is_available is True
 
     async def test_find_existing_menu_item(self, db_session):
@@ -221,7 +221,7 @@ class TestMenuItemResolver:
             name="Margherita Pizza",
             brand_id=brand.id,
             category="Main",
-            price=12.99,
+            price=750.00,
         )
         db_session.add(item1)
         await db_session.commit()
@@ -234,7 +234,7 @@ class TestMenuItemResolver:
             brand_name="Pizza Palace",
             item_name="margherita pizza",
             quantity=1,
-            unit_price=Decimal("12.99"),
+            unit_price=Decimal("750.00"),
             order_date=datetime(2024, 1, 15, 12, 0, 0),
             row_number=1,
         )
@@ -262,8 +262,8 @@ class TestOrderProcessor:
             item_name="Margherita Pizza",
             category="Main",
             quantity=2,
-            unit_price=Decimal("12.99"),
-            order_total=Decimal("25.98"),
+            unit_price=Decimal("500.00"),
+            order_total=Decimal("1000.00"),
             order_date=datetime(2024, 1, 15, 12, 0, 0),
             row_number=1,
         )
@@ -285,7 +285,7 @@ class TestOrderProcessor:
         order = orders_result.scalar_one()
 
         assert order.external_id == "ORD-001"
-        assert float(order.total_amount) == 25.98
+        assert float(order.total_amount) == 1000.00
 
         # Verify order items (use explicit query to avoid lazy loading)
         order_items_result = await db_session.execute(
@@ -296,7 +296,7 @@ class TestOrderProcessor:
         order_item = order_items[0]
         assert order_item.item_name == "Margherita Pizza"
         assert order_item.quantity == 2
-        assert float(order_item.unit_price) == 12.99
+        assert float(order_item.unit_price) == 500.00
 
         # Verify customer stats were updated (use explicit query)
         customer_result = await db_session.execute(
@@ -304,7 +304,7 @@ class TestOrderProcessor:
         )
         customer = customer_result.scalar_one()
         assert customer.total_orders == 1
-        assert float(customer.total_spend) == 25.98
+        assert float(customer.total_spend) == 1000.00
         # Verify dates are set (exact time may vary due to timezone conversion)
         assert customer.first_order_at is not None
         assert customer.last_order_at is not None
@@ -323,8 +323,8 @@ class TestOrderProcessor:
                 brand_name="Pizza Palace",
                 item_name="Margherita Pizza",
                 quantity=1,
-                unit_price=Decimal("12.99"),
-                order_total=Decimal("12.99"),
+                unit_price=Decimal("750.00"),
+                order_total=Decimal("750.00"),
                 order_date=datetime(2024, 1, 15, 12, 0, 0),
                 row_number=1,
             ),
@@ -335,8 +335,8 @@ class TestOrderProcessor:
                 brand_name="Pizza Palace",
                 item_name="Pepperoni Pizza",
                 quantity=1,
-                unit_price=Decimal("14.99"),
-                order_total=Decimal("14.99"),
+                unit_price=Decimal("1000.00"),
+                order_total=Decimal("1000.00"),
                 order_date=datetime(2024, 1, 20, 18, 30, 0),
                 row_number=2,
             ),
@@ -355,7 +355,7 @@ class TestOrderProcessor:
 
         customer = customers[0]
         assert customer.total_orders == 2
-        assert float(customer.total_spend) == 27.98
+        assert float(customer.total_spend) == 1750.00
         # Verify dates are set correctly (exact time may vary due to timezone conversion)
         assert customer.first_order_at is not None
         assert customer.last_order_at is not None
@@ -374,8 +374,8 @@ class TestOrderProcessor:
             brand_name="Pizza Palace",
             item_name="Margherita Pizza",
             quantity=1,
-            unit_price=Decimal("12.99"),
-            order_total=Decimal("12.99"),
+            unit_price=Decimal("750.00"),
+            order_total=Decimal("750.00"),
             order_date=datetime(2024, 1, 15, 12, 0, 0),
             row_number=1,
         )
@@ -409,7 +409,7 @@ class TestOrderProcessor:
             brand_name="Pizza Palace",
             item_name="Margherita Pizza",
             quantity=3,
-            unit_price=Decimal("10.00"),
+            unit_price=Decimal("1000.00"),
             # order_total not provided
             order_date=datetime(2024, 1, 15, 12, 0, 0),
             row_number=1,
@@ -422,7 +422,7 @@ class TestOrderProcessor:
         orders_result = await db_session.execute(select(Order))
         order = orders_result.scalar_one()
 
-        assert float(order.total_amount) == 30.00  # 3 * 10.00
+        assert float(order.total_amount) == 3000.00  # 3 * 1000.00
 
     async def test_process_multiple_brands(self, db_session):
         """Test processing orders from multiple brands."""
@@ -435,7 +435,7 @@ class TestOrderProcessor:
                 brand_name="Pizza Palace",
                 item_name="Margherita Pizza",
                 quantity=1,
-                unit_price=Decimal("12.99"),
+                unit_price=Decimal("750.00"),
                 order_date=datetime(2024, 1, 15, 12, 0, 0),
                 row_number=1,
             ),
@@ -445,7 +445,7 @@ class TestOrderProcessor:
                 brand_name="Burger House",
                 item_name="Cheeseburger",
                 quantity=1,
-                unit_price=Decimal("8.99"),
+                unit_price=Decimal("500.00"),
                 order_date=datetime(2024, 1, 16, 13, 0, 0),
                 row_number=2,
             ),

@@ -46,7 +46,7 @@ def sample_customer():
         email="john@example.com",
         first_name="John",
         last_name="Doe",
-        city="London",
+        city="Ahmedabad",
         total_orders=5,
         total_spend=150.00,
         first_order_at=datetime(2024, 1, 1, tzinfo=timezone.utc),

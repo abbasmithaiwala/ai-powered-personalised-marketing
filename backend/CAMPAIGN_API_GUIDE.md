@@ -79,7 +79,7 @@ Create a new campaign in draft status.
   "segment_filters": {
     "total_orders_min": 5,
     "favorite_cuisine": "italian",
-    "city": "London"
+    "city": "Ahmedabad"
   }
 }
 ```
@@ -291,7 +291,7 @@ Count customers matching segment filters (for audience size preview).
   "filters": {
     "total_orders_min": 5,
     "favorite_cuisine": "italian",
-    "city": "London"
+    "city": "Ahmedabad"
   }
 }
 ```
@@ -327,12 +327,12 @@ All filters combine with AND logic.
 
 ### Examples
 
-**High-value Italian lovers in London:**
+**High-value Italian lovers in Ahmedabad:**
 ```json
 {
-  "total_spend_min": 100.0,
+  "total_spend_min": 5000.0,
   "favorite_cuisine": "italian",
-  "city": "London"
+  "city": "Ahmedabad"
 }
 ```
 

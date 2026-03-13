@@ -70,7 +70,7 @@ export const CustomerFilters = ({ onFilterChange }: CustomerFiltersProps) => {
           </label>
           <Input
             type="text"
-            placeholder="e.g., London"
+            placeholder="e.g., Ahmedabad"
             value={filters.city || ''}
             onChange={(e) => updateFilter('city', e.target.value)}
             className="text-sm"
@@ -149,7 +149,7 @@ export const CustomerFilters = ({ onFilterChange }: CustomerFiltersProps) => {
               updateFilter('total_orders_min', e.target.value ? parseInt(e.target.value) : undefined)
             }
             className="text-sm"
-            />
+          />
         </div>
 
         {/* Min Spend */}
@@ -167,7 +167,7 @@ export const CustomerFilters = ({ onFilterChange }: CustomerFiltersProps) => {
               updateFilter('total_spend_min', e.target.value ? parseFloat(e.target.value) : undefined)
             }
             className="text-sm"
-            />
+          />
         </div>
       </div>
 

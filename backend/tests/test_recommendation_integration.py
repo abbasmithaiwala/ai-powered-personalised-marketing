@@ -9,7 +9,7 @@ import pytest
 from datetime import datetime, timedelta, timezone
 from uuid import uuid4
 from decimal import Decimal
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch, MagicMock, AsyncMock
 
 from app.models.customer import Customer
 from app.models.customer_preference import CustomerPreference
@@ -74,7 +74,7 @@ class TestRecommendationAPIEndpoint:
             description="Classic pizza",
             category="mains",
             cuisine_type="Italian",
-            price=Decimal("12.50"),
+            price=Decimal("750.00"),
             dietary_tags=["vegetarian"],
             is_available=True,
         )
@@ -106,7 +106,7 @@ class TestRecommendationAPIEndpoint:
             customer_id=other_customer.id,
             brand_id=brand.id,
             order_date=datetime.now(timezone.utc),
-            total_amount=Decimal("12.50"),
+            total_amount=Decimal("750.00"),
         )
         db_session.add(order)
         await db_session.commit()
@@ -117,14 +117,14 @@ class TestRecommendationAPIEndpoint:
             menu_item_id=menu_item.id,
             item_name="Margherita Pizza",
             quantity=1,
-            unit_price=Decimal("12.50"),
+            unit_price=Decimal("750.00"),
         )
         db_session.add(order_item)
         await db_session.commit()
 
         # Mock vector store to return no taste profile
         with patch("app.services.intelligence.recommendation_engine.vector_store") as mock_vs:
-            mock_vs.get_point.return_value = None
+            mock_vs.get_point = AsyncMock(return_value=None)
 
             response = await async_client.get(
                 f"/api/v1/customers/{customer.id}/recommendations?limit=5"
@@ -178,7 +178,7 @@ class TestRecommendationEngineWithDatabase:
             customer_id=customer.id,
             brand_id=brand.id,
             order_date=datetime.now(timezone.utc) - timedelta(days=10),
-            total_amount=Decimal("10.00"),
+            total_amount=Decimal("1000.00"),
         )
         db_session.add(recent_order)
         await db_session.commit()
@@ -197,7 +197,7 @@ class TestRecommendationEngineWithDatabase:
             customer_id=customer.id,
             brand_id=brand.id,
             order_date=datetime.now(timezone.utc) - timedelta(days=60),
-            total_amount=Decimal("10.00"),
+            total_amount=Decimal("1000.00"),
         )
         db_session.add(old_order)
         await db_session.commit()
@@ -234,14 +234,14 @@ class TestRecommendationEngineWithDatabase:
             brand_id=brand.id,
             name="Super Popular Dish",
             category="mains",
-            price=Decimal("15.00"),
+            price=Decimal("1500.00"),
             is_available=True,
         )
         unpopular_item = MenuItem(
             brand_id=brand.id,
             name="Rarely Ordered Dish",
             category="starters",
-            price=Decimal("8.00"),
+            price=Decimal("800.00"),
             is_available=True,
         )
         db_session.add_all([popular_item, unpopular_item])
@@ -266,7 +266,7 @@ class TestRecommendationEngineWithDatabase:
                 customer_id=other_customer.id,
                 brand_id=brand.id,
                 order_date=datetime.now(timezone.utc) - timedelta(days=i),
-                total_amount=Decimal("15.00"),
+                total_amount=Decimal("1500.00"),
             )
             db_session.add(order)
             await db_session.commit()
@@ -290,7 +290,7 @@ class TestRecommendationEngineWithDatabase:
             customer_id=one_customer.id,
             brand_id=brand.id,
             order_date=datetime.now(timezone.utc),
-            total_amount=Decimal("8.00"),
+            total_amount=Decimal("800.00"),
         )
         db_session.add(order)
         await db_session.commit()
@@ -371,7 +371,7 @@ class TestRecommendationEngineWithDatabase:
                     customer_id=other_customer.id,
                     brand_id=brand.id,
                     order_date=datetime.now(timezone.utc),
-                    total_amount=Decimal("10.00"),
+                    total_amount=Decimal("1000.00"),
                 )
                 db_session.add(order)
                 await db_session.commit()
@@ -427,13 +427,13 @@ class TestRecommendationEngineWithDatabase:
             customer_id=customer.id,
             brand_id=brand_1.id,
             order_date=datetime.now(timezone.utc),
-            total_amount=Decimal("10.00"),
+            total_amount=Decimal("1000.00"),
         )
         order_2 = Order(
             customer_id=customer.id,
             brand_id=brand_2.id,
             order_date=datetime.now(timezone.utc),
-            total_amount=Decimal("15.00"),
+            total_amount=Decimal("1500.00"),
         )
         db_session.add_all([order_1, order_2])
         await db_session.commit()

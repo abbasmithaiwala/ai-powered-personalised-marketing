@@ -89,7 +89,7 @@ async def test_customer(db_session):
         email="test.customer@example.com",
         first_name="Alice",
         last_name="Smith",
-        city="London",
+        city="Ahmedabad",
         total_orders=3,
         total_spend=75.00,
         first_order_at=datetime.now(timezone.utc) - timedelta(days=30),

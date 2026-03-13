@@ -224,7 +224,6 @@ export const CampaignForm: React.FC<CampaignFormProps> = ({
             </Select>
           </div>
 
-          {/* City */}
           <div className="md:col-span-2 space-y-2">
             <Label htmlFor="city">City</Label>
             <Input
@@ -232,7 +231,7 @@ export const CampaignForm: React.FC<CampaignFormProps> = ({
               id="city"
               value={filters.city || ''}
               onChange={(e) => updateFilter('city', e.target.value || undefined)}
-              placeholder="e.g., London, Manchester"
+              placeholder="e.g., Ahmedabad, Mumbai"
             />
           </div>
         </div>

@@ -61,9 +61,10 @@ async def test_upsert_and_search():
         pytest.skip("Qdrant not available")
 
     try:
-        # Create a test vector (matching the expected dimension)
+        # Create a test vector (unique for each run)
+        import random
         test_id = str(uuid4())
-        test_vector = [0.1] * VECTOR_DIMENSION
+        test_vector = [random.random() for _ in range(VECTOR_DIMENSION)]
 
         point = PointStruct(
             id=test_id,

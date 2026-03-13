@@ -50,7 +50,7 @@ class TestPreferenceToTasteProfileFlow:
                 description="Tender chicken with herbs",
                 category="Main",
                 cuisine_type="Mediterranean",
-                price=18.00,
+                price=1000.00,
                 dietary_tags=["gluten-free"],
                 flavor_tags=["savory", "herbal"],
                 is_available=True,
@@ -62,7 +62,7 @@ class TestPreferenceToTasteProfileFlow:
                 description="Crispy falafel in pita",
                 category="Main",
                 cuisine_type="Mediterranean",
-                price=12.00,
+                price=750.00,
                 dietary_tags=["vegetarian", "vegan"],
                 flavor_tags=["savory", "crispy"],
                 is_available=True,
@@ -74,7 +74,7 @@ class TestPreferenceToTasteProfileFlow:
                 description="Sweet pastry with honey",
                 category="Dessert",
                 cuisine_type="Mediterranean",
-                price=6.00,
+                price=500.00,
                 dietary_tags=["vegetarian"],
                 flavor_tags=["sweet"],
                 is_available=True,
@@ -104,28 +104,28 @@ class TestPreferenceToTasteProfileFlow:
             {
                 "external_id": "int-order-001",
                 "order_date": now - timedelta(days=10),
-                "total_amount": 36.00,
+                "total_amount": 2000.00,
                 "items": [
-                    (items[0].id, "Grilled Chicken Kebab", 2, 18.00),  # Qty 2
+                    (items[0].id, "Grilled Chicken Kebab", 2, 1000.00),  # Qty 2
                 ],
             },
             # Medium age order (60 days ago)
             {
                 "external_id": "int-order-002",
                 "order_date": now - timedelta(days=60),
-                "total_amount": 18.00,
+                "total_amount": 1250.00,
                 "items": [
-                    (items[1].id, "Falafel Wrap", 1, 12.00),
-                    (items[2].id, "Baklava", 1, 6.00),
+                    (items[1].id, "Falafel Wrap", 1, 750.00),
+                    (items[2].id, "Baklava", 1, 500.00),
                 ],
             },
             # Older order (120 days ago) - should have lower weight
             {
                 "external_id": "int-order-003",
                 "order_date": now - timedelta(days=120),
-                "total_amount": 12.00,
+                "total_amount": 750.00,
                 "items": [
-                    (items[1].id, "Falafel Wrap", 1, 12.00),
+                    (items[1].id, "Falafel Wrap", 1, 750.00),
                 ],
             },
         ]
@@ -157,9 +157,9 @@ class TestPreferenceToTasteProfileFlow:
 
         # Mock embeddings for menu items
         embeddings = {
-            str(items[0].id): [1.0, 0.0, 0.0] + [0.0] * (VECTOR_DIMENSION - 3),  # Chicken
-            str(items[1].id): [0.0, 1.0, 0.0] + [0.0] * (VECTOR_DIMENSION - 3),  # Falafel
-            str(items[2].id): [0.0, 0.0, 1.0] + [0.0] * (VECTOR_DIMENSION - 3),  # Baklava
+            items[0].embedding_id: [1.0, 0.0, 0.0] + [0.0] * (VECTOR_DIMENSION - 3),  # Chicken
+            items[1].embedding_id: [0.0, 1.0, 0.0] + [0.0] * (VECTOR_DIMENSION - 3),  # Falafel
+            items[2].embedding_id: [0.0, 0.0, 1.0] + [0.0] * (VECTOR_DIMENSION - 3),  # Baklava
         }
 
         def create_mock_point(embedding):
@@ -241,7 +241,7 @@ class TestPreferenceToTasteProfileFlow:
             name="Pizza",
             category="Main",
             cuisine_type="Italian",
-            price=15.00,
+            price=1000.00,
             # No embedding_id
         )
         db_session.add(menu_item)
@@ -254,7 +254,7 @@ class TestPreferenceToTasteProfileFlow:
             customer_id=customer.id,
             brand_id=brand.id,
             order_date=datetime.now(timezone.utc),
-            total_amount=15.00,
+            total_amount=1000.00,
         )
         db_session.add(order)
         await db_session.commit()
@@ -265,8 +265,8 @@ class TestPreferenceToTasteProfileFlow:
             menu_item_id=menu_item.id,
             item_name="Pizza",
             quantity=1,
-            unit_price=15.00,
-            subtotal=15.00,
+            unit_price=1000.00,
+            subtotal=1000.00,
         )
         db_session.add(order_item)
         await db_session.commit()
@@ -305,7 +305,7 @@ class TestPreferenceToTasteProfileFlow:
             name="California Roll",
             category="Main",
             cuisine_type="Japanese",
-            price=12.00,
+            price=1000.00,
             embedding_id=str(uuid4()),
         )
         miso_soup = MenuItem(
@@ -313,7 +313,7 @@ class TestPreferenceToTasteProfileFlow:
             name="Miso Soup",
             category="Starter",
             cuisine_type="Japanese",
-            price=4.00,
+            price=500.00,
             embedding_id=str(uuid4()),
         )
         db_session.add_all([sushi_roll, miso_soup])
@@ -343,7 +343,7 @@ class TestPreferenceToTasteProfileFlow:
             customer_id=customer1.id,
             brand_id=brand.id,
             order_date=datetime.now(timezone.utc),
-            total_amount=24.00,
+            total_amount=800.00,
         )
         db_session.add(order1)
         await db_session.commit()
@@ -354,8 +354,8 @@ class TestPreferenceToTasteProfileFlow:
             menu_item_id=sushi_roll.id,
             item_name="California Roll",
             quantity=2,
-            unit_price=12.00,
-            subtotal=24.00,
+            unit_price=400.00,
+            subtotal=800.00,
         )
         db_session.add(order_item1)
         await db_session.commit()
@@ -366,7 +366,7 @@ class TestPreferenceToTasteProfileFlow:
             customer_id=customer2.id,
             brand_id=brand.id,
             order_date=datetime.now(timezone.utc),
-            total_amount=8.00,
+            total_amount=1000.00,
         )
         db_session.add(order2)
         await db_session.commit()
@@ -377,16 +377,16 @@ class TestPreferenceToTasteProfileFlow:
             menu_item_id=miso_soup.id,
             item_name="Miso Soup",
             quantity=2,
-            unit_price=4.00,
-            subtotal=8.00,
+            unit_price=500.00,
+            subtotal=1000.00,
         )
         db_session.add(order_item2)
         await db_session.commit()
 
         # Mock embeddings - distinct for each item
         embeddings = {
-            str(sushi_roll.id): [1.0] + [0.0] * (VECTOR_DIMENSION - 1),
-            str(miso_soup.id): [0.0, 1.0] + [0.0] * (VECTOR_DIMENSION - 2),
+            sushi_roll.embedding_id: [1.0] + [0.0] * (VECTOR_DIMENSION - 1),
+            miso_soup.embedding_id: [0.0, 1.0] + [0.0] * (VECTOR_DIMENSION - 2),
         }
 
         upserted_profiles = {}
@@ -453,7 +453,7 @@ class TestPreferenceToTasteProfileFlow:
             name="Sourdough Bread",
             category="Bread",
             cuisine_type="Bakery",
-            price=5.00,
+            price=500.00,
             embedding_id=str(uuid4()),
         )
         cake = MenuItem(
@@ -461,7 +461,7 @@ class TestPreferenceToTasteProfileFlow:
             name="Chocolate Cake",
             category="Dessert",
             cuisine_type="Bakery",
-            price=8.00,
+            price=800.00,
             embedding_id=str(uuid4()),
         )
         db_session.add_all([bread, cake])
@@ -475,7 +475,7 @@ class TestPreferenceToTasteProfileFlow:
             customer_id=customer.id,
             brand_id=brand.id,
             order_date=datetime.now(timezone.utc) - timedelta(days=60),
-            total_amount=5.00,
+            total_amount=500.00,
         )
         db_session.add(order1)
         await db_session.commit()
@@ -486,15 +486,15 @@ class TestPreferenceToTasteProfileFlow:
             menu_item_id=bread.id,
             item_name="Sourdough Bread",
             quantity=1,
-            unit_price=5.00,
-            subtotal=5.00,
+            unit_price=500.00,
+            subtotal=500.00,
         )
         db_session.add(order_item1)
         await db_session.commit()
 
         embeddings = {
-            str(bread.id): [1.0, 0.0] + [0.0] * (VECTOR_DIMENSION - 2),
-            str(cake.id): [0.0, 1.0] + [0.0] * (VECTOR_DIMENSION - 2),
+            bread.embedding_id: [1.0, 0.0] + [0.0] * (VECTOR_DIMENSION - 2),
+            cake.embedding_id: [0.0, 1.0] + [0.0] * (VECTOR_DIMENSION - 2),
         }
 
         profiles_history = []
@@ -527,7 +527,7 @@ class TestPreferenceToTasteProfileFlow:
                 customer_id=customer_uuid,
                 brand_id=brand.id,
                 order_date=datetime.now(timezone.utc),
-                total_amount=8.00,
+                total_amount=800.00,
             )
             db_session.add(order2)
             await db_session.commit()
@@ -538,8 +538,8 @@ class TestPreferenceToTasteProfileFlow:
                 menu_item_id=cake.id,
                 item_name="Chocolate Cake",
                 quantity=1,
-                unit_price=8.00,
-                subtotal=8.00,
+                unit_price=800.00,
+                subtotal=800.00,
             )
             db_session.add(order_item2)
             await db_session.commit()

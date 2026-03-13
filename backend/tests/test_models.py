@@ -35,7 +35,7 @@ def test_customer_model():
         email="test@example.com",
         first_name="John",
         last_name="Doe",
-        city="London",
+        city="Ahmedabad",
         total_orders=0,
         total_spend=0,
     )

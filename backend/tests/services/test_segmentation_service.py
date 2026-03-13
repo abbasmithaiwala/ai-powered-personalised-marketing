@@ -50,10 +50,10 @@ class TestSegmentationService:
         service = SegmentationService(db_session)
 
         # Exact match (case-insensitive)
-        filters = SegmentFilters(city="london")
+        filters = SegmentFilters(city="Ahmedabad")
         count = await service.count_segment(filters)
         expected = sum(
-            1 for c in sample_customers if c.city and "london" in c.city.lower()
+            1 for c in sample_customers if c.city and "ahmedabad" in c.city.lower()
         )
         assert count == expected
 
@@ -61,13 +61,13 @@ class TestSegmentationService:
         """Test filtering customers by multiple cities separated by commas"""
         service = SegmentationService(db_session)
 
-        # Multiple cities - should match London and Manchester customers
-        filters = SegmentFilters(city="London, Manchester")
+        # Multiple cities - should match Ahmedabad and Mumbai customers
+        filters = SegmentFilters(city="Ahmedabad, Mumbai")
         count = await service.count_segment(filters)
         expected = sum(
             1
             for c in sample_customers
-            if c.city and ("london" in c.city.lower() or "manchester" in c.city.lower())
+            if c.city and ("ahmedabad" in c.city.lower() or "mumbai" in c.city.lower())
         )
         assert count == expected
 
@@ -330,7 +330,7 @@ class TestSegmentationService:
         customer = Customer(
             external_id="perfect_match",
             email="perfect@test.com",
-            city="London",
+            city="Ahmedabad",
             total_orders=10,
             total_spend=Decimal("5500.0"),
             last_order_at=datetime.now(timezone.utc) - timedelta(days=5),
@@ -352,7 +352,7 @@ class TestSegmentationService:
 
         # All filters should match
         filters = SegmentFilters(
-            city="London",
+            city="Ahmedabad",
             total_orders_min=5,
             total_spend_min=5000.0,
             favorite_cuisine="italian",
@@ -370,7 +370,7 @@ async def sample_customers(db_session):
         Customer(
             external_id="c1",
             email="c1@test.com",
-            city="London",
+            city="Ahmedabad",
             total_orders=5,
             total_spend=Decimal("5000.0"),
             last_order_at=datetime.now(timezone.utc) - timedelta(days=10),
@@ -378,7 +378,7 @@ async def sample_customers(db_session):
         Customer(
             external_id="c2",
             email="c2@test.com",
-            city="Manchester",
+            city="Mumbai",
             total_orders=2,
             total_spend=Decimal("1500.0"),
             last_order_at=datetime.now(timezone.utc) - timedelta(days=20),
@@ -386,7 +386,7 @@ async def sample_customers(db_session):
         Customer(
             external_id="c3",
             email="c3@test.com",
-            city="London",
+            city="Ahmedabad",
             total_orders=10,
             total_spend=Decimal("10000.0"),
             last_order_at=datetime.now(timezone.utc) - timedelta(days=5),

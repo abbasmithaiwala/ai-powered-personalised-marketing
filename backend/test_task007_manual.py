@@ -54,7 +54,7 @@ async def main():
             customer_id="CUST-001",
             customer_first_name="John",
             customer_last_name="Doe",
-            customer_city="London",
+            customer_city="Ahmedabad",
             brand_name="Pizza Palace",
             item_name="Margherita Pizza",
             category="Main",

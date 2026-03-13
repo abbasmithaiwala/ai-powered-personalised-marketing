@@ -18,12 +18,12 @@ Search customers matching specific criteria with pagination support.
   "filters": {
     "last_order_after": "2024-01-01T00:00:00Z",
     "last_order_before": "2024-12-31T23:59:59Z",
-    "total_spend_min": 50.0,
-    "total_spend_max": 500.0,
+    "total_spend_min": 500.0,
+    "total_spend_max": 5000.0,
     "total_orders_min": 3,
     "favorite_cuisine": "italian",
     "dietary_flag": "vegetarian",
-    "city": "London",
+    "city": "Ahmedabad",
     "order_frequency": "weekly",
     "brand_id": "uuid-here"
   },
@@ -42,9 +42,9 @@ Search customers matching specific criteria with pagination support.
       "email": "customer@example.com",
       "first_name": "John",
       "last_name": "Doe",
-      "city": "London",
+      "city": "Ahmedabad",
       "total_orders": 15,
-      "total_spend": 250.50,
+      "total_spend": 2500.50,
       "first_order_at": "2024-01-15T12:00:00Z",
       "last_order_at": "2024-02-10T18:30:00Z"
     }
@@ -92,8 +92,8 @@ All filters are **optional** and combine with **AND logic**. Empty filters retur
 |--------|------|-------------|---------|
 | `last_order_after` | datetime | Customers who ordered after this date (inclusive) | `"2024-01-01T00:00:00Z"` |
 | `last_order_before` | datetime | Customers who ordered before this date (inclusive) | `"2024-12-31T23:59:59Z"` |
-| `total_spend_min` | float | Minimum total lifetime spend | `50.0` |
-| `total_spend_max` | float | Maximum total lifetime spend | `500.0` |
+| `total_spend_min` | float | Minimum total lifetime spend | `500.0` |
+| `total_spend_max` | float | Maximum total lifetime spend | `5000.0` |
 | `total_orders_min` | int | Minimum number of orders placed | `3` |
 
 ### Preference Filters
@@ -110,7 +110,7 @@ These filters use the computed customer preference profiles.
 
 | Filter | Type | Description | Example |
 |--------|------|-------------|---------|
-| `city` | string | Case-insensitive partial match on customer city | `"london"` matches "London", "LONDON", etc. |
+| `city` | string | Case-insensitive partial match on customer city | `"ahmedabad"` matches "Ahmedabad", "AHMEDABAD", etc. |
 
 ### Brand Filters
 
@@ -120,7 +120,7 @@ These filters use the computed customer preference profiles.
 
 ## Usage Examples
 
-### Example 1: High-Value Italian Food Lovers in London
+### Example 1: High-Value Italian Food Lovers in Ahmedabad
 
 ```python
 import httpx
@@ -129,9 +129,9 @@ response = httpx.post(
     "http://localhost:8000/api/v1/customers/search",
     json={
         "filters": {
-            "city": "London",
+            "city": "Ahmedabad",
             "favorite_cuisine": "italian",
-            "total_spend_min": 100.0,
+            "total_spend_min": 5000.0,
             "order_frequency": "weekly"
         },
         "page": 1,
@@ -178,7 +178,7 @@ count_response = httpx.post(
         "filters": {
             "total_orders_min": 5,
             "favorite_cuisine": "thai",
-            "city": "Manchester"
+            "city": "Mumbai"
         }
     }
 )
@@ -191,12 +191,12 @@ if audience_size > 10:
     campaign_response = httpx.post(
         "http://localhost:8000/api/v1/campaigns",
         json={
-            "name": "Thai Food Lovers - Manchester",
+            "name": "Thai Food Lovers - Mumbai",
             "purpose": "Promote new Thai menu items",
             "segment_filters": {
                 "total_orders_min": 5,
                 "favorite_cuisine": "thai",
-                "city": "Manchester"
+                "city": "Mumbai"
             }
         }
     )
@@ -238,7 +238,7 @@ All filters combine with AND logic:
 ```json
 {
   "filters": {
-    "city": "London",
+    "city": "Ahmedabad",
     "total_spend_min": 100.0,
     "favorite_cuisine": "italian"
   }
@@ -246,7 +246,7 @@ All filters combine with AND logic:
 ```
 
 This finds customers who are:
-- In London **AND**
+- In Ahmedabad **AND**
 - Spent at least ₹100 **AND**
 - Have Italian as a favorite cuisine
 
