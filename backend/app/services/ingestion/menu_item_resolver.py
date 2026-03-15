@@ -55,6 +55,7 @@ class MenuItemResolver:
         item_name = csv_row.item_name.strip()
 
         category = csv_row.category.strip() if csv_row.category else None
+        cuisine_type = csv_row.cuisine_type.strip() if csv_row.cuisine_type else None
 
         price: Optional[float] = None
         if csv_row.unit_price:
@@ -64,6 +65,7 @@ class MenuItemResolver:
             name=item_name,
             brand_id=brand_id,
             category=category,
+            cuisine_type=cuisine_type,
             price=price,
             is_available=True,
         )

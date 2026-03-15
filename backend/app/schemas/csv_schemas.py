@@ -35,6 +35,7 @@ class OrderCSVRow(BaseModel):
     customer_phone: Optional[str] = Field(None, max_length=50)
     customer_city: Optional[str] = Field(None, max_length=100)
     category: Optional[str] = Field(None, max_length=100)
+    cuisine_type: Optional[str] = Field(None, max_length=100)
     order_total: Optional[Decimal] = Field(None, ge=0)
     order_channel: Optional[str] = Field(None, max_length=50)
 

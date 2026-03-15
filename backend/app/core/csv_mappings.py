@@ -126,6 +126,14 @@ COLUMN_ALIASES: Dict[str, List[str]] = {
         "product_category",
         "type",
     ],
+    "cuisine_type": [
+        "cuisine_type",
+        "cuisine type",
+        "cuisinetype",
+        "cuisine",
+        "food_type",
+        "food type",
+    ],
     "order_total": [
         "order_total",
         "order total",
@@ -212,6 +220,7 @@ OPTIONAL_FIELDS = [
     "customer_phone",
     "customer_city",
     "category",
+    "cuisine_type",
     "order_total",
     "order_channel",
 ]

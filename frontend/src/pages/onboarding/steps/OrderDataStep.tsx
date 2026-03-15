@@ -68,7 +68,7 @@ export default function OrderDataStep() {
           {uploadMethod === "csv" && (
             <FileUploadZone
               label="Orders CSV"
-              description="CSV with columns: customer_id, customer_name, email, order_date, item_name, quantity, price"
+              description="CSV with columns: customer_id, customer_name, email, order_date, item_name, quantity, price, category, cuisine"
               accept={{ "text/csv": [".csv"] }}
               onDrop={handleFileSelect}
               selectedFile={selectedFile}

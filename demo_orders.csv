@@ -1,51 +1,51 @@
-order_id,customer_email,customer_name,customer_first_name,customer_last_name,customer_phone,customer_city,brand_name,item_name,category,quantity,unit_price,order_date,order_total,order_channel
-ORD001,arjun.mehta@email.com,Arjun Mehta,Arjun,Mehta,+91-987-0101,Mumbai,Bella Italia,Spaghetti Carbonara,Pasta,2,1110.00,2024-02-08 19:30:00,2220.00,delivery
-ORD002,priya.sharma@email.com,Priya Sharma,Priya,Sharma,+91-987-0102,Delhi,Bella Italia,Margherita Pizza,Pizza,1,960.00,2024-02-08 20:15:00,960.00,pickup
-ORD003,rahul.verma@email.com,Rahul Verma,Rahul,Verma,+91-987-0103,Bengaluru,Sushi Heaven,California Roll,Sushi,3,720.00,2024-02-08 18:45:00,2160.00,delivery
-ORD004,ananya.iyer@email.com,Ananya Iyer,Ananya,Iyer,+91-987-0104,Chennai,Bella Italia,Tiramisu,Dessert,1,510.00,2024-02-09 12:30:00,510.00,pickup
-ORD005,ahmed.khan@email.com,Ahmed Khan,Ahmed,Khan,+91-987-0105,Ahmedabad,Sushi Heaven,Salmon Nigiri,Sushi,4,330.00,2024-02-09 19:00:00,1320.00,delivery
-ORD006,sneha.reddy@email.com,Sneha Reddy,Sneha,Reddy,+91-987-0106,Jaipur,Burger Palace,Veggie Burger,Burgers,2,720.00,2024-02-09 13:15:00,1440.00,pickup
-ORD007,vikram.singh@email.com,Vikram Singh,Vikram,Singh,+91-987-0107,Pune,Sushi Heaven,Miso Soup,Appetizer,2,240.00,2024-02-10 19:45:00,480.00,delivery
-ORD008,deepa.nair@email.com,Deepa Nair,Deepa,Nair,+91-987-0108,Hyderabad,Bella Italia,Bruschetta,Appetizer,1,540.00,2024-02-10 20:30:00,540.00,pickup
-ORD009,sameer.deshmukh@email.com,Sameer Deshmukh,Sameer,Deshmukh,+91-987-0109,Kolkata,Burger Palace,Cheeseburger,Burgers,1,870.00,2024-02-10 18:20:00,870.00,delivery
-ORD010,kavita.joshi@email.com,Kavita Joshi,Kavita,Joshi,+91-987-0110,Lucknow,Sushi Heaven,Edamame,Appetizer,1,300.00,2024-02-11 12:00:00,300.00,pickup
-ORD011,arjun.mehta@email.com,Arjun Mehta,Arjun,Mehta,+91-987-0101,Mumbai,Bella Italia,Fettuccine Alfredo,Pasta,1,1020.00,2024-02-11 19:00:00,1020.00,delivery
-ORD012,priya.sharma@email.com,Priya Sharma,Priya,Sharma,+91-987-0102,Delhi,Burger Palace,Classic Burger,Burgers,2,810.00,2024-02-11 20:45:00,1620.00,pickup
-ORD013,rahul.verma@email.com,Rahul Verma,Rahul,Verma,+91-987-0103,Bengaluru,Sushi Heaven,Tuna Roll,Sushi,2,840.00,2024-02-11 18:00:00,1680.00,delivery
-ORD014,ananya.iyer@email.com,Ananya Iyer,Ananya,Iyer,+91-987-0104,Chennai,Bella Italia,Caesar Salad,Salad,1,660.00,2024-02-12 12:45:00,660.00,pickup
-ORD015,ahmed.khan@email.com,Ahmed Khan,Ahmed,Khan,+91-987-0105,Ahmedabad,Burger Palace,Chicken Burger,Burgers,1,780.00,2024-02-12 19:30:00,780.00,delivery
-ORD016,sneha.reddy@email.com,Sneha Reddy,Sneha,Reddy,+91-987-0106,Jaipur,Bella Italia,Veggie Pizza,Pizza,1,900.00,2024-02-12 13:30:00,900.00,pickup
-ORD017,vikram.singh@email.com,Vikram Singh,Vikram,Singh,+91-987-0107,Pune,Sushi Heaven,Tempura Roll,Sushi,3,660.00,2024-02-12 20:15:00,1980.00,delivery
-ORD018,deepa.nair@email.com,Deepa Nair,Deepa,Nair,+91-987-0108,Hyderabad,Burger Palace,French Fries,Side,2,270.00,2024-02-13 19:00:00,540.00,pickup
-ORD019,sameer.deshmukh@email.com,Sameer Deshmukh,Sameer,Deshmukh,+91-987-0109,Kolkata,Bella Italia,Minestrone Soup,Soup,1,450.00,2024-02-13 18:45:00,450.00,delivery
-ORD020,kavita.joshi@email.com,Kavita Joshi,Kavita,Joshi,+91-987-0110,Lucknow,Burger Palace,Onion Rings,Side,1,360.00,2024-02-13 12:15:00,360.00,pickup
-ORD021,arjun.mehta@email.com,Arjun Mehta,Arjun,Mehta,+91-987-0101,Mumbai,Sushi Heaven,Rainbow Roll,Sushi,2,960.00,2024-02-13 20:00:00,1920.00,delivery
-ORD022,priya.sharma@email.com,Priya Sharma,Priya,Sharma,+91-987-0102,Delhi,Bella Italia,Quattro Stagioni,Pizza,1,1080.00,2024-02-14 19:30:00,1080.00,pickup
-ORD023,rahul.verma@email.com,Rahul Verma,Rahul,Verma,+91-987-0103,Bengaluru,Burger Palace,Bacon Cheeseburger,Burgers,1,930.00,2024-02-14 18:15:00,930.00,delivery
-ORD024,ananya.iyer@email.com,Ananya Iyer,Ananya,Iyer,+91-987-0104,Chennai,Bella Italia,Gelato,Dessert,2,360.00,2024-02-14 13:00:00,720.00,pickup
-ORD025,ahmed.khan@email.com,Ahmed Khan,Ahmed,Khan,+91-987-0105,Ahmedabad,Sushi Heaven,Dragon Roll,Sushi,1,1080.00,2024-02-14 20:30:00,1080.00,delivery
-ORD026,sneha.reddy@email.com,Sneha Reddy,Sneha,Reddy,+91-987-0106,Jaipur,Burger Palace,Garden Salad,Salad,1,480.00,2024-02-15 12:30:00,480.00,pickup
-ORD027,vikram.singh@email.com,Vikram Singh,Vikram,Singh,+91-987-0107,Pune,Bella Italia,Penne Arrabbiata,Pasta,1,990.00,2024-02-15 19:45:00,990.00,delivery
-ORD028,deepa.nair@email.com,Deepa Nair,Deepa,Nair,+91-987-0108,Hyderabad,Sushi Heaven,Gyoza,Appetizer,4,210.00,2024-02-15 18:00:00,840.00,pickup
-ORD029,sameer.deshmukh@email.com,Sameer Deshmukh,Sameer,Deshmukh,+91-987-0109,Kolkata,Burger Palace,Milkshake,Beverage,1,420.00,2024-02-15 19:15:00,420.00,delivery
-ORD030,kavita.joshi@email.com,Kavita Joshi,Kavita,Joshi,+91-987-0110,Lucknow,Bella Italia,Cannoli,Dessert,1,450.00,2024-02-15 13:45:00,450.00,pickup
-ORD031,arjun.mehta@email.com,Arjun Mehta,Arjun,Mehta,+91-987-0101,Mumbai,Burger Palace,Double Cheeseburger,Burgers,1,960.00,2024-02-15 20:45:00,960.00,delivery
-ORD032,priya.sharma@email.com,Priya Sharma,Priya,Sharma,+91-987-0102,Delhi,Sushi Heaven,Spicy Tuna Roll,Sushi,2,900.00,2024-02-16 19:00:00,1800.00,pickup
-ORD033,rahul.verma@email.com,Rahul Verma,Rahul,Verma,+91-987-0103,Bengaluru,Bella Italia,Prosciutto Pizza,Pizza,1,1140.00,2024-02-16 18:30:00,1140.00,delivery
-ORD034,ananya.iyer@email.com,Ananya Iyer,Ananya,Iyer,+91-987-0104,Chennai,Burger Palace,Veggie Wrap,Wraps,1,660.00,2024-02-16 12:15:00,660.00,pickup
-ORD035,robert.taylor@email.com,Robert Taylor,Robert,Taylor,+91-987-0111,Chandigarh,Bella Italia,Lasagna,Pasta,2,1050.00,2024-02-16 19:30:00,2100.00,delivery
-ORD036,jennifer.white@email.com,Jennifer White,Jennifer,White,+91-987-0112,Surat,Sushi Heaven,Philadelphia Roll,Sushi,3,750.00,2024-02-16 20:00:00,2250.00,pickup
-ORD037,william.martin@email.com,William Martin,William,Martin,+91-987-0113,Indore,Burger Palace,BBQ Bacon Burger,Burgers,1,1020.00,2024-02-17 18:45:00,1020.00,delivery
-ORD038,jessica.thompson@email.com,Jessica Thompson,Jessica,Thompson,+91-987-0114,Nagpur,Bella Italia,Mushroom Risotto,Risotto,1,1110.00,2024-02-17 19:15:00,1110.00,pickup
-ORD039,christopher.garcia@email.com,Christopher Garcia,Christopher,Garcia,+91-987-0115,Visakhapatnam,Sushi Heaven,Caterpillar Roll,Sushi,2,990.00,2024-02-17 20:30:00,1980.00,delivery
-ORD040,ashley.martinez@email.com,Ashley Martinez,Ashley,Martinez,+91-987-0116,Bhopal,Bella Italia,Panna Cotta,Dessert,1,480.00,2024-02-17 12:00:00,480.00,pickup
-ORD041,daniel.rodriguez@email.com,Daniel Rodriguez,Daniel,Rodriguez,+91-987-0117,Patna,Burger Palace,Turkey Burger,Burgers,2,750.00,2024-02-18 19:00:00,1500.00,delivery
-ORD042,sophia.hernandez@email.com,Sophia Hernandez,Sophia,Hernandez,+91-987-0118,Vadodara,Sushi Heaven,Vegetable Roll,Sushi,4,600.00,2024-02-18 18:20:00,2400.00,pickup
-ORD043,matthew.lopez@email.com,Matthew Lopez,Matthew,Lopez,+91-987-0119,Ludhiana,Bella Italia,Seafood Pasta,Pasta,1,1260.00,2024-02-18 20:15:00,1260.00,delivery
-ORD044,olivia.gonzalez@email.com,Olivia Gonzalez,Olivia,Gonzalez,+91-987-0120,Agra,Burger Palace,Chicken Sandwich,Sandwiches,1,690.00,2024-02-18 12:30:00,690.00,pickup
-ORD045,james.wilson@email.com,James Wilson,James,Wilson,+91-987-0121,Nashik,Sushi Heaven,Shrimp Tempura,Appetizer,1,720.00,2024-02-19 19:45:00,720.00,delivery
-ORD046,isabella.anderson@email.com,Isabella Anderson,Isabella,Anderson,+91-987-0122,Faridabad,Bella Italia,Caprese Salad,Salad,1,630.00,2024-02-19 13:15:00,630.00,pickup
-ORD047,ethan.thomas@email.com,Ethan Thomas,Ethan,Thomas,+91-987-0123,Meerut,Burger Palace,Fish Burger,Burgers,1,840.00,2024-02-19 18:00:00,840.00,delivery
-ORD048,ava.taylor@email.com,Ava Taylor,Ava,Taylor,+91-987-0124,Rajkot,Sushi Heaven,Spicy Salmon Roll,Sushi,3,810.00,2024-02-19 20:00:00,2430.00,pickup
-ORD049,alexander.moore@email.com,Alexander Moore,Alexander,Moore,+91-987-0125,Kolkata,Bella Italia,Tomato Bruschetta,Appetizer,2,510.00,2024-02-20 19:30:00,1020.00,delivery
-ORD050,mia.jackson@email.com,Mia Jackson,Mia,Jackson,+91-987-0126,Hyderabad,Burger Palace,Loaded Fries,Side,1,450.00,2024-02-20 12:45:00,450.00,pickup
+order_id,customer_email,customer_name,customer_first_name,customer_last_name,customer_phone,customer_city,brand_name,item_name,category,cuisine,quantity,unit_price,order_date,order_total,order_channel
+ORD001,arjun.mehta@email.com,Arjun Mehta,Arjun,Mehta,+91-987-0101,Mumbai,Bella Italia,Spaghetti Carbonara,Pasta,Italian,2,1110.00,2024-02-08 19:30:00,2220.00,delivery
+ORD002,priya.sharma@email.com,Priya Sharma,Priya,Sharma,+91-987-0102,Delhi,Bella Italia,Margherita Pizza,Pizza,Italian,1,960.00,2024-02-08 20:15:00,960.00,pickup
+ORD003,rahul.verma@email.com,Rahul Verma,Rahul,Verma,+91-987-0103,Bengaluru,Sushi Heaven,California Roll,Sushi,Japanese,3,720.00,2024-02-08 18:45:00,2160.00,delivery
+ORD004,ananya.iyer@email.com,Ananya Iyer,Ananya,Iyer,+91-987-0104,Chennai,Bella Italia,Tiramisu,Dessert,Italian,1,510.00,2024-02-09 12:30:00,510.00,pickup
+ORD005,ahmed.khan@email.com,Ahmed Khan,Ahmed,Khan,+91-987-0105,Ahmedabad,Sushi Heaven,Salmon Nigiri,Sushi,Japanese,4,330.00,2024-02-09 19:00:00,1320.00,delivery
+ORD006,sneha.reddy@email.com,Sneha Reddy,Sneha,Reddy,+91-987-0106,Jaipur,Burger Palace,Veggie Burger,Burgers,American,2,720.00,2024-02-09 13:15:00,1440.00,pickup
+ORD007,vikram.singh@email.com,Vikram Singh,Vikram,Singh,+91-987-0107,Pune,Sushi Heaven,Miso Soup,Appetizer,Japanese,2,240.00,2024-02-10 19:45:00,480.00,delivery
+ORD008,deepa.nair@email.com,Deepa Nair,Deepa,Nair,+91-987-0108,Hyderabad,Bella Italia,Bruschetta,Appetizer,Italian,1,540.00,2024-02-10 20:30:00,540.00,pickup
+ORD009,sameer.deshmukh@email.com,Sameer Deshmukh,Sameer,Deshmukh,+91-987-0109,Kolkata,Burger Palace,Cheeseburger,Burgers,American,1,870.00,2024-02-10 18:20:00,870.00,delivery
+ORD010,kavita.joshi@email.com,Kavita Joshi,Kavita,Joshi,+91-987-0110,Lucknow,Sushi Heaven,Edamame,Appetizer,Japanese,1,300.00,2024-02-11 12:00:00,300.00,pickup
+ORD011,arjun.mehta@email.com,Arjun Mehta,Arjun,Mehta,+91-987-0101,Mumbai,Bella Italia,Fettuccine Alfredo,Pasta,Italian,1,1020.00,2024-02-11 19:00:00,1020.00,delivery
+ORD012,priya.sharma@email.com,Priya Sharma,Priya,Sharma,+91-987-0102,Delhi,Burger Palace,Classic Burger,Burgers,American,2,810.00,2024-02-11 20:45:00,1620.00,pickup
+ORD013,rahul.verma@email.com,Rahul Verma,Rahul,Verma,+91-987-0103,Bengaluru,Sushi Heaven,Tuna Roll,Sushi,Japanese,2,840.00,2024-02-11 18:00:00,1680.00,delivery
+ORD014,ananya.iyer@email.com,Ananya Iyer,Ananya,Iyer,+91-987-0104,Chennai,Bella Italia,Caesar Salad,Salad,Italian,1,660.00,2024-02-12 12:45:00,660.00,pickup
+ORD015,ahmed.khan@email.com,Ahmed Khan,Ahmed,Khan,+91-987-0105,Ahmedabad,Burger Palace,Chicken Burger,Burgers,American,1,780.00,2024-02-12 19:30:00,780.00,delivery
+ORD016,sneha.reddy@email.com,Sneha Reddy,Sneha,Reddy,+91-987-0106,Jaipur,Bella Italia,Veggie Pizza,Pizza,Italian,1,900.00,2024-02-12 13:30:00,900.00,pickup
+ORD017,vikram.singh@email.com,Vikram Singh,Vikram,Singh,+91-987-0107,Pune,Sushi Heaven,Tempura Roll,Sushi,Japanese,3,660.00,2024-02-12 20:15:00,1980.00,delivery
+ORD018,deepa.nair@email.com,Deepa Nair,Deepa,Nair,+91-987-0108,Hyderabad,Burger Palace,French Fries,Side,American,2,270.00,2024-02-13 19:00:00,540.00,pickup
+ORD019,sameer.deshmukh@email.com,Sameer Deshmukh,Sameer,Deshmukh,+91-987-0109,Kolkata,Bella Italia,Minestrone Soup,Soup,Italian,1,450.00,2024-02-13 18:45:00,450.00,delivery
+ORD020,kavita.joshi@email.com,Kavita Joshi,Kavita,Joshi,+91-987-0110,Lucknow,Burger Palace,Onion Rings,Side,American,1,360.00,2024-02-13 12:15:00,360.00,pickup
+ORD021,arjun.mehta@email.com,Arjun Mehta,Arjun,Mehta,+91-987-0101,Mumbai,Sushi Heaven,Rainbow Roll,Sushi,Japanese,2,960.00,2024-02-13 20:00:00,1920.00,delivery
+ORD022,priya.sharma@email.com,Priya Sharma,Priya,Sharma,+91-987-0102,Delhi,Bella Italia,Quattro Stagioni,Pizza,Italian,1,1080.00,2024-02-14 19:30:00,1080.00,pickup
+ORD023,rahul.verma@email.com,Rahul Verma,Rahul,Verma,+91-987-0103,Bengaluru,Burger Palace,Bacon Cheeseburger,Burgers,American,1,930.00,2024-02-14 18:15:00,930.00,delivery
+ORD024,ananya.iyer@email.com,Ananya Iyer,Ananya,Iyer,+91-987-0104,Chennai,Bella Italia,Gelato,Dessert,Italian,2,360.00,2024-02-14 13:00:00,720.00,pickup
+ORD025,ahmed.khan@email.com,Ahmed Khan,Ahmed,Khan,+91-987-0105,Ahmedabad,Sushi Heaven,Dragon Roll,Sushi,Japanese,1,1080.00,2024-02-14 20:30:00,1080.00,delivery
+ORD026,sneha.reddy@email.com,Sneha Reddy,Sneha,Reddy,+91-987-0106,Jaipur,Burger Palace,Garden Salad,Salad,American,1,480.00,2024-02-15 12:30:00,480.00,pickup
+ORD027,vikram.singh@email.com,Vikram Singh,Vikram,Singh,+91-987-0107,Pune,Bella Italia,Penne Arrabbiata,Pasta,Italian,1,990.00,2024-02-15 19:45:00,990.00,delivery
+ORD028,deepa.nair@email.com,Deepa Nair,Deepa,Nair,+91-987-0108,Hyderabad,Sushi Heaven,Gyoza,Appetizer,Japanese,4,210.00,2024-02-15 18:00:00,840.00,pickup
+ORD029,sameer.deshmukh@email.com,Sameer Deshmukh,Sameer,Deshmukh,+91-987-0109,Kolkata,Burger Palace,Milkshake,Beverage,American,1,420.00,2024-02-15 19:15:00,420.00,delivery
+ORD030,kavita.joshi@email.com,Kavita Joshi,Kavita,Joshi,+91-987-0110,Lucknow,Bella Italia,Cannoli,Dessert,Italian,1,450.00,2024-02-15 13:45:00,450.00,pickup
+ORD031,arjun.mehta@email.com,Arjun Mehta,Arjun,Mehta,+91-987-0101,Mumbai,Burger Palace,Double Cheeseburger,Burgers,American,1,960.00,2024-02-15 20:45:00,960.00,delivery
+ORD032,priya.sharma@email.com,Priya Sharma,Priya,Sharma,+91-987-0102,Delhi,Sushi Heaven,Spicy Tuna Roll,Sushi,Japanese,2,900.00,2024-02-16 19:00:00,1800.00,pickup
+ORD033,rahul.verma@email.com,Rahul Verma,Rahul,Verma,+91-987-0103,Bengaluru,Bella Italia,Prosciutto Pizza,Pizza,Italian,1,1140.00,2024-02-16 18:30:00,1140.00,delivery
+ORD034,ananya.iyer@email.com,Ananya Iyer,Ananya,Iyer,+91-987-0104,Chennai,Burger Palace,Veggie Wrap,Wraps,American,1,660.00,2024-02-16 12:15:00,660.00,pickup
+ORD035,robert.taylor@email.com,Robert Taylor,Robert,Taylor,+91-987-0111,Chandigarh,Bella Italia,Lasagna,Pasta,Italian,2,1050.00,2024-02-16 19:30:00,2100.00,delivery
+ORD036,jennifer.white@email.com,Jennifer White,Jennifer,White,+91-987-0112,Surat,Sushi Heaven,Philadelphia Roll,Sushi,Japanese,3,750.00,2024-02-16 20:00:00,2250.00,pickup
+ORD037,william.martin@email.com,William Martin,William,Martin,+91-987-0113,Indore,Burger Palace,BBQ Bacon Burger,Burgers,American,1,1020.00,2024-02-17 18:45:00,1020.00,delivery
+ORD038,jessica.thompson@email.com,Jessica Thompson,Jessica,Thompson,+91-987-0114,Nagpur,Bella Italia,Mushroom Risotto,Risotto,Italian,1,1110.00,2024-02-17 19:15:00,1110.00,pickup
+ORD039,christopher.garcia@email.com,Christopher Garcia,Christopher,Garcia,+91-987-0115,Visakhapatnam,Sushi Heaven,Caterpillar Roll,Sushi,Japanese,2,990.00,2024-02-17 20:30:00,1980.00,delivery
+ORD040,ashley.martinez@email.com,Ashley Martinez,Ashley,Martinez,+91-987-0116,Bhopal,Bella Italia,Panna Cotta,Dessert,Italian,1,480.00,2024-02-17 12:00:00,480.00,pickup
+ORD041,daniel.rodriguez@email.com,Daniel Rodriguez,Daniel,Rodriguez,+91-987-0117,Patna,Burger Palace,Turkey Burger,Burgers,American,2,750.00,2024-02-18 19:00:00,1500.00,delivery
+ORD042,sophia.hernandez@email.com,Sophia Hernandez,Sophia,Hernandez,+91-987-0118,Vadodara,Sushi Heaven,Vegetable Roll,Sushi,Japanese,4,600.00,2024-02-18 18:20:00,2400.00,pickup
+ORD043,matthew.lopez@email.com,Matthew Lopez,Matthew,Lopez,+91-987-0119,Ludhiana,Bella Italia,Seafood Pasta,Pasta,Italian,1,1260.00,2024-02-18 20:15:00,1260.00,delivery
+ORD044,olivia.gonzalez@email.com,Olivia Gonzalez,Olivia,Gonzalez,+91-987-0120,Agra,Burger Palace,Chicken Sandwich,Sandwiches,American,1,690.00,2024-02-18 12:30:00,690.00,pickup
+ORD045,james.wilson@email.com,James Wilson,James,Wilson,+91-987-0121,Nashik,Sushi Heaven,Shrimp Tempura,Appetizer,Japanese,1,720.00,2024-02-19 19:45:00,720.00,delivery
+ORD046,isabella.anderson@email.com,Isabella Anderson,Isabella,Anderson,+91-987-0122,Faridabad,Bella Italia,Caprese Salad,Salad,Italian,1,630.00,2024-02-19 13:15:00,630.00,pickup
+ORD047,ethan.thomas@email.com,Ethan Thomas,Ethan,Thomas,+91-987-0123,Meerut,Burger Palace,Fish Burger,Burgers,American,1,840.00,2024-02-19 18:00:00,840.00,delivery
+ORD048,ava.taylor@email.com,Ava Taylor,Ava,Taylor,+91-987-0124,Rajkot,Sushi Heaven,Spicy Salmon Roll,Sushi,Japanese,3,810.00,2024-02-19 20:00:00,2430.00,pickup
+ORD049,alexander.moore@email.com,Alexander Moore,Alexander,Moore,+91-987-0125,Kolkata,Bella Italia,Tomato Bruschetta,Appetizer,Italian,2,510.00,2024-02-20 19:30:00,1020.00,delivery
+ORD050,mia.jackson@email.com,Mia Jackson,Mia,Jackson,+91-987-0126,Hyderabad,Burger Palace,Loaded Fries,Side,American,1,450.00,2024-02-20 12:45:00,450.00,pickup
