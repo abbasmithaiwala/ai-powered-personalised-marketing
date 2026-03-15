@@ -7,8 +7,10 @@ import { Card, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { CampaignProgress } from './components/CampaignProgress';
 import { RecipientTable } from './components/RecipientTable';
+import { MessagePreviewCard } from './components/MessagePreviewCard';
 import { ArrowPathIcon } from '@/components/icons';
 import { useSettingsStore } from '@/stores/settings';
+import type { CampaignRecipient } from '@/types/api';
 
 export const CampaignDetail: React.FC = () => {
   const { llm } = useSettingsStore();
@@ -16,6 +18,7 @@ export const CampaignDetail: React.FC = () => {
   const [recipientPage, setRecipientPage] = React.useState(1);
   const recipientPageSize = 25;
   const [showPreviewSuccess, setShowPreviewSuccess] = React.useState(false);
+  const [previewMessages, setPreviewMessages] = React.useState<CampaignRecipient[] | null>(null);
 
   // Auto-refresh when campaign is executing
   const {
@@ -42,21 +45,24 @@ export const CampaignDetail: React.FC = () => {
     queryFn: () => campaignsApi.listRecipients(id!, recipientPage, recipientPageSize),
     enabled: !!id,
     refetchInterval: () => {
-      // Auto-refresh recipients when campaign is executing or previewing
       return campaign?.status === 'executing' || campaign?.status === 'previewing' ? 3000 : false;
     },
   });
 
+  const { data: audienceData } = useQuery({
+    queryKey: ['campaign-audience', id, campaign?.segment_filters],
+    queryFn: () => campaignsApi.segmentCount(campaign!.segment_filters as Record<string, unknown> || {}),
+    enabled: !!campaign,
+  });
+
+  const estimatedAudienceSize = audienceData?.count ?? campaign?.total_recipients ?? 0;
+
   const previewMutation = useMutation({
     mutationFn: () => campaignsApi.preview(id!, { provider: llm.provider, model: llm.model }),
-    onSuccess: async () => {
+    onSuccess: async (data) => {
+      setPreviewMessages(data.recipients);
       setShowPreviewSuccess(true);
-      // Refetch campaign and recipients data
       await refetch();
-      // Small delay to ensure backend has updated
-      setTimeout(async () => {
-        await refetchRecipients();
-      }, 500);
       // Auto-hide success message after 5 seconds
       setTimeout(() => setShowPreviewSuccess(false), 5000);
     },
@@ -64,8 +70,10 @@ export const CampaignDetail: React.FC = () => {
 
   const executeMutation = useMutation({
     mutationFn: () => campaignsApi.execute(id!, { provider: llm.provider, model: llm.model }),
-    onSuccess: () => {
-      refetch();
+    onSuccess: async () => {
+      // Refetch campaign first so status becomes 'executing', which triggers
+      // the refetchInterval on the recipients query to auto-poll
+      await refetch();
       refetchRecipients();
     },
   });
@@ -217,7 +225,7 @@ export const CampaignDetail: React.FC = () => {
                 onClick={() => {
                   if (
                     confirm(
-                      `Generate messages for ${campaign.total_recipients} recipients? This may take several minutes.`
+                      `Generate messages for ${estimatedAudienceSize ?? campaign.total_recipients} recipients? This may take several minutes.`
                     )
                   ) {
                     executeMutation.mutate();
@@ -249,6 +257,30 @@ export const CampaignDetail: React.FC = () => {
               <p className="text-red-800">Error executing campaign. Please try again.</p>
             </div>
           )}
+        </Card>
+      )}
+
+      {/* Preview Messages */}
+      {previewMessages && previewMessages.length > 0 && (
+        <Card padding="lg">
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle>Preview Messages ({previewMessages.length} samples)</CardTitle>
+                <p className="text-sm text-gray-600 mt-1">
+                  Sample messages generated for your target audience
+                </p>
+              </div>
+              <Button variant="ghost" size="sm" onClick={() => setPreviewMessages(null)}>
+                ✕ Dismiss
+              </Button>
+            </div>
+          </CardHeader>
+          <div className="space-y-4">
+            {previewMessages.map((recipient) => (
+              <MessagePreviewCard key={recipient.id} recipient={recipient} />
+            ))}
+          </div>
         </Card>
       )}
 
@@ -326,18 +358,27 @@ export const CampaignDetail: React.FC = () => {
               </div>
             )}
           </>
-        ) : campaign.total_recipients > 0 ? (
+        ) : campaign.total_recipients > 0 || (estimatedAudienceSize !== null && estimatedAudienceSize > 0) ? (
           <div className="text-center py-8 bg-gray-50 rounded-lg border border-gray-200">
             <p className="text-gray-600 font-medium">No messages generated yet</p>
             <p className="text-sm text-gray-500 mt-1">
-              Click "Preview Messages" above to see 3 sample messages
+              {estimatedAudienceSize !== null
+                ? `${estimatedAudienceSize} matching customers — preview or execute the campaign to generate messages`
+                : 'Preview or execute the campaign to generate messages'}
             </p>
           </div>
-        ) : (
+        ) : estimatedAudienceSize === 0 ? (
           <div className="text-center py-8 bg-gray-50 rounded-lg border border-gray-200">
             <p className="text-gray-600 font-medium">No recipients found</p>
             <p className="text-sm text-gray-500 mt-1">
               Adjust your segment filters to include more customers
+            </p>
+          </div>
+        ) : (
+          <div className="text-center py-8 bg-gray-50 rounded-lg border border-gray-200">
+            <p className="text-gray-600 font-medium">No messages generated yet</p>
+            <p className="text-sm text-gray-500 mt-1">
+              Preview or execute the campaign to generate messages
             </p>
           </div>
         )}

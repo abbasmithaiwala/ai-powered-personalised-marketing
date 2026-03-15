@@ -14,10 +14,10 @@ class GeneratedMessage(BaseModel):
     @field_validator("body")
     @classmethod
     def validate_body_word_count(cls, v: str) -> str:
-        """Ensure body is under 150 words"""
+        """Ensure body is under 50 words (2 sentences)"""
         word_count = len(v.split())
-        if word_count > 150:
-            raise ValueError(f"Body must be 150 words or less (got {word_count} words)")
+        if word_count > 50:
+            raise ValueError(f"Body must be 50 words or less (got {word_count} words)")
         return v
 
 

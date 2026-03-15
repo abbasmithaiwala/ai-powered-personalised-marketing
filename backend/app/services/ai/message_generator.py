@@ -124,7 +124,7 @@ class MessageGenerator:
                             {"role": "user", "content": user_prompt},
                         ],
                         temperature=0.7,
-                        max_tokens=512,
+                        max_tokens=256,
                         response_format={"type": "json_object"},
                     )
                     model_used = client.model
@@ -137,7 +137,7 @@ class MessageGenerator:
                             {"role": "user", "content": user_prompt},
                         ],
                         temperature=0.7,
-                        max_tokens=512,
+                        max_tokens=256,
                         response_format={"type": "json_object"},
                     )
                     model_used = client.model
@@ -250,14 +250,32 @@ class MessageGenerator:
         """
         try:
             data = json.loads(response_text)
-        except json.JSONDecodeError as e:
-            logger.error(f"Failed to parse LLM response as JSON: {e}")
-            raise MessageGenerationException(
-                f"LLM returned invalid JSON: {response_text[:100]}"
-            )
+        except json.JSONDecodeError:
+            # Free models sometimes truncate mid-response. Try to extract a
+            # partial JSON object by closing any open string/brace.
+            repaired = response_text.strip()
+            # Close an unterminated string value then close the object
+            if not repaired.endswith("}"):
+                # Strip trailing partial word/whitespace after last '"'
+                last_quote = repaired.rfind('"')
+                if last_quote != -1:
+                    repaired = repaired[:last_quote] + '"}'
+                else:
+                    repaired += '"}'
+            try:
+                data = json.loads(repaired)
+                logger.warning("LLM response was truncated; repaired JSON for parsing")
+            except json.JSONDecodeError as e:
+                logger.error(f"Failed to parse LLM response as JSON: {e}")
+                raise MessageGenerationException(
+                    f"LLM returned invalid JSON: {response_text[:100]}"
+                )
+
+        # Clamp subject to 60 chars to tolerate models that ignore the limit
+        if "subject" in data and isinstance(data["subject"], str):
+            data["subject"] = data["subject"][:60]
 
         try:
-            # Pydantic will validate the structure and constraints
             return GeneratedMessage(**data)
         except Exception as e:
             logger.error(f"LLM response failed validation: {e}")

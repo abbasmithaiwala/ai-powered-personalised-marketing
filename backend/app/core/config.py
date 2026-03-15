@@ -9,7 +9,7 @@ class Settings(BaseSettings):
     QDRANT_PORT: int = 6333
     REDIS_URL: str = "redis://localhost:6379"
     OPENROUTER_API_KEY: str = ""
-    OPENROUTER_MODEL: str = "anthropic/claude-3.5-sonnet"
+    OPENROUTER_MODEL: str = "qwen/qwen3-next-80b-a3b-instruct:free"
     OPENROUTER_BASE_URL: str = "https://openrouter.ai/api/v1"
     GROQ_API_KEY: str = ""
     GROQ_MODEL: str = "llama3-70b-8192"

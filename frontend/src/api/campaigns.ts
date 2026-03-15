@@ -68,6 +68,12 @@ export const campaignsApi = {
     return response.data;
   },
 
+  // Get audience count for segment filters
+  segmentCount: async (filters: Record<string, unknown>) => {
+    const response = await apiClient.post<{ count: number }>('/campaigns/segment-count', { filters });
+    return response.data;
+  },
+
   // List campaign recipients
   listRecipients: async (id: string, page = 1, pageSize = 25) => {
     const response = await apiClient.get<PaginatedResponse<CampaignRecipient>>(
