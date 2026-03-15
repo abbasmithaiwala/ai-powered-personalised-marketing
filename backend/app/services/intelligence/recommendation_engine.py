@@ -196,7 +196,7 @@ class RecommendationEngine:
                 category=menu_item.category,
                 cuisine_type=menu_item.cuisine_type,
                 price=float(menu_item.price) if menu_item.price else None,
-                score=float(score),
+                score=min(1.0, max(0.0, float(score))),
                 reason=reason,
             )
 
